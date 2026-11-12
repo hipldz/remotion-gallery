@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {EMPTY_VOICE_MANIFEST, previewVoiceTracks, type VoiceManifest, type VoiceoverProject,
+import {applyVoiceTimeline, EMPTY_VOICE_MANIFEST, previewVoiceTracks, retimeVoiceTracks, type VoiceManifest, type VoiceoverProject,
   type VoiceoverStorage, type VoiceTrack} from '../core/index.js';
 import {createHttpVoiceoverStorage} from './storage.js';
 
@@ -8,6 +8,7 @@ export const useVoiceover = (project: VoiceoverProject, options: {storage?: Voic
     [project, options.storage, options.endpoint]);
   const [manifest, setManifest] = useState<VoiceManifest>(EMPTY_VOICE_MANIFEST);
   const [draft, setDraft] = useState<VoiceTrack | null>(null);
+  const [projectDraft, setProjectDraft] = useState<VoiceoverProject | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mounted = useRef(false);
@@ -28,6 +29,10 @@ export const useVoiceover = (project: VoiceoverProject, options: {storage?: Voic
     window.addEventListener('focus', onFocus);
     return () => {mounted.current = false; generation.current++; window.removeEventListener('focus', onFocus);};
   }, [refresh]);
-  const tracks = useMemo(() => previewVoiceTracks(manifest, draft), [manifest, draft]);
-  return {manifest, draft, tracks, busy, error, storage, refresh, setManifest, setDraft, setBusy};
+  const savedProject = useMemo(() => applyVoiceTimeline(project, manifest.timeline), [project, manifest.timeline]);
+  const effectiveProject = projectDraft ?? savedProject;
+  const tracks = useMemo(() => previewVoiceTracks({...manifest,
+    tracks: retimeVoiceTracks(manifest.tracks, savedProject, effectiveProject)}, draft), [manifest, savedProject, effectiveProject, draft]);
+  return {project: effectiveProject, savedProject, manifest, draft, tracks, busy, error, storage, refresh,
+    setManifest, setDraft, setBusy, setProjectDraft};
 };

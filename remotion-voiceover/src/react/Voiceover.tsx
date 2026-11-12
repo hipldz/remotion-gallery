@@ -1,9 +1,19 @@
 import {useLayoutEffect, useState} from 'react';
 import {Audio, Sequence, staticFile, useDelayRender} from 'remotion';
-import {parseVoiceManifest, resolveVoiceSegments, voiceManifestSrc, type VoiceoverProject, type VoiceTrack} from '../core/index.js';
+import {applyVoiceTimeline, parseVoiceManifest, resolveVoiceSegments, voiceManifestSrc, type VoiceoverProject, type VoiceTrack} from '../core/index.js';
 
 export type VoiceSrcResolver = (src: string) => string;
 export const resolveVoiceSrc: VoiceSrcResolver = src => /^(blob:|data:|https?:\/\/|\/)/.test(src) ? src : staticFile(src);
+
+export const loadVoiceoverState = async (project: VoiceoverProject,
+  options: {fetch?: typeof globalThis.fetch; resolveSrc?: VoiceSrcResolver; signal?: AbortSignal} = {}) => {
+  const response = await (options.fetch ?? globalThis.fetch)((options.resolveSrc ?? resolveVoiceSrc)(voiceManifestSrc(project)),
+    {cache: 'no-store', signal: options.signal});
+  if (response.status === 404) return {project, manifest: {version: 1 as const, tracks: [] as VoiceTrack[]}};
+  if (!response.ok) throw new Error('无法读取配音与字幕时间轴');
+  const manifest = parseVoiceManifest(await response.json(), project);
+  return {project: applyVoiceTimeline(project, manifest.timeline), manifest};
+};
 
 export const useVoiceTracks = (project: VoiceoverProject, provided: VoiceTrack[] | undefined) => {
   const [diskTracks, setDiskTracks] = useState<VoiceTrack[]>([]);

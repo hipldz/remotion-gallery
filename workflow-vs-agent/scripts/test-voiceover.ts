@@ -75,6 +75,7 @@ async function main() {
   await writeFile(fakeMic, wave(20, 48000));
   const server = await createServer({
     configFile: false,
+    optimizeDeps: {force: true, include: ['react/jsx-runtime', 'react/jsx-dev-runtime']},
     root: resolve("."),
     publicDir,
     plugins: [
@@ -142,8 +143,10 @@ async function main() {
     const recorder = page.getByTestId("voice-recorder");
     const range = page.getByRole("combobox", { name: "录制范围" });
     await expect(recorder).toBeVisible();
-    assert.equal(await range.locator("option").count(), 38);
+    assert.equal(await range.locator("option").count(), 40);
     await expect(range).toHaveValue("S0-1");
+    await expect(page.getByRole("combobox", {name: "录音时间方式"})).toHaveValue("reading");
+    await page.getByRole("combobox", {name: "录音时间方式"}).selectOption("fixed");
     assert.equal(
       await page.evaluate(() => (window as TestWindow).__testStreams.length),
       0,
@@ -208,7 +211,8 @@ async function main() {
     assert.equal(manifest.tracks.length, 1);
     const first = manifest.tracks[0];
     assert.equal(first.scope, "S0-1");
-    assert.ok(first.durationInFrames >= 145 && first.durationInFrames <= 150);
+    const firstScene = voiceoverProject.scenes!.find((scene) => scene.id === first.scope)!;
+    assert.ok(first.durationInFrames >= firstScene.durationInFrames - 5 && first.durationInFrames <= firstScene.durationInFrames);
     const savedWave = await readFile(join(publicDir, first.src));
     inspectVoiceWave(savedWave);
     let energy = 0;
@@ -425,8 +429,8 @@ async function main() {
           passed: true,
           isolatedStorage: true,
           fakeMicrophone: true,
-          recordingSlots: 37,
-          prompts: 91,
+          recordingSlots: 39,
+          prompts: 107,
           countdownCancel: true,
           autoStop: true,
           audition: true,

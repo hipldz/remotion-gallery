@@ -1,6 +1,6 @@
 import { Audio, Sequence, staticFile, useCurrentFrame } from "remotion";
-import { voiceoverVolume, type VoiceTrack } from "remotion-voiceover/core";
-import { DURATION, FPS } from "../data/theme";
+import { mapVoiceFrame, voiceoverVolume, type VoiceoverProject, type VoiceTrack } from "remotion-voiceover/core";
+import { FPS } from "../data/theme";
 import { clamp } from "../lib/motion";
 import { voiceoverProject } from "../voiceover.config";
 
@@ -11,52 +11,48 @@ const VOICE_MUSIC_VOLUME = 0.045;
 const MUSIC_FRAMES = 6710;
 const CROSSFADE = 4 * FPS;
 const MUSIC_STEP = MUSIC_FRAMES - CROSSFADE;
-const musicClips = Array.from(
-  { length: Math.ceil((DURATION - CROSSFADE) / MUSIC_STEP) },
+const musicClips = (durationInFrames: number) => Array.from(
+  { length: Math.max(1, Math.ceil((durationInFrames - CROSSFADE) / MUSIC_STEP)) },
   (_, index) => {
     const from = index * MUSIC_STEP;
-    return { from, duration: Math.min(MUSIC_FRAMES, DURATION - from) };
+    return { from, duration: Math.min(MUSIC_FRAMES, durationInFrames - from) };
   },
 );
 
 const cues: [number, string, number?][] = [
-  [11.3, "swell"],
-  [20.8, "click"],
-  [22, "click"],
-  [23.2, "click"],
-  [49.5, "pop", 1],
-  [59.5, "pop", 1.12],
-  [69.5, "pop", 1.26],
-  [79.5, "pop", 1.4],
-  [89.5, "pop", 1.6],
-  [91.8, "stamp"],
-  [98.5, "swell"],
-  [119.5, "click"],
-  [128, "stamp"],
-  [129.5, "stamp"],
-  [131, "stamp"],
-  [139.3, "guard"],
-  [141.3, "guard"],
-  [143.3, "guard"],
-  [145.3, "guard"],
-  [149.3, "stamp"],
-  [160.9, "guard"],
-  [171, "click"],
-  [212.8, "guard"],
-  [217.2, "click"],
-  [229, "swipe"],
-  [240.3, "swipe"],
-  [265.6, "swell"],
-  [281.1, "click"],
-  [293, "click"],
-  [296, "click"],
-  [300, "swipe"],
-  [311.4, "stamp"],
+  [27.3, "swell"],
+  [54, "click"],
+  [55.5, "click"],
+  [58, "click"],
+  [97.3, "pop", 1],
+  [107.5, "pop", 1.12],
+  [117.5, "pop", 1.26],
+  [127.5, "pop", 1.4],
+  [137.5, "pop", 1.6],
+  [139.8, "stamp"],
+  [146.5, "swell"],
+  [167.5, "click"],
+  [176, "stamp"],
+  [177.5, "stamp"],
+  [179, "stamp"],
+  [187.3, "guard"],
+  [189.3, "guard"],
+  [191.3, "guard"],
+  [193.3, "guard"],
+  [197.3, "stamp"],
+  [208.9, "guard"],
+  [219, "click"],
+  [260.8, "guard"],
+  [265.2, "click"],
+  [277, "swipe"],
+  [288.3, "swipe"],
   [313.6, "swell"],
-  [338.7, "pop", 1],
-  [338.9, "pop", 1.2],
-  [339.1, "pop", 1.4],
-  [339.3, "pop", 1.6],
+  [329.1, "click"],
+  [341, "click"],
+  [344, "click"],
+  [348, "swipe"],
+  [359.4, "stamp"],
+  [361.6, "swell"],
 ];
 const soundDuration: Record<string, number> = {
   click: 0.15,
@@ -71,19 +67,21 @@ function BackgroundMusic({
   from,
   duration,
   voiceTracks,
+  project,
 }: {
   from: number;
   duration: number;
   voiceTracks: readonly VoiceTrack[];
+  project: VoiceoverProject;
 }) {
   const frame = useCurrentFrame();
   const fadeInFrames = from === 0 ? 3 * FPS : CROSSFADE;
-  const fadeOutFrames = from + duration === DURATION ? 5 * FPS : CROSSFADE;
+  const fadeOutFrames = from + duration === project.durationInFrames ? 5 * FPS : CROSSFADE;
   const fadeIn = Math.sin((clamp(frame / fadeInFrames) * Math.PI) / 2);
   const fadeOut = Math.sin(
     (clamp((duration - frame) / fadeOutFrames) * Math.PI) / 2,
   );
-  const volume = voiceoverVolume(from + frame, voiceTracks, voiceoverProject, {
+  const volume = voiceoverVolume(from + frame, voiceTracks, project, {
     normal: MUSIC_VOLUME,
     ducked: VOICE_MUSIC_VOLUME,
     fadeFrames: Math.round(FPS * 0.4),
@@ -99,12 +97,14 @@ function BackgroundMusic({
 
 export function Soundtrack({
   voiceTracks,
+  project = voiceoverProject,
 }: {
   voiceTracks: readonly VoiceTrack[];
+  project?: VoiceoverProject;
 }) {
   return (
     <>
-      {musicClips.map(({ from, duration }, index) => (
+      {musicClips(project.durationInFrames).map(({ from, duration }, index) => (
         <Sequence
           key={from}
           name={`Music · Reverie / ${index + 1}`}
@@ -115,6 +115,7 @@ export function Soundtrack({
             from={from}
             duration={duration}
             voiceTracks={voiceTracks}
+            project={project}
           />
         </Sequence>
       ))}
@@ -122,10 +123,10 @@ export function Soundtrack({
         <Sequence
           key={i}
           name={`SFX · ${file}`}
-          from={Math.round(seconds * FPS)}
+          from={mapVoiceFrame(Math.round(seconds * FPS), voiceoverProject, project)}
           durationInFrames={Math.min(
             Math.ceil((soundDuration[file] / (speed ?? 1)) * FPS),
-            Math.round((340 - seconds) * FPS),
+            project.durationInFrames - mapVoiceFrame(Math.round(seconds * FPS), voiceoverProject, project),
           )}
         >
           <Audio

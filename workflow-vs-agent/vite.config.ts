@@ -4,6 +4,7 @@ import { voiceoverPlugin } from "remotion-voiceover/server";
 import { voiceoverProject } from "./src/voiceover.config";
 
 export default defineConfig({
+  optimizeDeps: {include: ['react/jsx-runtime', 'react/jsx-dev-runtime']},
   plugins: [
     voiceoverPlugin({ project: voiceoverProject, projectRoot: resolve(".") }),
   ],

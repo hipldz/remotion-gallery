@@ -60,6 +60,10 @@ const shots = sourceExists
   : stored.shots;
 if (!shots.length || !chapters.length)
   throw new Error("未找到分镜。请检查 storyboard.md 的镜头标题格式。");
+for (const [i, chapter] of chapters.entries()) {
+  if (chapter.index !== i || chapter.start !== (chapters[i - 1]?.end ?? 0) || chapter.end <= chapter.start)
+    throw new Error(`第 ${i} 幕时间轴不连续`);
+}
 for (const [i, shot] of shots.entries()) {
   if (shot.start !== (shots[i - 1]?.end ?? 0) || shot.end <= shot.start)
     throw new Error(`${shot.id} 时间轴不连续`);
@@ -75,7 +79,7 @@ for (const [i, shot] of shots.entries()) {
       throw new Error(`${shot.id} 字幕时间不符合要求`);
   }
 }
-if (shots.at(-1).end !== 340) throw new Error("总时长应为 340 秒");
+if (shots.at(-1).end !== chapters.at(-1).end) throw new Error("片尾与最后一幕的时长不一致");
 if (checkOnly) {
   if (
     sourceExists &&
@@ -83,7 +87,7 @@ if (checkOnly) {
   )
     throw new Error("分镜已更新，请运行 npm run sync:storyboard");
   console.log(
-    `${sourceExists ? "分镜同步有效" : "未附 storyboard.md，已校验现有 storyboard.json"}：${chapters.length} 幕、${shots.length} 镜、340 秒；时间连续、字幕均不少于 2.4 秒。`,
+    `${sourceExists ? "分镜同步有效" : "未附 storyboard.md，已校验现有 storyboard.json"}：${chapters.length} 幕、${shots.length} 镜、${shots.at(-1).end} 秒；时间连续、字幕均不少于 2.4 秒。`,
   );
   process.exit(0);
 }
@@ -111,5 +115,5 @@ console.log(
   `${fileURLToPath(root)}: ${chapters.length} 幕 / ${shots.length} 镜 / ${shots.at(-1).end}s / ${shots.reduce((n, s) => n + s.subtitles.length, 0)} 条字幕`,
 );
 console.log(
-  "注：storyboard.md 概览写 48 镜，详细分镜实际为 44 镜；按详细时间轴同步。",
+  "按当前详细分镜时间轴同步。",
 );

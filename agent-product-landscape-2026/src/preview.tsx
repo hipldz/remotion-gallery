@@ -149,11 +149,11 @@ function ReviewApp() {
       <main className="review-main">
         <header className="review-header">
           <div>
-            <div className="eyebrow">CINEMATIC EDITION / V2 · REAL SOURCE</div>
-            <h1>回头看到 2026 年的 Agent 产品</h1>
+            <div className="eyebrow">STORY EDITION / V3 · REAL SOURCE</div>
+            <h1>AI 工具这几年，是怎么变的？</h1>
           </div>
           <div className="format-meta">
-            <span>V2 / SOURCE {assets.length}</span>
+            <span>V3 / SOURCE {assets.length}</span>
             <span>1920 × 1080</span>
             <span>30 FPS</span>
             <span>{timecode(length)}</span>
@@ -229,10 +229,12 @@ function ReviewApp() {
               <span>快速检查</span>
               {(
                 [
+                  { id: 'P01', label: '新开场', at: 120 },
+                  { id: 'P03', label: '求关注', at: 80 },
                   { id: 'P06', label: '倒带', at: 170 },
                   { id: 'C01', label: '破框', at: 47 },
-                  { id: 'F04', label: '十 Agent', at: 240 },
-                  { id: 'G01', label: '轨道成楼', at: 150 },
+                  { id: 'F04', label: '任务进度', at: 240 },
+                  { id: 'G01', label: '回头总结', at: 150 },
                 ] as const
               ).map((item) => {
                 const keyShot = props.timeline.find((s) => s.id === item.id)!;
@@ -297,7 +299,7 @@ function ReviewApp() {
               </div>
             </section>
             <footer className="review-footer">
-              <span>开发者工具 · 通用工作 · 流程平台 · 运行系统</span>
+              <span>写代码 · 做日常工作 · 跑流程 · 让任务接着做</span>
               <span>PLDZ · 源工程预览</span>
             </footer>
           </div>

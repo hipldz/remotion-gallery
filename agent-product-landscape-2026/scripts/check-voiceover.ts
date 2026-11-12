@@ -6,7 +6,19 @@ import { createVoiceoverProject, withImportedVoiceTracks } from '../src/voiceove
 
 const project = createVoiceoverProject(baseTimeline);
 assert.equal(project.durationInFrames, totalFrames(baseTimeline));
-assert.equal(project.scenes!.filter((scene) => scene.recordable).length, 31);
+assert.equal(project.scenes!.filter((scene) => scene.recordable).length, 35);
+assert.equal(project.durationInFrames, 7920);
+for (const chapter of new Set(baseTimeline.map((entry) => entry.chapterKey))) {
+  const chapterShots = baseTimeline.filter((entry) => entry.chapterKey === chapter);
+  assert.equal(
+    chapterShots.at(-1)!.from + chapterShots.at(-1)!.duration - chapterShots[0].from,
+    totalFrames(chapterShots),
+    'Chapter playback requires a contiguous selection',
+  );
+}
+for (const entry of baseTimeline.filter((entry) => entry.narration)) {
+  assert.ok(captionsFor(entry).at(-1)!.to <= entry.from + entry.duration - entry.tailFrames, 'Captions must leave the planned pause before a cut');
+}
 assert.deepEqual(
   project.captions!.map((cue) => cue.text),
   baseTimeline.flatMap(captionsFor).map((cue) => cue.text),
@@ -44,12 +56,11 @@ assert.deepEqual(withImportedVoiceTracks(importedTimeline, [replacement]), [repl
 assert.deepEqual(withImportedVoiceTracks(importedTimeline, [full]), [full]);
 parseVoiceManifest({ version: 1, tracks: imported }, extended);
 
-const card = baseTimeline.find((entry) => entry.id === 'Z00')!;
+const card = baseTimeline.find((entry) => entry.id === 'A00')!;
 const cardFrame = card.from + 20;
-assert.ok(musicVolumeAt(cardFrame, baseTimeline) > musicMix.narration);
-assert.equal(
-  musicVolumeAt(cardFrame, baseTimeline, resolveVoiceSegments([full], project)),
-  musicMix.narration,
-  'Music also ducks for voice over chapter cards',
-);
-console.log('PASS: 31 recording slots, shared prompts, elastic timing, imported audio fallback, retake silence/source offsets, and music ducking.');
+for (const frame of [cardFrame, shot.from + 60, baseTimeline.find((entry) => entry.id === 'F07')!.from + 120]) {
+  assert.equal(musicVolumeAt(frame, baseTimeline), musicMix.volume, 'Music stays at the same level during narration and chapter gaps');
+}
+assert.equal(musicVolumeAt(0, baseTimeline), 0);
+assert.equal(musicVolumeAt(totalFrames(baseTimeline) - 1, baseTimeline), 0);
+console.log('PASS: 35 recording slots, 4:24 timeline, chapter offsets, prompt pauses, elastic timing, retakes, and constant music.');

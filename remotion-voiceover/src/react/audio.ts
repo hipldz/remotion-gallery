@@ -2,7 +2,7 @@ export const recorderMimeType = () => [
   'audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus',
 ].find(type => MediaRecorder.isTypeSupported(type));
 
-export const encodeMonoWave = (buffer: AudioBuffer, maxSeconds: number) => {
+export const encodeMonoWave = (buffer: AudioBuffer, maxSeconds = Infinity) => {
   const count = Math.min(buffer.length, Math.floor(maxSeconds * buffer.sampleRate));
   const data = new ArrayBuffer(44 + count * 2);
   const view = new DataView(data);
@@ -21,7 +21,7 @@ export const encodeMonoWave = (buffer: AudioBuffer, maxSeconds: number) => {
   return {blob: new Blob([data], {type: 'audio/wav'}), seconds: count / buffer.sampleRate};
 };
 
-export const recordingToWave = async (blob: Blob, maxSeconds: number) => {
+export const recordingToWave = async (blob: Blob, maxSeconds = Infinity) => {
   const context = new AudioContext({sampleRate: 48000});
   try {return encodeMonoWave(await context.decodeAudioData(await blob.arrayBuffer()), maxSeconds);}
   finally {await context.close();}

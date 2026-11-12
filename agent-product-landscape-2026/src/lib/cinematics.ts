@@ -64,7 +64,7 @@ export const assetPositions: Record<string, [number, number]> = {
   dumate: [13520, -100],
   qoderwork: [12800, -100],
   doubao: [14881, -100],
-  harness: [14774, 300],
+  harness: [14774, -100],
 };
 
 export const focalAssets: Record<string, string[]> = {
@@ -81,6 +81,6 @@ export const focalAssets: Record<string, string[]> = {
   D10: ['pi-agent'],
   F02: ['cowork', 'openclaw'],
   F03: ['codex-web'],
-  F05: ['workbuddy', 'dumate', 'qoderwork', 'doubao'],
+  F05: ['workbuddy', 'doubao'],
   F07: ['harness'],
 };

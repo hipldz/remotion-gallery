@@ -3,6 +3,8 @@ import { fade, f2, limit, mix, move } from '../lib/cinematics';
 import { At, Chip, Cursor, Icon, Progress } from '../components/Primitives';
 import { GlyphTile, Note, Orb, Signal, TitleBlock } from '../components/CinematicActors';
 import { Media } from '../components/Media';
+import { StoryBridge } from '../components/StoryBridge';
+import { PopularityBadge } from '../components/PopularityBadge';
 
 const tasks = ['改登录页', '补齐测试', '调研竞品', '写项目文档', '查运行日志', '修复 API', '做周报', '整理邮件', '跑回归测试', 'Review 改动'];
 const taskColors = [C.blue, C.green, C.yellow, C.red, '#1967D2', '#1E8E3E', '#F9AB00', '#D93025', '#8AB4F8', '#81C995'];
@@ -93,7 +95,7 @@ function TenAgents({ f }: { f: number }) {
             <Orb x={0} y={12} size={50} color={taskColors[i]} f={100} shadow={false} />
             {t > 140 && (blocked || waiting) && (
               <At x={-15} y={-32} style={{ fontSize: 22, color: blocked ? C.red : '#8D99AB', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                {blocked ? '! BLOCKED' : '… WAITING'}
+                {blocked ? '卡住了' : '等你确认'}
               </At>
             )}
           </At>
@@ -101,7 +103,7 @@ function TenAgents({ f }: { f: number }) {
       })}
       <Cursor x={906 + (f >= 302 ? 0 : Math.sin(t * 0.3) * limit((t - 120) / 150) * 30)} y={492} size={105} sweat={t >= 120} />
       <At x={864} y={650} style={{ fontFamily: fonts.sans, fontSize: 21, color: '#929EB0', letterSpacing: 3 }}>
-        YOU / HUMAN
+        你来检查
       </At>
     </div>
   );
@@ -111,7 +113,10 @@ export function Year2026({ id, f }: { id: string; f: number }) {
   if (id === 'F01')
     return (
       <>
-        <TitleBlock f={f} eyebrow="2026 / 办公桌面" lines={['文件、邮件、办公任务。']} size={91} accent={C.green} />
+        <TitleBlock f={f} eyebrow="2026 / 日常工作台" lines={['事情多了，放一起更好管。']} size={91} accent={C.green} />
+        <Note f={f} start={35} x={115} y={320} size={28}>
+          哪些在做，哪些做完了，都能看一眼。
+        </Note>
         <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
           <ellipse cx="1010" cy="778" rx="640" ry="65" fill="#CEBD8C" opacity="0.07" />
           <path d="M450 640H1430L1575 735H590Z" fill="#F0E6C7" stroke="#D9CAA0" strokeWidth="1" />
@@ -155,7 +160,7 @@ export function Year2026({ id, f }: { id: string; f: number }) {
         <Cursor x={755} y={525} size={100} />
         <Orb x={1110} y={575} color={C.green} size={74} f={f} start={12} />
         <At x={465} y={875} style={{ display: 'flex', gap: 25 }}>
-          {['处理文件', '整理资料', '跟进任务', '操作桌面'].map((text, i) => (
+          {['放在一起', '做到哪了', '看看结果', '接着做'].map((text, i) => (
             <div key={text} style={{ opacity: fade(f, 35 + i * 30, 18), transform: `translateY(${move(f, 35 + i * 30, 25, 20, 0)}px)` }}>
               <Chip color={C.green} style={{ fontSize: 30 }}>
                 {text}
@@ -165,14 +170,15 @@ export function Year2026({ id, f }: { id: string; f: number }) {
         </At>
       </>
     );
+
   if (id === 'F02') {
-    const open = f >= 170,
-      t = open ? f - 170 : f;
+    const open = f >= 130,
+      t = open ? f - 130 : f;
     return (
       <>
         <TitleBlock
           f={t}
-          eyebrow={open ? '2026.01.30 / 从消息里接活' : '2026.01.12 / 办公任务'}
+          eyebrow={open ? '2026.01.30 / 发条消息，让它做事' : '2026.01.12 / 处理文档和文件'}
           lines={[open ? 'OpenClaw' : 'Claude Cowork']}
           size={open ? 112 : 96}
           x={110}
@@ -229,33 +235,67 @@ export function Year2026({ id, f }: { id: string; f: number }) {
             </Note>
           </>
         )}
-        {open && (
-          <Note f={t} start={60} x={115} y={900} size={21}>
-            Clawdbot 2025.11 → Clawd / Moltbot → OpenClaw 2026.01.30　　·　　ChatGPT Work 2026.07.09
-          </Note>
-        )}
+        {open && <PopularityBadge id="openclaw" f={t} x={115} y={855} start={25} label="OpenClaw 仓库" compact />}
       </>
     );
   }
-  if (id === 'F03')
+
+  if (id === 'F03') {
     return (
       <>
-        <TitleBlock f={f} eyebrow="2026 / 编程任务工作台" lines={['Codex App']} size={108} width={600} x={110} y={210} />
+        <TitleBlock f={f} eyebrow="2026 / 把编程任务放在一起" lines={['Codex App']} size={104} width={600} x={110} y={205} />
         <Media id="codex-web" f={f} x={720} y={340} width={1060} height={565} />
-        <Note f={f} start={45} x={115} y={565} size={34} width={530}>
-          交代任务
+        <Note f={f} start={40} x={115} y={540} size={32} width={530}>
+          把任务放在一起
           <br />
-          查看进度
+          看看做到哪了
           <br />
-          检查结果
+          检查改了哪些地方
+        </Note>
+        <PopularityBadge id="codex" f={f} x={115} y={790} label="Codex CLI 仓库" />
+      </>
+    );
+  }
+  if (id === 'F05') {
+    return (
+      <>
+        <TitleBlock f={f} eyebrow="国内 / 日常办公，也能帮忙" lines={['WorkBuddy · 豆包工作']} y={110} size={96} accent={C.green} />
+        <Media id="workbuddy" f={f} x={110} y={385} width={810} height={340} fit="contain" tilt={2} />
+        <Media id="doubao" f={f} x={1000} y={385} width={810} height={340} delay={8} fit="contain" tilt={-2} />
+        <At x={245} y={750} style={{ display: 'flex', gap: 110, opacity: fade(f, 55, 20) }}>
+          {['本地文件', '文档整理', '日常任务'].map((text, i) => (
+            <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
+              <Icon name={['folder', 'file', 'calendar'][i]} size={42} color={C.green} />
+              <span style={{ fontSize: 32, color: '#61756B' }}>{text}</span>
+            </div>
+          ))}
+        </At>
+        <Note f={f} start={80} x={250} y={845} size={27}>
+          文件、文档这些事，也有了专门的帮手。
         </Note>
       </>
     );
-
+  }
+  if (id === 'F07') {
+    return (
+      <>
+        <TitleBlock f={f} eyebrow="2026.08 / 文件、代码，都能帮忙" lines={['DeepSeek', 'Harness']} size={105} width={620} x={110} y={170} accent={C.green} />
+        <Media id="harness" f={f} x={750} y={300} width={1020} height={615} mode="match" />
+        <Note f={f} start={35} x={115} y={550} size={31} width={545}>
+          桌面、网页都能用
+          <br />
+          写代码、处理文件、查资料
+          <br />
+          需要更多功能，可以加插件
+        </Note>
+        <PopularityBadge id="harness" f={f} x={115} y={790} label="GitHub 仓库" />
+      </>
+    );
+  }
   if (id === 'F04')
     return (
       <>
-        <TitleBlock f={f} eyebrow="2026 / 任务管理" lines={['查看多个任务的进度']} x={180} size={96} />
+        <TitleBlock f={f} eyebrow="2026 / 事情一多，怎么顾得过来" lines={['事情一多，得看清做到哪了。']} x={180} size={86} />
         <TenAgents f={f} />
         {f >= 280 && (
           <At x={520} y={875} style={{ display: 'flex', gap: 38, opacity: fade(f, 280, 22), zIndex: 100 }}>
@@ -263,111 +303,25 @@ export function Year2026({ id, f }: { id: string; f: number }) {
               卡住了
             </Chip>
             <Chip color="#79879A" style={{ fontSize: 35, background: '#FFF' }}>
-              等待确认
+              等你确认
             </Chip>
           </At>
         )}
       </>
     );
 
-  if (id === 'F05')
+  if (id === 'F06') {
     return (
-      <>
-        <TitleBlock f={f} eyebrow="国内 / 办公桌面 Agent" lines={['WorkBuddy · DuMate · QoderWork · 豆包工作']} y={100} size={76} accent={C.green} />
-        <Media id="workbuddy" f={f} x={115} y={352} width={780} height={227} fit="cover" tilt={2} />
-        <Media id="dumate" f={f} x={1100} y={347} width={520} height={246} delay={8} tilt={-2} />
-        <Media id="qoderwork" f={f} x={115} y={674} width={780} height={226} delay={16} fit="cover" focus={[0.62, 0.05, 0.32, 0.3]} focusAt={100} tilt={2} />
-        <Media id="doubao" f={f} x={995} y={674} width={780} height={226} delay={24} fit="cover" tilt={-2} />
-      </>
-    );
-  if (id === 'F07') {
-    const harness = f >= 170,
-      t = harness ? f - 170 : f;
-    return (
-      <>
-        <TitleBlock
-          f={t}
-          eyebrow={harness ? '2026.08.13 / 执行底座' : '2026.05.13 / Agent Runtime SDK'}
-          lines={harness ? ['DeepSeek', 'Harness'] : ['Cline SDK']}
-          size={108}
-          width={harness ? 630 : 1650}
-          x={110}
-          y={harness ? 200 : 120}
-          accent={C.red}
-        />
-        {harness ? (
-          <>
-            <Media id="harness" f={t} x={750} y={290} width={1020} height={615} />
-            <At x={115} y={630} style={{ opacity: fade(t, 65, 20) }}>
-              <Chip color={C.red} style={{ fontSize: 27 }}>
-                开源 · Harness
-              </Chip>
-            </At>
-            <Note f={t} start={80} x={115} y={755} size={29} width={530}>
-              工具调用，
-              <br />
-              任务运行。
-            </Note>
-          </>
-        ) : (
-          <>
-            <At
-              x={150}
-              y={395}
-              style={{
-                width: 530,
-                height: 350,
-                border: '1px solid #CDD5E1',
-                borderRadius: 25,
-                background: '#FFF',
-                opacity: 1 - fade(t, 85, 55) * 0.8,
-                transform: `perspective(1600px) rotateY(${move(t, 80, 65, 0, -12)}deg) translateY(${move(t, 85, 70, 0, 80)}px)`,
-              }}
-            >
-              <At x={25} y={20}>
-                <Icon name="code" color="#9CA9BC" size={45} />
-              </At>
-              {[0, 1, 2, 3].map((i) => (
-                <At key={i} x={35} y={105 + i * 40} style={{ height: 8, width: 350 - i * 48, borderRadius: 5, background: '#E5EAF2' }} />
-              ))}
-              <At x={25} y={300} style={{ fontSize: 21, color: '#9AA4B3' }}>
-                IDE / 产品外壳
-              </At>
-            </At>
-            <At
-              x={move(t, 25, 65, 330, 850)}
-              y={435}
-              style={{ width: 270, height: 260, transform: `perspective(1400px) rotateY(${move(t, 25, 65, 0, -8)}deg) rotateX(3deg)`, zIndex: 20 }}
-            >
-              <div style={{ position: 'absolute', inset: '10px -7px -12px 8px', borderRadius: 30, background: '#E6A49E' }} />
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: 30,
-                  border: `2px solid ${C.red}`,
-                  background: '#FFF5F3',
-                  padding: 35,
-                  textAlign: 'center',
-                  boxShadow: '0 30px 70px -30px #EA433545',
-                }}
-              >
-                <Icon name="loop" color={C.red} size={100} style={{ transform: `rotate(${t * 1.2}deg)` }} />
-                <div style={{ fontSize: 29, fontWeight: 600, color: C.red, marginTop: 25 }}>Runtime SDK</div>
-              </div>
-            </At>
-            {['terminal', 'server', 'browser'].map((icon, i) => (
-              <div key={icon}>
-                <Signal f={t} start={92 + i * 8} duration={35} a={[1120, 565]} b={[1460, 420 + i * 170]} color={C.red} bend={0} />
-                <GlyphTile x={1470} y={355 + i * 170} width={160} height={135} icon={icon} color={C.red} f={t} start={98 + i * 8} rotate={-6} />
-              </div>
-            ))}
-            <Note f={t} start={100} x={650} y={850} size={30} color={C.red}>
-              “upgraded agent runtime” — Cline
-            </Note>
-          </>
-        )}
-      </>
+      <StoryBridge
+        f={f}
+        eyebrow="长任务 / 做了一半，怎么接着做"
+        title={['做了一半，还得能接着做。']}
+        labels={['容易卡在这里', '得能接着做']}
+        before={['做到一半停了', '前面的内容太长了']}
+        after={['记住做到哪了', '下次打开还能接着做']}
+        note="管工具、记进度、留住前面的内容，这些都靠 Harness。"
+        accent={C.red}
+      />
     );
   }
   return null;

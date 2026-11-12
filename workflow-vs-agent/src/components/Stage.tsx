@@ -104,7 +104,7 @@ export function ChapterCard({ shot, time }: { shot: Shot; time: number }) {
   const out = ease(time, shot.end - shot.start - 0.32, 0.3);
   const label = [
     "一个问题",
-    "一块积木",
+    "先用搭积木打个比方",
     "Workflow：预先画好的线",
     "Agent：把画线的笔交出去",
     "回头看：那些误判信号",
@@ -177,8 +177,8 @@ export function Subtitles({ shot, seconds }: { shot: Shot; seconds: number }) {
 }
 
 export const sourceFor = (shot: Shot) => {
-  if (shot.act === 2 || shot.id === "S1-2" || ["S3-2", "S3-3", "S3-4", "S6-4"].includes(shot.id)) return "图示改绘自 Anthropic · Building effective agents";
-  if (shot.id === "S10-1") return "原博客 · Workflow / Agent / Hybrid 总览插画";
+  if (shot.id === "S0-4") return "Anthropic · Building effective agents / OpenAI · A practical guide to building agents";
+  if (shot.act === 2 || ["S1-2", "S1-3", "S3-2", "S3-3", "S3-4", "S6-4"].includes(shot.id)) return "图示改绘自 Anthropic · Building effective agents";
   if (shot.id === "S8-2") return "Dify Docs · Agent node";
   if (shot.id === "S8-3") return "n8n Docs · AI Agent node";
   if (shot.id === "S8-4") return "n8n Docs / Coze Docs · Workflow as a tool";

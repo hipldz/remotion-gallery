@@ -2,11 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Player, type PlayerRef } from "@remotion/player";
 import { Film } from "./Film";
-import { chapters, shotAt, shots, timecode } from "./data/timeline";
+import { chapters as sourceChapters, resolveWorkflowTimeline, shots as sourceShots, timecode } from "./data/timeline";
 import { C, DURATION, FPS, HEIGHT, WIDTH } from "./data/theme";
 import { fontsReady } from "./fonts";
 import { VoiceRecorder, useVoiceover } from "remotion-voiceover/react";
 import { voiceoverProject } from "./voiceover.config";
+import { voiceCaptionsToSrt } from "remotion-voiceover/core";
 import "remotion-voiceover/styles.css";
 import "./preview.css";
 
@@ -19,8 +20,8 @@ declare global {
       isMuted: () => boolean;
       play: () => void;
       pause: () => void;
-      shots: typeof shots;
-      chapters: typeof chapters;
+      shots: typeof sourceShots;
+      chapters: typeof sourceChapters;
     };
   }
 }
@@ -41,9 +42,12 @@ function ReviewApp() {
   const [audio, setAudio] = useState(true);
   const [expanded, setExpanded] = useState<number[]>([0]);
   const voice = useVoiceover(voiceoverProject);
+  const duration = voice.project.durationInFrames;
+  const {shots, chapters, shotAt} = useMemo(() => resolveWorkflowTimeline(voice.project), [voice.project]);
+  const srtDownload = useMemo(() => `data:application/x-subrip;charset=utf-8,${encodeURIComponent(voiceCaptionsToSrt(voice.project))}`, [voice.project]);
   const playerProps = useMemo(
-    () => ({ showSubtitles: subtitles, audio, voiceTracks: voice.tracks }),
-    [subtitles, audio, voice.tracks],
+    () => ({ showSubtitles: subtitles, audio, voiceTracks: voice.tracks, voiceProject: voice.project }),
+    [subtitles, audio, voice.tracks, voice.project],
   );
   const recordableCount = voiceoverProject.scenes!.filter(
     (scene) => scene.recordable,
@@ -54,11 +58,11 @@ function ReviewApp() {
     (cue) => frame / FPS >= cue.start && frame / FPS < cue.end,
   );
   const seekPlayer = useCallback((next: number) => {
-    const target = Math.max(0, Math.min(DURATION - 1, Math.round(next)));
+    const target = Math.max(0, Math.min(duration - 1, Math.round(next)));
     player.current?.pause();
     player.current?.seekTo(target);
     setFrame(target);
-  }, []);
+  }, [duration]);
   const seekTo = useCallback(
     (next: number) => {
       if (!voice.busy) seekPlayer(next);
@@ -71,6 +75,11 @@ function ReviewApp() {
       .then(() => setReady(true))
       .catch((reason) => setError(String(reason)));
   }, []);
+  useEffect(() => {
+    const update = () => {if (!voice.busy) void voice.refresh();};
+    import.meta.hot?.on('voiceover:update', update);
+    return () => {import.meta.hot?.off('voiceover:update', update);};
+  }, [voice.refresh, voice.busy]);
   useEffect(() => {
     const current = player.current;
     if (!current) return;
@@ -98,7 +107,7 @@ function ReviewApp() {
       shots,
       chapters,
     };
-  }, [ready, seekTo, frame, voice.busy]);
+  }, [ready, seekTo, frame, voice.busy, shots, chapters]);
 
   return (
     <div className={`review-app${clean ? " clean-preview" : ""}`}>
@@ -186,7 +195,7 @@ function ReviewApp() {
                                 .replace("★ ", "")
                                 .replace("英雄镜头：", "")}
                             </b>
-                            <small>{s.end - s.start}s</small>
+                            <small>{Number((s.end - s.start).toFixed(1))}s</small>
                           </button>
                         ))}
                     </div>
@@ -214,7 +223,10 @@ function ReviewApp() {
                 STORYBOARD REVIEW / VOICEOVER
               </span>
               <h2>
-                分镜预览<span>5:40 / 11 幕 / 44 镜</span>
+                分镜预览
+                <span>
+                  {timecode(duration)} / {chapters.length} 幕 / {shots.length} 镜
+                </span>
               </h2>
             </div>
             <div className="spec-tags">
@@ -236,7 +248,7 @@ function ReviewApp() {
                 ref={player}
                 component={Film}
                 inputProps={playerProps}
-                durationInFrames={DURATION}
+                durationInFrames={duration}
                 compositionWidth={WIDTH}
                 compositionHeight={HEIGHT}
                 fps={FPS}
@@ -245,7 +257,7 @@ function ReviewApp() {
                 spaceKeyToPlayOrPause={!clean && !voice.busy}
                 initialFrame={initialFrame}
                 numberOfSharedAudioTags={12}
-                style={{ width: "100%", aspectRatio: "16 / 9" }}
+                style={{ width: "min(100cqw, calc(100cqh * 16 / 9))", aspectRatio: "16 / 9" }}
                 acknowledgeRemotionLicense
               />
               {error && <div className="preview-error">{error}</div>}
@@ -282,7 +294,7 @@ function ReviewApp() {
                       下一镜 →
                     </button>
                     <span className="transport-time">
-                      {timecode(frame)} <span>/ 05:40</span>
+                      {timecode(frame)} <span>/ {timecode(duration)}</span>
                     </span>
                   </div>
                 </div>
@@ -315,7 +327,7 @@ function ReviewApp() {
                       aria-label={`跳转第 ${chapter.index} 幕`}
                     />
                   ))}
-                  <i style={{ left: `${(frame / DURATION) * 100}%` }} />
+                  <i style={{ left: `${(frame / duration) * 100}%` }} />
                 </div>
                 <div className="review-notes">
                   <div>
@@ -329,6 +341,7 @@ function ReviewApp() {
                     <label>
                       <input
                         type="checkbox"
+                        disabled={voice.busy}
                         checked={subtitles}
                         onChange={(event) => setSubtitles(event.target.checked)}
                       />
@@ -337,12 +350,13 @@ function ReviewApp() {
                     <label>
                       <input
                         type="checkbox"
+                        disabled={voice.busy}
                         checked={audio}
                         onChange={(event) => setAudio(event.target.checked)}
                       />
                       配乐与音效
                     </label>
-                    <a href="/captions/workflow-vs-agent.srt" download>
+                    <a href={srtDownload} download="workflow-vs-agent.srt">
                       下载 SRT ↗
                     </a>
                   </div>
@@ -360,11 +374,11 @@ function ReviewApp() {
             <aside className="voiceover-panel" aria-label="录制配音">
               <div className="recorder-heading">
                 <strong>录制配音</strong>
-                <span>{recordableCount} 段旁白 · 可整片录制</span>
+                <span>{recordableCount} 段旁白 · 时长跟着朗读调整</span>
               </div>
               {ready ? (
                 <VoiceRecorder
-                  project={voiceoverProject}
+                  project={voice.project}
                   player={player}
                   frame={frame}
                   currentSceneId={shot.id}
@@ -373,6 +387,7 @@ function ReviewApp() {
                   onManifest={voice.setManifest}
                   onBusy={voice.setBusy}
                   onDraft={voice.setDraft}
+                  onProject={voice.setProjectDraft}
                   onSeek={seekPlayer}
                 />
               ) : (

@@ -3,6 +3,7 @@ import { arc, fade, f2, mix, move, projectMap, settle, useCinema } from '../lib/
 import { At, Chip, Icon } from '../components/Primitives';
 import { Burst, JumpingOrb, Note, Orb, TitleBlock } from '../components/CinematicActors';
 import { Media } from '../components/Media';
+import { PopularityBadge } from '../components/PopularityBadge';
 
 export function Year2024({ id, f }: { id: string; f: number }) {
   const cinema = useCinema();
@@ -12,7 +13,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
       pressure = move(t, 0, 30);
     return (
       <>
-        <TitleBlock f={f} eyebrow="2024 / OUT OF THE BOX" lines={['离开聊天框。']} size={106} />
+        <TitleBlock f={f} eyebrow="2024 / 改完能跑测试" lines={['写代码，适合先试一试。']} size={86} />
         {f < 34 && (
           <At
             x={300}
@@ -43,7 +44,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
           <circle cx={end.x} cy={end.y} r={move(f, 64, 24, 6, 80)} fill="none" stroke={C.blue} opacity={1 - fade(f, 64, 24)} strokeWidth="2" />
         </svg>
         <Note f={f} start={72} x={1160} y={755} color={C.blue} size={35}>
-          不止回答，开始动手。
+          代码能改，测试能跑。
         </Note>
       </>
     );
@@ -58,13 +59,13 @@ export function Year2024({ id, f }: { id: string; f: number }) {
     const current = Math.floor(f / 31) % 4;
     return (
       <>
-        <TitleBlock f={f} eyebrow="2024.03 / 自己的工作环境" lines={['Devin']} x={110} y={190} width={600} size={112} />
+        <TitleBlock f={f} eyebrow="2024.03 / 试着自己把事情做完" lines={['Devin']} x={110} y={190} width={600} size={112} />
         <Note f={f} start={38} x={115} y={560} size={34} width={550}>
           看代码、跑命令，
           <br />
           上网、改文件，
           <br />
-          再把结果交回来。
+          做完再给你看。
         </Note>
         {f < 178 && (
           <At x={750} y={320} style={{ width: 1010, height: 550, perspective: 1800, opacity: 1 - fade(f, 140, 35) }}>
@@ -107,10 +108,10 @@ export function Year2024({ id, f }: { id: string; f: number }) {
         {f >= 140 && <Media id="devin" f={f - 140} mode="match" x={750} y={320} width={1010} height={550} />}
         <At x={115} y={820} style={{ opacity: fade(f, 300, 18), display: 'flex', gap: 12 }}>
           <Chip color="#818B9B" style={{ fontSize: 24 }}>
-            演示 ≠ 实用
+            它先做
           </Chip>
           <Chip color={C.blue} style={{ fontSize: 24 }}>
-            方向已出现
+            你来检查
           </Chip>
         </At>
       </>
@@ -121,7 +122,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
     const prompt = '做一个记账小网页';
     return (
       <>
-        <TitleBlock f={f} eyebrow="2024 / 一句话做出应用" lines={['Replit Agent · Bolt.new']} y={100} size={96} />
+        <TitleBlock f={f} eyebrow="2024 / 说说需求，先搭出来看看" lines={['Replit Agent · Bolt.new']} y={100} size={96} />
         <At
           x={mix(470, 245, p)}
           y={mix(475, 350, p)}
@@ -179,7 +180,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
           </Chip>
         </At>
         <Note f={f} start={100} x={245} y={875} size={25}>
-          Replit Agent · 2024.09　　/　　Bolt.new · 2024.10　　/　　Vibe Coding
+          Replit Agent · 2024.09　　/　　Bolt.new · 2024.10　　/　　说说你想做什么
         </Note>
       </>
     );
@@ -187,11 +188,12 @@ export function Year2024({ id, f }: { id: string; f: number }) {
   if (id === 'C04')
     return (
       <>
-        <TitleBlock f={f} eyebrow="2024.11 / 编辑器里的 Agent" lines={['Windsurf · Cline']} y={100} size={96} />
+        <TitleBlock f={f} eyebrow="2024 / 边聊边改代码" lines={['Windsurf · Cline']} y={100} size={96} />
+        <PopularityBadge id="cline" f={f} x={1080} y={260} start={25} compact />
         <Media id="windsurf" f={f} x={100} y={350} width={825} height={520} tilt={2} />
         <Media id="cline" f={f} x={995} y={350} width={825} height={520} delay={5} tilt={-2} />
         <Note f={f} start={55} x={500} y={884} size={37} color={C.blue}>
-          读文件 · 改代码 · 跑命令
+          看代码 · 改文件 · 跑命令
         </Note>
       </>
     );
@@ -200,7 +202,9 @@ export function Year2024({ id, f }: { id: string; f: number }) {
     const active = Math.min(2, Math.floor(Math.max(0, f - 30) / 58));
     return (
       <>
-        <TitleBlock f={f} eyebrow="WORKFLOW / 编排可复用的流程" lines={['n8n · Dify · Coze']} y={100} size={108} accent={C.yellow} />
+        <TitleBlock f={f} eyebrow="还有一种办法 / 先把步骤排好" lines={['n8n · Dify · Coze']} y={100} size={108} accent={C.yellow} />
+        <PopularityBadge id="n8n" f={f} x={125} y={285} start={20} compact />
+        <PopularityBadge id="dify" f={f} x={725} y={285} start={30} compact />
         {['n8n', 'dify', 'coze'].map((name, i) => (
           <Media
             key={name}
@@ -217,7 +221,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
           />
         ))}
         <Note f={f} start={95} x={110} y={885} color="#8A7429" size={28}>
-          连接模型、工具和数据，按步骤运行。
+          经常重复的事，先排好步骤；也能配合 Agent 一起用。
         </Note>
       </>
     );

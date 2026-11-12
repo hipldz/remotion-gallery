@@ -17,10 +17,10 @@ export const C = {
 
 export type Route = 'blue' | 'green' | 'yellow' | 'red';
 export const routes: { id: Route; label: string; english: string; y: number; start: number }[] = [
-  { id: 'blue', label: '开发者工具', english: 'DEVELOPER TOOLS', y: -300, start: -1867 },
-  { id: 'green', label: '通用工作 Agent', english: 'WORK AGENTS', y: -100, start: 2925 },
-  { id: 'yellow', label: 'Workflow · Builder', english: 'WORKFLOW / BUILDER', y: 100, start: -9600 },
-  { id: 'red', label: 'Runtime · Harness', english: 'RUNTIME / HARNESS', y: 300, start: 4640 },
+  { id: 'blue', label: '写代码', english: 'CODING TOOLS', y: -300, start: -1867 },
+  { id: 'green', label: '日常工作', english: 'WORK AGENTS', y: -100, start: 2925 },
+  { id: 'yellow', label: '提前排好步骤', english: 'WORKFLOW / BUILDER', y: 100, start: -9600 },
+  { id: 'red', label: '让任务接着做', english: 'EXECUTION SUPPORT', y: 300, start: 4640 },
 ];
 export const colors = [C.blue, C.green, C.yellow, C.red];
 export const fonts = {

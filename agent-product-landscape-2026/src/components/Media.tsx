@@ -240,12 +240,13 @@ export function SourceLine({ shotId }: { shotId: string }) {
     C02: f < 140 ? [] : ['devin'],
     D03: ['claude-code'],
     D07: ['manus'],
-    F02: [f < 170 ? 'cowork' : 'openclaw'],
-    F07: f < 170 ? [] : ['harness'],
+    F02: [f < 130 ? 'cowork' : 'openclaw'],
+    F07: ['harness'],
+    F06: [],
   };
   const selected = phase[shotId];
   const related = assets.filter((a) => (selected ? selected.includes(a.id) : a.shots.includes(shotId)));
   const source = related.map((a) => a.source).join('　／　');
-  const diagramSource = shotId === 'F07' && f < 170 ? '图解依据：Cline 官方文章 · Introducing Cline SDK' : 'PLDZ · 原创图解';
+  const diagramSource = shotId === 'F06' ? '图解依据：Anthropic · 长任务执行系统' : 'PLDZ · 原创图解';
   return <div className="film-source">{source || diagramSource}</div>;
 }

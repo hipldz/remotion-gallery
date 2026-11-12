@@ -36,10 +36,9 @@ export const pins: Pin[] = [
   { label: 'WorkBuddy', date: '2026.03.09', x: 13404, route: 'green' },
   { label: '悟空', date: '2026.03.17', x: 13475, route: 'green' },
   { label: 'DuMate', date: '2026.03.22', x: 13520, route: 'green' },
-  { label: 'Cline SDK', date: '2026.05.13', x: 13974, route: 'red' },
   { label: 'Qoder 1.0', date: '2026.05.15', x: 13991, route: 'blue' },
   { label: 'ChatGPT Work', date: '2026.07.09', x: 14471, route: 'green' },
-  { label: 'DeepSeek Harness', date: '2026.08.13', x: 14774, route: 'red' },
+  { label: 'DeepSeek Harness', date: '2026.08.13', x: 14774, route: 'green' },
   { label: '豆包工作', date: '2026.08.25', x: 14881, route: 'green' },
   { label: 'QoderWork 下线通知', date: '2026.09.08', x: 14995, route: 'green' },
 ];

@@ -12,6 +12,63 @@
 
 ## 运行
 
+
+pnpm config set --location=project storeDir ".pnpm/store"
+
+pnpm config set --location=project cacheDir ".pnpm/cache"
+
+
+
+进入子目录确认pnpm的继承关系
+
+pnpm store path
+pnpm config get cacheDir
+期望的结果是../.pnpm/store和../.pnpm/cache
+
+如果不是需要创建 pnpm-workspace.yaml: 
+
+```pwsh
+@'
+storeDir: ../.pnpm/store
+cacheDir: ../.pnpm/cache
+'@ | Set-Content -Encoding utf8 .\pnpm-workspace.yaml
+```
+
+然后开始对各个子文件的项目进行pnpm的安装啥的
+
+1. 如果子文件夹有: package-lock.json，先执行一次： pnpm import
+2. 安装依赖: pnpm install
+
+
+3. 注意 Workspace 行为
+如果根目录配置了多个 workspace 子项目，pnpm install 默认会安装整个 Workspace 的依赖，而不只是当前子项目。
+GitHub
+
+
+如果你只想安装当前子项目，可以使用： pnpm install --filter "<package.json 中的 name>"
+
+最终的效果
+
+```txt
+remotion-gallery/
+│
+├── .pnpm/
+│   ├── store/
+│   └── cache/
+│
+├── pnpm-workspace.yaml
+│
+├── agent-product-landscape-2026/
+│   ├── package.json
+│   └── node_modules/
+│
+├── chatgpt-to-agent/
+│   └── package.json
+│
+└── workflow-vs-agent/
+    └── package.json
+```
+
 需要 Node.js 22 或更新版本。各工程独立安装依赖，以 `chatgpt-to-agent` 为例：
 
 ```bash

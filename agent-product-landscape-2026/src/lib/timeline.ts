@@ -32,7 +32,7 @@ export function resolveTiming(durations: Record<string, number>, files: string[]
     const vo = voiceFileFor(shot.id, files);
     const seconds = durations[shot.id];
     const voFrames = seconds === undefined ? undefined : Math.ceil(seconds * FPS);
-    const needed = voFrames === undefined ? shot.minFrames : shot.voOffset + voFrames + 12;
+    const needed = voFrames === undefined ? shot.minFrames : shot.voOffset + voFrames + shot.tailFrames;
     if (!shot.elastic && needed > shot.minFrames) {
       throw new Error(`${shot.id} 旁白需要 ${needed} 帧，但固定镜头只有 ${shot.minFrames} 帧。请缩短录音，或在 shots.json 中明确调整镜头时长。`);
     }
@@ -48,7 +48,8 @@ export function captionsFor(shot: TimedShot): Caption[] {
   if (!shot.narration) return [];
   const clauses = shot.narration
     .replace(/[「」‘’“”]/g, '')
-    .split(/[／；，。？！]/)
+    // Keep commas within a spoken phrase; explicit pauses and sentence endings set the breaks.
+    .split(/[／；。？！]/)
     .map((s) => s.trim())
     .filter(Boolean);
   const chunks = clauses.flatMap((text) => {
@@ -57,7 +58,7 @@ export function captionsFor(shot: TimedShot): Caption[] {
     return text.match(/.{1,28}(?:\s|$)|.{1,28}(?=[\u3400-\u9fff])/g) ?? [text];
   });
   const start = shot.voOffset;
-  const available = shot.voFrames ?? Math.max(1, shot.duration - start - 18);
+  const available = shot.voFrames ?? Math.max(1, shot.duration - start - shot.tailFrames);
   const count = chunks.reduce((sum, t) => sum + t.length, 0);
   let consumed = 0;
   return chunks.map((text) => {
@@ -68,12 +69,67 @@ export function captionsFor(shot: TimedShot): Caption[] {
 }
 
 export const chapterInfo = [
-  { key: 'P', number: '序', year: '2026', title: '回头看Agent产品', subtitle: '从今天出发，倒带到 2022' },
-  { key: 'Z', number: '0', year: '', title: '四条产品路线', subtitle: '开发者工具、通用工作、流程平台和运行系统' },
-  { key: 'A', number: '1', year: '2022', title: '聊天与代码补全', subtitle: 'ChatGPT · GitHub Copilot' },
-  { key: 'B', number: '2', year: '2023', title: '开始用工具', subtitle: '查资料、跑代码、修改文件' },
-  { key: 'C', number: '3', year: '2024', title: '有了工作环境', subtitle: '编辑器、终端和浏览器' },
-  { key: 'D', number: '4', year: '2025', title: '交代一个目标', subtitle: '从一个 issue，到一个 PR' },
-  { key: 'F', number: '5', year: '2026', title: '进入办公桌面', subtitle: '处理文件、接任务、看进度' },
-  { key: 'G', number: '终', year: '', title: '从聊天到交付任务', subtitle: '回头看这几年的产品变化' },
+  {
+    key: 'P',
+    number: '序',
+    year: '2026',
+    title: '先聊聊这些 Agent',
+    subtitle: '从 2022 年回顾到今天',
+  },
+  {
+    key: 'Z',
+    number: '图',
+    year: '',
+    title: '先认一下图上的颜色',
+    subtitle: '这几种工具，各做什么',
+  },
+  {
+    key: 'A',
+    number: '1',
+    year: '2022',
+    title: '聊天和补代码',
+    subtitle: '你问问题，它给建议',
+  },
+  {
+    key: 'B',
+    number: '2',
+    year: '2023',
+    title: 'AI 开始动手了',
+    subtitle: '用工具，也能改项目',
+  },
+  {
+    key: 'C',
+    number: '3',
+    year: '2024',
+    title: '进到项目里干活',
+    subtitle: '改代码、用浏览器、跑测试',
+  },
+  {
+    key: 'D',
+    number: '4',
+    year: '2025',
+    title: '交给它做，做完你再看',
+    subtitle: '给个目标，做完来检查',
+  },
+  {
+    key: 'E',
+    number: '5',
+    year: '2025',
+    title: '不光写代码',
+    subtitle: '查资料、做报告、整理文件',
+  },
+  {
+    key: 'F',
+    number: '6',
+    year: '2026',
+    title: '把事情放到工作台',
+    subtitle: '放在一起，看进度、查结果',
+  },
+  {
+    key: 'G',
+    number: '终',
+    year: '',
+    title: '这几年，变了些什么',
+    subtitle: '这些工具，各有各的用法',
+  },
 ];

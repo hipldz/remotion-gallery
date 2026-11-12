@@ -305,7 +305,7 @@
     "frame": "news",
     "dark": false,
     "route": "green",
-    "shots": ["F05"],
+    "shots": [],
     "source": "图源：百度智能云千帆社区 · 宣传海报，非产品界面",
     "sourceUrl": "https://qianfan.cloud.baidu.com/qianfandev/topic/687919"
   },
@@ -321,7 +321,7 @@
     "frame": "bare",
     "dark": false,
     "route": "green",
-    "shots": ["F05"],
+    "shots": [],
     "source": "图源：云栈社区 · 第三方截图",
     "crop": [68, 68, 1012, 678],
     "sourceUrl": "https://yunpan.plus/t/11911-1-1"
@@ -353,11 +353,12 @@
     "maxWidth": 1500,
     "frame": "bare",
     "dark": true,
-    "route": "red",
+    "route": "green",
     "shots": ["F07"],
     "source": "图源：Tenten 实测文章 · 第三方截图；定位以官方页面为准",
     "crop": [125, 30, 1898, 1095],
-    "sourceUrl": "https://tenten.co/learning/deepseek-harness-desktop-app-walkthrough/"
+    "sourceUrl": "https://tenten.co/learning/deepseek-harness-desktop-app-walkthrough/",
+    "productUrl": "https://www.deepseek.com/en/harness/"
   },
   {
     "id": "deep-research",

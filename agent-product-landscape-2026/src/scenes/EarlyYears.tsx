@@ -1,8 +1,10 @@
 import { C, fonts } from '../data/theme';
 import { fade, mix, move } from '../lib/cinematics';
-import { At, Chip, Cursor, Icon } from '../components/Primitives';
+import { At, Chip, Icon } from '../components/Primitives';
 import { GlyphTile, Note, Orb, Signal, TitleBlock } from '../components/CinematicActors';
 import { Media } from '../components/Media';
+import { StoryBridge } from '../components/StoryBridge';
+import { PopularityBadge } from '../components/PopularityBadge';
 
 export function EarlyYears({ id, f }: { id: string; f: number }) {
   if (id === 'A01')
@@ -13,57 +15,25 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
         </At>
         <TitleBlock f={f} eyebrow="2022.11.30 / 自然语言聊天" lines={['ChatGPT']} x={110} y={215} width={630} size={112} accent={C.green} />
         <Note f={f} start={65} x={115} y={700} size={31} width={550}>
-          打开聊天框，
+          打开网页，
           <br />
-          直接跟 AI 聊天。
+          问问题、写点东西。
         </Note>
         <Media id="chatgpt" f={f} x={800} y={270} width={960} height={620} />
       </>
     );
   if (id === 'A02') {
-    const p = f % 48;
     return (
-      <>
-        <TitleBlock f={f} eyebrow="最初的产品直觉" lines={['我问。它答。']} size={100} />
-        <Media
-          id="chatgpt"
-          f={100}
-          x={100}
-          y={430}
-          width={410}
-          height={280}
-          label={false}
-          style={{ opacity: 0.11, transform: 'perspective(1300px) rotateY(13deg)' }}
-        />
-        <At
-          x={890}
-          y={375}
-          style={{
-            width: 650,
-            height: 380,
-            border: `2px solid ${C.green}65`,
-            borderRadius: 40,
-            background: '#F8FCF9',
-            boxShadow: '0 28px 80px -50px #34A85345',
-          }}
-        >
-          <At x={30} y={25} style={{ fontSize: 18, color: '#83A68E', letterSpacing: 2 }}>
-            CHAT WINDOW
-          </At>
-        </At>
-        <Cursor x={660} y={590} size={100} />
-        <Signal f={p} start={0} duration={20} a={[745, 560]} b={[1215, 560]} color={C.green} bend={-110} />
-        <Orb x={1215} y={560} color={C.green} size={76} f={100} squash={Math.sin(p / 6) * 0.1} />
-        <At x={mix(760, 1080, move(p, 0, 22))} y={440} style={{ fontFamily: fonts.sans, fontSize: 73, color: C.ink, opacity: 1 - fade(p, 22, 6) }}>
-          ?
-        </At>
-        <At x={1320} y={410 + move(p, 21, 15, 30, 0)} style={{ fontFamily: fonts.sans, fontSize: 78, color: C.green, opacity: fade(p, 21, 6) }}>
-          !
-        </At>
-        <Note f={f} start={45} x={960} y={825} size={26}>
-          直接提问，直接回答。
-        </Note>
-      </>
+      <StoryBridge
+        f={f}
+        eyebrow="2022 / 有了建议，谁来动手"
+        title={['有了建议，活儿还得自己干。']}
+        labels={['AI 给建议', '你来动手']}
+        before={['回答问题', '给几段代码']}
+        after={['自己复制、自己跑', '看看结果对不对']}
+        note="AI 帮你出主意，你来动手。"
+        accent={C.green}
+      />
     );
   }
   if (id === 'A03')
@@ -88,9 +58,8 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
           Tab ↹
         </At>
         <Note f={f} start={65} x={120} y={785} size={27} width={570}>
-          在编辑器里，
-          <br />
-          接着写代码。
+          写到一半，
+          <br />按 Tab 接着补。
         </Note>
         <Media id="copilot" f={f} x={800} y={295} width={960} height={600} focus={[0.09, 0.25, 0.6, 0.13]} focusAt={55} />
       </>
@@ -98,7 +67,7 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
   if (id === 'B01')
     return (
       <>
-        <TitleBlock f={f} eyebrow="2023 / TOOL USE" lines={['AI 开始', '用工具。']} x={110} y={220} size={100} width={600} />
+        <TitleBlock f={f} eyebrow="2023 / TOOL USE" lines={['想让 AI 动手，', '先给它工具。']} x={110} y={220} size={100} width={760} />
         <At
           x={1050}
           y={360}
@@ -140,7 +109,7 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
       resultP = move(f, 145, 80);
     return (
       <>
-        <TitleBlock f={f} eyebrow="FUNCTION CALLING / 工具调用" lines={['发出请求，执行工具，返回结果。']} size={85} accent={C.red} />
+        <TitleBlock f={f} eyebrow="FUNCTION CALLING / 工具调用" lines={['选个工具，跑一下，再看结果。']} size={85} accent={C.red} />
         <At x={173} y={375} style={{ fontSize: 17, letterSpacing: 3, color: '#94A0B2' }}>
           MODEL / REQUEST
         </At>
@@ -195,10 +164,10 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
           {'{ result: "✓" }'}
         </At>
         <Note f={f} start={18} x={173} y={865} size={34} color={C.blue} width={600}>
-          模型发出请求
+          AI 发出请求
         </Note>
         <Note f={f} start={110} x={1280} y={865} size={34} color={C.red} width={600}>
-          程序执行工具
+          工具把结果送回来
         </Note>
       </>
     );
@@ -211,7 +180,7 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
       <>
         <TitleBlock
           f={t}
-          eyebrow={aider ? '2023 / 终端里的编程助手' : '2023 / 理解项目、跨文件修改'}
+          eyebrow={aider ? '2023 / 在终端里改文件' : '2023 / 边聊边改代码'}
           lines={[aider ? 'Aider' : 'Cursor']}
           x={110}
           y={180}
@@ -221,7 +190,8 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
         {aider ? (
           <>
             <Media id="aider" f={t} x={720} y={355} width={1060} height={540} />
-            <GlyphTile f={t} start={12} x={125} y={625} width={325} height={190} icon="terminal" label="在终端里改代码" />
+            <GlyphTile f={t} start={12} x={125} y={595} width={325} height={175} icon="terminal" label="在终端里改代码" />
+            <PopularityBadge id="aider" f={t} x={125} y={805} start={25} />
           </>
         ) : (
           <>

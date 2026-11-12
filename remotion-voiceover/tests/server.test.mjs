@@ -4,7 +4,7 @@ import {mkdtemp, mkdir, readFile, readdir, rm, writeFile} from 'node:fs/promises
 import {tmpdir} from 'node:os';
 import {join, resolve, sep} from 'node:path';
 import {Readable, Writable} from 'node:stream';
-import {defineVoiceoverProject} from '../dist/core/index.js';
+import {defineVoiceoverProject, resizeVoiceRange, voiceTimeline} from '../dist/core/index.js';
 import {createVoiceoverMiddleware, inspectVoiceWave, voiceoverPlugin} from '../dist/server/index.js';
 
 const wave = (seconds = 1, rate = 8000) => {
@@ -15,9 +15,10 @@ const wave = (seconds = 1, rate = 8000) => {
   body.write('data', 36); body.writeUInt32LE(body.length - 44, 40);
   return body;
 };
-const invoke = async (handler, method, scope, body = Buffer.alloc(0)) => {
+const invoke = async (handler, method, scope, body = Buffer.alloc(0), headers = {}) => {
   const request = Readable.from([body]);
   request.method = method;
+  request.headers = headers;
   request.url = scope === undefined ? '/' : `/?scope=${encodeURIComponent(scope)}`;
   const response = {statusCode: 200, headers: {}, setHeader(name, value) {this.headers[name] = value;}, end(value) {this.body = value;}};
   await handler(request, response);
@@ -41,6 +42,71 @@ test('WAV validation rejects truncated, stereo and inconsistent headers', () => 
   const block = wave(); block.writeUInt16LE(4, 32); assert.throws(() => inspectVoiceWave(block));
   const rate = wave(); rate.writeUInt32LE(1, 28); assert.throws(() => inspectVoiceWave(rate));
 });
+
+test('an overlong take saves its entire WAV and timeline together, including later audio offsets', () => temporary(async root => {
+  const project = defineVoiceoverProject({fps: 30, durationInFrames: 360, scenes: [
+    {id: 'a', title: 'a', from: 0, durationInFrames: 240}, {id: 'b', title: 'b', from: 240, durationInFrames: 120},
+  ], captions: [{startFrame: 0, endFrame: 240, text: 'eight seconds', sceneId: 'a'}]});
+  const handler = createVoiceoverMiddleware({project, projectRoot: root});
+  const full = await invoke(handler, 'POST', 'full', wave(12));
+  const originalPath = join(root, 'public', full.value.tracks[0].src);
+  const original = await readFile(originalPath);
+  const extended = resizeVoiceRange(project, 'a', 300);
+  const form = new FormData();
+  const recording = wave(10);
+  form.set('audio', new Blob([recording], {type: 'audio/wav'}), 'take.wav');
+  form.set('timeline', JSON.stringify(voiceTimeline(extended)));
+  form.set('expectedTimeline', JSON.stringify(voiceTimeline(project)));
+  const upload = new Request('http://localhost/upload', {method: 'POST', body: form});
+  const saved = await invoke(handler, 'POST', 'a', Buffer.from(await upload.arrayBuffer()), {'content-type': upload.headers.get('content-type')});
+  assert.equal(saved.status, 200, JSON.stringify(saved.value));
+  assert.equal(saved.value.timeline.durationInFrames, 420);
+  const take = saved.value.tracks.find(track => track.scope === 'a');
+  assert.equal(take.durationInFrames, 300);
+  assert.deepEqual(await readFile(join(root, 'public', take.src)), recording);
+  assert.deepEqual(await readFile(originalPath), original);
+  assert.equal(saved.value.tracks.find(track => track.scope === 'full').spans[1].trimBefore, 240);
+  const restarted = createVoiceoverMiddleware({project, projectRoot: root});
+  assert.deepEqual((await invoke(restarted, 'GET')).value, saved.value);
+  const stale = await invoke(handler, 'PATCH', undefined, Buffer.from(JSON.stringify({timeline: voiceTimeline(project), expectedTimeline: voiceTimeline(project)})));
+  assert.equal(stale.status, 400);
+  assert.match(stale.value.error, /另一窗口/);
+  assert.deepEqual((await invoke(handler, 'GET')).value, saved.value);
+  const removed = await invoke(handler, 'DELETE', 'a');
+  assert.deepEqual(removed.value.timeline, saved.value.timeline);
+  assert.deepEqual(await readFile(join(root, 'public', take.src)), recording);
+}));
+
+test('script-only edits persist added captions and reject invalid timing without changing existing files', () => temporary(async root => {
+  const project = defineVoiceoverProject({fps: 24, durationInFrames: 192,
+    scenes: [{id: 'a', title: 'a', from: 0, durationInFrames: 192}]});
+  const handler = createVoiceoverMiddleware({project, projectRoot: root});
+  const edited = {...resizeVoiceRange(project, 'a', 240), captions: [
+    {startFrame: 0, endFrame: 192, text: '修改正文', sceneId: 'a'}, {startFrame: 192, endFrame: 240, text: '增加一句', sceneId: 'a'},
+  ]};
+  const saved = await invoke(handler, 'PATCH', undefined, Buffer.from(JSON.stringify({timeline: voiceTimeline(edited), expectedTimeline: voiceTimeline(project)})));
+  assert.equal(saved.status, 200, JSON.stringify(saved.value));
+  assert.deepEqual(saved.value.timeline.captions, edited.captions);
+  const invalid = await invoke(handler, 'PATCH', undefined, Buffer.from(JSON.stringify({timeline: {...voiceTimeline(edited), fps: 60}})));
+  assert.equal(invalid.status, 400);
+  assert.deepEqual((await invoke(handler, 'GET')).value, saved.value);
+  assert.deepEqual((await readdir(join(root, 'public/narration'))), ['manifest.json']);
+}));
+
+test('a partial final audio frame is retained in adaptive recording and playback duration', () => temporary(async root => {
+  const project = defineVoiceoverProject({fps: 30, durationInFrames: 240});
+  const extended = resizeVoiceRange(project, 'full', 301);
+  const audio = wave(10.02);
+  const form = new FormData();
+  form.set('audio', new Blob([audio], {type: 'audio/wav'}), 'take.wav');
+  form.set('timeline', JSON.stringify(voiceTimeline(extended)));
+  const upload = new Request('http://localhost/upload', {method: 'POST', body: form});
+  const handler = createVoiceoverMiddleware({project, projectRoot: root});
+  const result = await invoke(handler, 'POST', 'full', Buffer.from(await upload.arrayBuffer()), {'content-type': upload.headers.get('content-type')});
+  assert.equal(result.status, 200, JSON.stringify(result.value));
+  assert.equal(result.value.tracks[0].durationInFrames, 301, 'Round up so the last spoken samples can play');
+  assert.deepEqual(await readFile(join(root, 'public', result.value.tracks[0].src)), audio);
+}));
 
 test('save/retake/remove preserve original WAVs, legacy manifest and custom paths without listening on a port', () => temporary(async root => {
   const project = defineVoiceoverProject({fps: 24, durationInFrames: 96,

@@ -4,8 +4,8 @@ import type {IncomingMessage, ServerResponse} from 'node:http';
 import {dirname, isAbsolute, relative, resolve, sep} from 'node:path';
 import sirv from 'sirv';
 import type {Plugin} from 'vite';
-import {defineVoiceoverProject, EMPTY_VOICE_MANIFEST, getVoiceRange, isVoiceScope, parseVoiceManifest,
-  voiceManifestSrc, type VoiceManifest, type VoiceoverProject} from '../core/index.js';
+import {applyVoiceTimeline, defineVoiceoverProject, EMPTY_VOICE_MANIFEST, getVoiceRange, isVoiceScope, parseVoiceManifest,
+  retimeVoiceTracks, voiceManifestSrc, voiceTimeline, type VoiceManifest, type VoiceoverProject, type VoiceTimeline} from '../core/index.js';
 
 export type VoiceoverServerOptions = {
   project: VoiceoverProject;
@@ -53,6 +53,7 @@ const storagePaths = (options: VoiceoverServerOptions) => {
 export const createVoiceoverMiddleware = (options: VoiceoverServerOptions) => {
   const {project, publicRoot, manifestPath, directory} = storagePaths(options);
   const maxBytes = options.maxBytes ?? 64 * 1024 * 1024;
+  const maxTimelineBytes = 1024 * 1024;
   let queue: Promise<unknown> = Promise.resolve();
   const readManifest = async () => {
     try {return parseVoiceManifest(JSON.parse(await readFile(manifestPath, 'utf8')), project);}
@@ -69,34 +70,67 @@ export const createVoiceoverMiddleware = (options: VoiceoverServerOptions) => {
     await writeFile(temporary, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
     await rename(temporary, manifestPath);
   };
+  const editManifest = (current: VoiceManifest, timeline?: VoiceTimeline, expectedTimeline?: VoiceTimeline) => {
+    if (!timeline) return current;
+    const previous = applyVoiceTimeline(project, current.timeline);
+    if (expectedTimeline && JSON.stringify(voiceTimeline(applyVoiceTimeline(project, expectedTimeline))) !==
+      JSON.stringify(voiceTimeline(previous))) throw new Error('工程的字幕时间已在另一窗口更新，请刷新后再保存。录音仍可下载。');
+    const next = applyVoiceTimeline(project, timeline);
+    return {version: 1 as const, timeline: voiceTimeline(next), tracks: retimeVoiceTracks(current.tracks, previous, next)};
+  };
   return async (request: IncomingMessage, response: ServerResponse) => {
     response.setHeader('Content-Type', 'application/json; charset=utf-8');
     response.setHeader('Cache-Control', 'no-store');
     const send = (status: number, value: unknown) => {response.statusCode = status; response.end(JSON.stringify(value));};
     try {
       if (request.method === 'GET') {send(200, await readManifest()); return;}
+      if (request.method === 'PATCH') {
+        const body = JSON.parse((await readBody(request, maxTimelineBytes)).toString('utf8')) as
+          {timeline?: VoiceTimeline; expectedTimeline?: VoiceTimeline};
+        if (!body.timeline) throw new Error('请提供需要保存的字幕时间轴');
+        const manifest = await mutate(async () => {
+          const next = editManifest(await readManifest(), body.timeline, body.expectedTimeline);
+          await saveManifest(next);
+          return next;
+        });
+        options.onChange?.(); send(200, manifest); return;
+      }
       if (request.method !== 'POST' && request.method !== 'DELETE') {send(405, {error: '不支持此操作'}); return;}
       const scope = new URL(request.url ?? '/', 'http://localhost').searchParams.get('scope');
       if (!isVoiceScope(scope, project)) {send(400, {error: '请选择有效分镜或整片录音'}); return;}
       if (request.method === 'POST') {
-        const body = await readBody(request, maxBytes);
-        const audio = inspectVoiceWave(body);
-        const range = getVoiceRange(scope, project);
-        const durationInFrames = Math.min(range.durationInFrames, Math.floor(audio.duration * project.fps + 1e-6));
-        if (durationInFrames < 1 || audio.duration > range.durationInFrames / project.fps + .25) {
-          send(400, {error: '录音长度超出所选区间，请重新录制'}); return;
+        const multipart = request.headers?.['content-type']?.startsWith('multipart/form-data');
+        let body = await readBody(request, maxBytes + (multipart ? maxTimelineBytes * 2 : 0));
+        let timeline: VoiceTimeline | undefined, expectedTimeline: VoiceTimeline | undefined;
+        if (multipart) {
+          const form = await new Request('http://localhost/voiceover', {method: 'POST',
+            headers: {'Content-Type': request.headers['content-type']!}, body: new Uint8Array(body)}).formData();
+          const audio = form.get('audio'), timing = form.get('timeline'), expected = form.get('expectedTimeline');
+          if (!(audio instanceof Blob) || typeof timing !== 'string' || timing.length > maxTimelineBytes ||
+            (expected !== null && (typeof expected !== 'string' || expected.length > maxTimelineBytes))) throw new Error('录音或字幕时间轴格式不正确');
+          body = Buffer.from(await audio.arrayBuffer());
+          if (body.length > maxBytes) throw new Error('录音文件超过保存上限');
+          timeline = JSON.parse(timing) as VoiceTimeline;
+          if (typeof expected === 'string') expectedTimeline = JSON.parse(expected) as VoiceTimeline;
         }
+        const audio = inspectVoiceWave(body);
         const manifest = await mutate(async () => {
-          const current = await readManifest();
+          const current = editManifest(await readManifest(), timeline, expectedTimeline);
+          const effective = applyVoiceTimeline(project, current.timeline);
+          const range = getVoiceRange(scope, effective);
+          const durationInFrames = timeline ? Math.ceil(audio.duration * project.fps - 1e-6) : Math.floor(audio.duration * project.fps + 1e-6);
+          if (durationInFrames < 1 || audio.duration > range.durationInFrames / project.fps + .25) {
+            throw new Error('录音长于片段，请先按实际朗读延长字幕时间，再保存。');
+          }
           // Scene IDs are metadata; they are never used as filesystem paths.
           const id = `voice-${randomUUID()}`;
           const wavPath = resolve(directory, `${id}.wav`);
           await mkdir(directory, {recursive: true});
           await writeFile(wavPath, body);
-          const next: VoiceManifest = {version: 1, tracks: [
+          const next: VoiceManifest = {...current, tracks: [
             ...current.tracks.filter(track => track.scope !== scope),
             {id, scope, src: relative(publicRoot, wavPath).split(sep).join('/'), startFrame: range.from,
-              durationInFrames, recordedAt: new Date().toISOString()},
+              durationInFrames: Math.min(durationInFrames, range.durationInFrames), recordedAt: new Date().toISOString()},
           ]};
           await saveManifest(next);
           return next;
@@ -105,7 +139,7 @@ export const createVoiceoverMiddleware = (options: VoiceoverServerOptions) => {
       }
       const manifest = await mutate(async () => {
         const current = await readManifest();
-        const next: VoiceManifest = {version: 1, tracks: current.tracks.filter(track => track.scope !== scope)};
+        const next: VoiceManifest = {...current, tracks: current.tracks.filter(track => track.scope !== scope)};
         await saveManifest(next);
         return next;
       });

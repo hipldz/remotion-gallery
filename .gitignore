@@ -9,6 +9,7 @@ coverage/
 .cache/
 .vite/
 *.tsbuildinfo
+.pnpm
 
 # Local configuration and credentials
 .env
@@ -41,6 +42,7 @@ service-account*.json
 *.tar.gz
 *.tgz
 !**/vendor/remotion-voiceover-0.1.0.tgz
+!**/vendor/remotion-voiceover-0.2.0.tgz
 
 # Logs, temporary files and test artifacts
 *.log

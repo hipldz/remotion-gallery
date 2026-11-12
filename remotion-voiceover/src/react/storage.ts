@@ -23,7 +23,16 @@ export const createHttpVoiceoverStorage = (project: VoiceoverProject, options: H
         return read(fallback);
       }
     },
-    save: async (scope, wav) => read(await request(scoped(scope), {method: 'POST', headers: {'Content-Type': 'audio/wav'}, body: wav})),
+    save: async (scope, wav, options) => {
+      if (!options?.timeline) return read(await request(scoped(scope), {method: 'POST', headers: {'Content-Type': 'audio/wav'}, body: wav}));
+      const body = new FormData();
+      body.set('audio', wav, 'voiceover.wav');
+      body.set('timeline', JSON.stringify(options.timeline));
+      if (options.expectedTimeline) body.set('expectedTimeline', JSON.stringify(options.expectedTimeline));
+      return read(await request(scoped(scope), {method: 'POST', body}));
+    },
     remove: async scope => read(await request(scoped(scope), {method: 'DELETE'})),
+    saveTimeline: async (timeline, expectedTimeline) => read(await request(endpoint, {method: 'PATCH',
+      headers: {'Content-Type': 'application/json'}, body: JSON.stringify({timeline, expectedTimeline})})),
   };
 };

@@ -36,18 +36,42 @@ function ShotContent({ shot }: { shot: TimedShot }) {
       <EarlyYears {...props} />
     ) : shot.chapterKey === 'C' ? (
       <Year2024 {...props} />
-    ) : shot.chapterKey === 'D' ? (
+    ) : ['D', 'E'].includes(shot.chapterKey) ? (
       <Year2025 {...props} />
     ) : shot.chapterKey === 'F' ? (
       <Year2026 {...props} />
     ) : (
       <Finale {...props} />
     );
-  return <ShotRig still={shot.id === 'B02'}>{content}</ShotRig>;
+  return <ShotRig still={['B02', 'P03'].includes(shot.id)}>{content}</ShotRig>;
 }
 
 const mapShots = new Set(['P06', 'Z04', 'D01', 'D06', 'G01', 'G06']);
-const cleanInserts = new Set(['Z00', 'A00', 'A02', 'B00', 'B01', 'B02', 'C00', 'C03', 'D00', 'D02', 'F00', 'F01', 'F04', 'G00']);
+const cleanInserts = new Set([
+  'P01',
+  'P02',
+  'P03',
+  'Z04',
+  'A00',
+  'A02',
+  'B00',
+  'B01',
+  'B02',
+  'C00',
+  'C01',
+  'C03',
+  'D00',
+  'D01',
+  'D02',
+  'D06',
+  'E01',
+  'F00',
+  'F01',
+  'F04',
+  'F06',
+  'G00',
+  'G02',
+]);
 
 export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSfx, frameOffset, voiceTracks }: FilmProps) {
   const frame = useCurrentFrame() + frameOffset;
@@ -86,7 +110,7 @@ export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSf
       <AssetContext.Provider value={availableFiles}>
         <AbsoluteFill
           data-film="AgentMap2026"
-          data-version="2"
+          data-version="3"
           data-shot={shot.id}
           style={{ fontFamily: fonts.sans, color: C.ink, overflow: 'hidden', background: dark ? C.night : '#FCFCFD' }}
         >

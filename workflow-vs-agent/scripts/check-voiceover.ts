@@ -11,9 +11,9 @@ import { voiceoverProject } from "../src/voiceover.config";
 assert.equal(voiceoverProject.durationInFrames, DURATION);
 assert.equal(
   voiceoverProject.scenes!.filter((scene) => scene.recordable).length,
-  37,
+  39,
 );
-assert.equal(voiceoverProject.captions!.length, 91);
+assert.equal(voiceoverProject.captions!.length, 107);
 for (const shot of shots) {
   const scene = voiceoverProject.scenes!.find((item) => item.id === shot.id)!;
   assert.equal(scene.from, shot.start * FPS);
@@ -73,5 +73,5 @@ assert.equal(
   scene.from + scene.durationInFrames,
 );
 console.log(
-  "PASS: 37 recording slots, 91 shared prompts, absolute frame conversion, continuous full-film audio and silent tails after short retakes.",
+  "PASS: 39 recording slots, 107 shared prompts, absolute frame conversion, continuous full-film audio and silent tails after short retakes.",
 );

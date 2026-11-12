@@ -1,5 +1,5 @@
-import { AbsoluteFill, Sequence, useCurrentFrame } from "remotion";
-import type { VoiceTrack } from "remotion-voiceover/core";
+import { AbsoluteFill, Freeze, Sequence, useCurrentFrame } from "remotion";
+import { mapVoiceFrame, type VoiceoverProject, type VoiceTrack } from "remotion-voiceover/core";
 import { Voiceover, useVoiceTracks } from "remotion-voiceover/react";
 import {
   Background,
@@ -21,7 +21,7 @@ import { Products } from "./scenes/Products";
 import { Systems } from "./scenes/Systems";
 import { WorkflowAct } from "./scenes/Workflow";
 import { C, FPS } from "./data/theme";
-import { actColor, chapters, shotAt, shots, type Shot } from "./data/timeline";
+import { actColor, chapters as sourceChapters, resolveWorkflowTimeline, shots as sourceShots, type Shot } from "./data/timeline";
 import { voiceoverProject } from "./voiceover.config";
 import "./fonts";
 import "./film.css";
@@ -30,6 +30,7 @@ export type FilmProps = {
   showSubtitles?: boolean;
   audio?: boolean;
   voiceTracks?: VoiceTrack[];
+  voiceProject?: VoiceoverProject;
 };
 export const defaultProps = {
   showSubtitles: true,
@@ -83,13 +84,31 @@ function ShotScene({ shot }: { shot: Shot }) {
   );
 }
 
+function RetimedShot({shot}: {shot: Shot}) {
+  const frame = useCurrentFrame();
+  const original = sourceShots.find(source => source.id === shot.id)!;
+  const originalFrames = Math.round((original.end - original.start) * FPS);
+  const editedFrames = Math.round((shot.end - shot.start) * FPS);
+  return <Freeze frame={Math.min(originalFrames - 1, Math.floor(frame * originalFrames / editedFrames))}>
+    <ShotScene shot={original}/>
+  </Freeze>;
+}
+
+function RetimedWorkflow({project, start}: {project: VoiceoverProject; start: number}) {
+  const frame = useCurrentFrame();
+  const sourceFrame = mapVoiceFrame(start + frame, project, voiceoverProject) - Math.round(sourceChapters[2].start * FPS);
+  return <Freeze frame={sourceFrame}><WorkflowAct/></Freeze>;
+}
+
 export function Film({
   showSubtitles = true,
   audio = true,
   voiceTracks,
+  voiceProject = voiceoverProject,
 }: FilmProps) {
   const frame = useCurrentFrame();
-  const tracks = useVoiceTracks(voiceoverProject, voiceTracks);
+  const tracks = useVoiceTracks(voiceProject, voiceTracks);
+  const {shots, chapters, shotAt} = resolveWorkflowTimeline(voiceProject);
   const shot = shotAt(frame);
   const chapter = chapters[shot.act];
   const hero = shot.id === "S3-4" || shot.id === "S6-4";
@@ -105,15 +124,15 @@ export function Film({
             from={Math.round(s.start * FPS)}
             durationInFrames={Math.round((s.end - s.start) * FPS)}
           >
-            <ShotScene shot={s} />
+            <RetimedShot shot={s} />
           </Sequence>
         ))}
       <Sequence
         name="02 · Workflow / 连续蓝图运镜"
-        from={36 * FPS}
-        durationInFrames={60 * FPS}
+        from={Math.round(chapters[2].start * FPS)}
+        durationInFrames={Math.round((chapters[2].end - chapters[2].start) * FPS)}
       >
-        <WorkflowAct />
+        <RetimedWorkflow project={voiceProject} start={Math.round(chapters[2].start * FPS)}/>
       </Sequence>
       {!hero && (
         <div className="film-masthead">
@@ -146,8 +165,8 @@ export function Film({
       )}
       <div className="film-source">{sourceFor(shot)}</div>
       {showSubtitles && <Subtitles shot={shot} seconds={frame / FPS} />}
-      <Voiceover project={voiceoverProject} tracks={tracks} />
-      {audio && <Soundtrack voiceTracks={tracks} />}
+      <Voiceover project={voiceProject} tracks={tracks} />
+      {audio && <Soundtrack voiceTracks={tracks} project={voiceProject} />}
     </AbsoluteFill>
   );
 }

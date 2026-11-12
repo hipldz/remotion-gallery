@@ -19,11 +19,14 @@ writeFileSync(path.join(production, 'agent-map.srt'), srt);
 writeFileSync(path.join(production, 'agent-map.vtt'), vtt);
 writeFileSync(path.join(production, 'timing.json'), JSON.stringify(timeline, null, 2) + '\n');
 const cueSheet = timeline
-  .map((s) => `| ${s.id} | ${format(s.from, '.')} | ${(s.duration / 30).toFixed(1)}s | ${s.elastic ? '弹性' : '固定'} | ${s.narration || '—'} |`)
+  .map(
+    (s) =>
+      `| ${s.id} | ${format(s.from, '.')} | ${(s.duration / 30).toFixed(1)}s | ${s.elastic ? '弹性' : '固定'} | ${(s.tailFrames / 30).toFixed(1)}s | ${s.narration || '—'} |`,
+  )
   .join('\n');
 writeFileSync(
   path.join(production, 'narration-cues.md'),
-  `# 录音与剪辑提示\n\n按 Storyboard.md 的旁白文本生成，字幕按句子长度分配时间，尚未做语音强制对齐。\n\n| 镜头 | 入点 | 时长 | 类型 | 旁白 |\n|---|---|---|---|---|\n${cueSheet}\n`,
+  `# 录音与剪辑提示 · V3\n\n按 Storyboard.md 的新剧本生成。真人提词与字幕共用时间线，末尾留白让音乐与画面参与转场。字幕仍按句子长度估算，未做语音强制对齐。\n\n| 镜头 | 入点 | 时长 | 类型 | 末尾留白 | 旁白 |\n|---|---|---|---|---|---|\n${cueSheet}\n`,
 );
 console.log(
   `Exported ${captions.length} caption cues, SRT, VTT, timing.json, narration-cues.md. ${timeline.filter((shot) => shot.vo).length} imported voice files detected.`,

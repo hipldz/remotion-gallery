@@ -1,9 +1,9 @@
 {
   "name": "agent-production-timeline",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "description": "《回头看到 2026 年的 Agent 产品》· 39 镜 Remotion 源工程",
+  "description": "《AI 工具这几年，是怎么变的？》· 42 镜 Remotion 源工程",
   "scripts": {
     "dev": "remotion studio src/index.ts --port=3000",
     "preview": "vite --host 127.0.0.1 --port 4173 --strictPort",

@@ -1,79 +1,68 @@
 import { C, fonts } from '../data/theme';
-import { fade, mix, move, projectMap, settle, useCinema } from '../lib/cinematics';
+import { fade, mix, move, projectMap, useCinema } from '../lib/cinematics';
 
-export const floors = [
-  { name: 'Runtime / Harness', products: 'Pi SDK · Cline SDK · DeepSeek Harness', color: C.red, routeY: 300 },
-  { name: 'Workflow / Agent Builder', products: 'n8n · Dify · Coze', color: C.yellow, routeY: 100 },
-  { name: '代码补全 / IDE 插件', products: 'Copilot · Codeium · 通义灵码早期形态', color: '#AECBFA', routeY: -300 },
-  { name: 'AI 原生 IDE', products: 'Cursor · Windsurf · TRAE IDE · Qoder IDE · CodeBuddy IDE', color: '#8AB4F8', routeY: -300 },
-  { name: '本地 CLI Coding Agent', products: 'Claude Code · Pi Agent · Gemini CLI · Cline · CodeBuddy Code', color: C.blue, routeY: -300 },
-  { name: '云端 / 异步 Coding Agent', products: 'Devin · Jules · Copilot Coding Agent · Cursor BG', color: C.blueDeep, routeY: -300 },
-  { name: 'Agent 工作台', products: 'Codex App · Qoder 1.0', color: '#174EA6', routeY: -300 },
-  { name: '通用工作 Agent', products: 'Manus · Cowork · OpenClaw · WorkBuddy · DuMate · 豆包工作 · ChatGPT Work · QoderWork', color: C.green, routeY: -100 },
+const routes = [
+  { title: '写代码', detail: '改代码、跑测试', color: C.blue, routeY: -300, products: ['Copilot · Cursor · Aider', 'Devin · Claude Code · Pi', 'Codex App'] },
+  {
+    title: '日常工作',
+    detail: '查资料、写报告、整理文件',
+    color: C.green,
+    routeY: -100,
+    products: ['Manus · Deep Research', 'Cowork · OpenClaw', 'WorkBuddy · 豆包工作', 'DeepSeek Harness'],
+  },
+  { title: '重复的事', detail: '先把步骤排好', color: C.yellow, routeY: 100, products: ['n8n · Dify · Coze', '也能搭配 Agent 一起用'] },
 ];
 
-export function ProductTower({ f, focus = 0 }: { f: number; focus?: number }) {
+export function ProductTower({ f }: { f: number }) {
   const { camera } = useCinema();
+  const p = move(f, 35, 80);
   return (
-    <svg width="1920" height="1080" data-product-tower="eight-levels" style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
-      <defs>
-        <filter id="floor-shadow">
-          <feGaussianBlur stdDeviation="12" />
-        </filter>
-      </defs>
-      <ellipse cx="1100" cy="918" rx="650" ry="30" fill="#344969" opacity={0.07 * fade(f, 80, 60)} filter="url(#floor-shadow)" />
-      {floors.map((floor, i) => {
-        const p = move(f, 60 + i * 9, 73);
-        const raw = settle(f, 91 + i * 9, true);
-        const bounce = p > 0.8 ? (1 - raw) * 12 : 0;
-        const y = 850 - i * 67;
-        const origin = projectMap(camera.x, floor.routeY, camera);
-        const xx = mix(-120, 320, p),
-          ww = mix(2160, 1390, p);
-        const yy = mix(origin.y, y, p) + Math.sin(p * Math.PI) * (i - 3.5) * 22 + bounce;
-        const tall = mix(3, 43, p);
-        const dx = 90 * p,
-          dy = -32 * p;
-        const chosen = i === 6 || i === 0;
-        const opacity = chosen ? 1 : 1 - focus * 0.9;
-        const fy = chosen ? mix(yy, i === 6 ? 345 : 785, focus) : yy;
-        const h = chosen ? mix(tall, 100, focus) : tall;
-        const top = `${xx},${fy} ${xx + dx},${fy + dy} ${xx + ww + dx},${fy + dy} ${xx + ww},${fy}`;
-        const side = `${xx + ww},${fy} ${xx + ww + dx},${fy + dy} ${xx + ww + dx},${fy + dy + h} ${xx + ww},${fy + h}`;
+    <svg
+      width="1920"
+      height="1080"
+      data-product-map="parallel-routes"
+      role="img"
+      aria-label="写代码、做日常工作、跑流程，以及让任务接着做的工具"
+      style={{ position: 'absolute', inset: 0, fontFamily: fonts.sans }}
+    >
+      {routes.map((route, i) => {
+        const x = 140 + i * 575;
+        const origin = projectMap(camera.x, route.routeY, camera);
+        const y = mix(origin.y, 390, p);
+        const height = mix(6, 280, p);
         return (
-          <g key={floor.name} opacity={opacity}>
-            <polygon points={top} fill={floor.color} opacity={0.1} stroke={floor.color} strokeWidth={1} />
-            <polygon points={side} fill={floor.color} opacity={0.27} stroke={floor.color} strokeWidth={0.8} />
-            <rect x={xx} y={fy} width={ww} height={h} rx={mix(1, 8, p)} fill="#FFFFFF" stroke={floor.color} strokeWidth={1.2} />
-            <rect x={xx} y={fy} width={8 * p} height={h} rx={3} fill={floor.color} />
-            {i === 6 && <rect x={xx} y={fy} width={ww} height={h} rx={8} fill="none" stroke={C.green} strokeWidth={1} opacity={p * 0.6} />}
-            <g opacity={fade(p, 0.6, 0.4)}>
-              <text x={xx + 23} y={fy + h / 2 + 7} fill="#A7B0BF" fontSize="17" fontFamily={fonts.sans}>
-                {String(i + 1).padStart(2, '0')}
+          <g key={route.title} opacity={fade(f, 35 + i * 10, 18)}>
+            <rect x={x} y={y} width={525} height={height} rx={mix(3, 22, p)} fill="#FFFFFFF5" stroke="#D6E0ED" strokeWidth="1.5" />
+            <path d={'M' + (x + 24) + ' ' + (y + 2) + 'H' + (x + 501)} stroke={route.color} strokeWidth="4" />
+            <g opacity={fade(f, 95 + i * 10, 20)}>
+              <text x={x + 30} y={y + 55} fontSize="36" fontWeight="600" fill={route.color}>
+                {route.title}
               </text>
-              {focus < 0.55 || !chosen ? (
-                <>
-                  <text x={xx + 68} y={fy + h / 2 + 9} fill={C.ink} fontSize="27" fontWeight="600" fontFamily={fonts.sans}>
-                    {floor.name}
-                  </text>
-                  <text x={xx + 473} y={fy + h / 2 + 7} fill="#7B879A" fontSize={i === 7 ? 18 : 20} fontFamily={fonts.sans}>
-                    {floor.products}
-                  </text>
-                </>
-              ) : (
-                <>
-                  <text x={xx + 68} y={fy + 39} fill={i === 0 ? C.red : C.blueDeep} fontSize="32" fontWeight="600" fontFamily={fonts.sans}>
-                    {i === 0 ? '底座：决定 Agent 实际怎么跑' : '工作台：帮人管理多个 Agent'}
-                  </text>
-                  <text x={xx + 68} y={fy + 75} fill="#8B97A9" fontSize="22" fontFamily={fonts.sans}>
-                    {i === 0 ? 'Runtime / Harness · 工具、上下文、权限、状态、恢复' : 'Codex App · 分配任务、监督、Review、合并结果'}
-                  </text>
-                </>
-              )}
+              <text x={x + 30} y={y + 92} fontSize="23" fill="#7A879A">
+                {route.detail}
+              </text>
+              {route.products.map((name, j) => (
+                <text key={name} x={x + 30} y={y + 145 + j * 32} fontSize="24" fill={C.ink}>
+                  {name}
+                </text>
+              ))}
             </g>
           </g>
         );
       })}
+      <g opacity={fade(f, 125, 25)}>
+        {[402, 977, 1552].map((x) => (
+          <path key={x} d={'M' + x + ' 678V735'} stroke="#C9D4E3" strokeWidth="1.5" />
+        ))}
+        <rect x="350" y="735" width="1255" height="115" rx="20" fill="#FFF8F7" stroke="#EAD4D0" />
+        <path d="M382 737H1573" stroke={C.red} strokeWidth="3" />
+        <text x="387" y="782" fontSize="30" fontWeight="600" fill={C.red}>
+          帮任务接着做 · Harness
+        </text>
+        <text x="387" y="823" fontSize="25" fill="#7B818C">
+          用工具、记进度、留住前面的内容，让任务能接着做
+        </text>
+      </g>
     </svg>
   );
 }

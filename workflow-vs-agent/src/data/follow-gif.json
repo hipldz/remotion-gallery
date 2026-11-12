@@ -1,0 +1,53 @@
+{
+  "source": "../public/Chibi-Bilibili-Follow-Level-Up-Animation.gif",
+  "width": 557,
+  "height": 313,
+  "durationMs": 1620,
+  "frames": [
+    {
+      "src": "img/follow-lv2/frame-00.png",
+      "startMs": 0,
+      "endMs": 180
+    },
+    {
+      "src": "img/follow-lv2/frame-01.png",
+      "startMs": 180,
+      "endMs": 360
+    },
+    {
+      "src": "img/follow-lv2/frame-02.png",
+      "startMs": 360,
+      "endMs": 540
+    },
+    {
+      "src": "img/follow-lv2/frame-03.png",
+      "startMs": 540,
+      "endMs": 720
+    },
+    {
+      "src": "img/follow-lv2/frame-04.png",
+      "startMs": 720,
+      "endMs": 900
+    },
+    {
+      "src": "img/follow-lv2/frame-05.png",
+      "startMs": 900,
+      "endMs": 1080
+    },
+    {
+      "src": "img/follow-lv2/frame-06.png",
+      "startMs": 1080,
+      "endMs": 1260
+    },
+    {
+      "src": "img/follow-lv2/frame-07.png",
+      "startMs": 1260,
+      "endMs": 1440
+    },
+    {
+      "src": "img/follow-lv2/frame-08.png",
+      "startMs": 1440,
+      "endMs": 1620
+    }
+  ]
+}

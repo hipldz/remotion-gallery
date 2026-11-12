@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Html5Audio, Sequence, staticFile } from 'remotion';
-import { resolveVoiceSegments, type VoiceTrack } from 'remotion-voiceover/core';
+import type { VoiceTrack } from 'remotion-voiceover/core';
 import { Voiceover, useVoiceTracks } from 'remotion-voiceover/react';
 import { musicVolumeAt } from '../lib/music';
 import type { TimedShot } from '../lib/timeline';
@@ -23,7 +23,6 @@ export function Soundtrack({
   const project = useMemo(() => createVoiceoverProject(timeline), [timeline]);
   const recorded = useVoiceTracks(project, voiceTracks);
   const tracks = useMemo(() => withImportedVoiceTracks(timeline, recorded), [timeline, recorded]);
-  const segments = useMemo(() => resolveVoiceSegments(tracks, project), [tracks, project]);
   const music = ['audio/music.wav', 'audio/music.mp3', 'audio/music.m4a'].find((name) => files.includes(name));
   return (
     <>
@@ -36,7 +35,7 @@ export function Soundtrack({
           name="背景音乐"
           loop
           loopVolumeCurveBehavior="extend"
-          volume={(localFrame) => musicVolumeAt(localFrame + frameOffset, timeline, segments)}
+          volume={(localFrame) => musicVolumeAt(localFrame + frameOffset, timeline)}
         />
       )}
       {sfx &&

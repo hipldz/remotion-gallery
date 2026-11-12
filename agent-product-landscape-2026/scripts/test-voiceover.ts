@@ -35,6 +35,9 @@ function wave(seconds: number, rate = 8000) {
 }
 
 async function main() {
+  const firstShot = baseTimeline.find((shot) => shot.id === 'P01')!;
+  const firstShotSeconds = firstShot.duration / 30;
+  const firstShotTimeout = firstShotSeconds * 1000 + 5000;
   const cache = resolve('.cache');
   const output = resolve('build/review');
   await mkdir(cache, { recursive: true });
@@ -51,7 +54,7 @@ async function main() {
   await mkdir(join(publicDir, 'narration'), { recursive: true });
   await writeFile(join(publicDir, 'narration/manifest.json'), '{"version":1,"tracks":[]}\n');
   const fakeMic = join(workspace, 'fake-microphone.wav');
-  await writeFile(fakeMic, wave(20, 48000));
+  await writeFile(fakeMic, wave(firstShotSeconds + 5, 48000));
   const server = await createServer({
     configFile: false,
     root: resolve('.'),
@@ -101,7 +104,7 @@ async function main() {
     const recorder = page.getByTestId('voice-recorder');
     await expect(recorder).toBeVisible();
     const range = page.getByRole('combobox', { name: '录制范围' });
-    assert.equal(await range.locator('option').count(), 32);
+    assert.equal(await range.locator('option').count(), baseTimeline.filter((shot) => shot.narration).length + 1);
     assert.equal(await range.inputValue(), 'P01');
     assert.equal(await page.evaluate(() => (window as TestWindow).__testStreams.length), 0);
     await page.screenshot({ path: join(output, 'voice-recorder-desktop.png'), fullPage: true });
@@ -122,7 +125,7 @@ async function main() {
     await page.waitForFunction(() => window.__agentReview!.getFrame() > 15);
     await expect(recorder.locator('[data-active="true"]')).toHaveCount(1);
     await page.screenshot({ path: join(output, 'voice-recorder-recording.png'), fullPage: true });
-    await page.getByTestId('voice-take').waitFor({ timeout: 15000 });
+    await page.getByTestId('voice-take').waitFor({ timeout: firstShotTimeout });
     assert.ok(!(await page.evaluate(() => window.__agentReview!.isMuted())));
     assert.ok(
       await page.evaluate(() => (window as TestWindow).__testStreams.every((stream) => stream.getTracks().every((track) => track.readyState === 'ended'))),
@@ -132,7 +135,7 @@ async function main() {
     assert.equal((await download).suggestedFilename(), 'P01-voiceover.wav');
     await page.getByRole('button', { name: '跟画面试听', exact: true }).click();
     await expect(recorder).toHaveAttribute('data-phase', 'audition');
-    await expect(recorder).toHaveAttribute('data-phase', 'idle', { timeout: 20000 });
+    await expect(recorder).toHaveAttribute('data-phase', 'idle', { timeout: firstShotTimeout });
     await page.getByRole('button', { name: '保存并使用', exact: true }).click();
     await page.getByRole('button', { name: '已保存并使用', exact: true }).waitFor();
     const project = createVoiceoverProject(baseTimeline);
@@ -141,7 +144,7 @@ async function main() {
     assert.equal(manifest.tracks.length, 1);
     const first = manifest.tracks[0];
     assert.equal(first.scope, 'P01');
-    assert.ok(first.durationInFrames >= 175 && first.durationInFrames <= 180);
+    assert.ok(first.durationInFrames >= firstShot.duration - 5 && first.durationInFrames <= firstShot.duration);
     const savedWave = await readFile(join(publicDir, first.src));
     inspectVoiceWave(savedWave);
     let energy = 0;
@@ -163,7 +166,7 @@ async function main() {
     assert.notEqual(manifest.tracks[0].id, first.id);
     assert.ok(existsSync(join(publicDir, first.src)), 'Retakes preserve original WAV files');
     await page.getByRole('button', { name: '录下一段', exact: true }).click();
-    await expect(range).toHaveValue('P02');
+    await expect(range).toHaveValue(baseTimeline.filter((shot) => shot.narration)[1].id);
     await range.selectOption('full');
     await page.getByRole('button', { name: '开始录音', exact: true }).click();
     await expect(recorder).toHaveAttribute('data-phase', 'recording', { timeout: 10000 });
@@ -183,7 +186,7 @@ async function main() {
     assert.equal(badScope.status, 400);
     const badAudio = await fetch(`${url}/api/voiceover?scope=P02`, { method: 'POST', body: 'invalid audio' });
     assert.equal(badAudio.status, 400);
-    const tooLong = await fetch(`${url}/api/voiceover?scope=P01`, { method: 'POST', body: wave(7) });
+    const tooLong = await fetch(`${url}/api/voiceover?scope=P01`, { method: 'POST', body: wave(firstShotSeconds + 1) });
     assert.equal(tooLong.status, 400);
     const denied = await context.newPage();
     await denied.addInitScript(() => {
@@ -235,6 +238,10 @@ async function main() {
     await page.evaluate((frame) => (window as TestWindow).__voiceoverChapter!.seek(frame), resumeFrame - chapterFrom + 3);
     await page.evaluate(() => (window as TestWindow).__voiceoverChapter!.play());
     await checkAudio(full.src, (resumeFrame + 3) / 30);
+    await page.waitForFunction(() => {
+      const music = [...document.querySelectorAll<HTMLAudioElement>('#chapter-fixture audio')].find((audio) => audio.src.endsWith('/audio/music.mp3'));
+      return music && Math.abs(music.volume - 0.2) < 0.00001;
+    });
     assert.deepEqual(errors, []);
     await writeFile(
       join(output, 'voiceover-check.json'),
@@ -255,6 +262,7 @@ async function main() {
           cleanCanvas: true,
           studioManifestLoading: true,
           chapterOffsets: true,
+          constantBackgroundMusic: true,
           errors,
         },
         null,
