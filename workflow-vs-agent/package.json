@@ -1,0 +1,38 @@
+{
+  "name": "workflow-vs-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Workflow vs Agent · 5:40 Remotion motion graphics",
+  "scripts": {
+    "dev": "remotion studio src/index.ts --port=3002",
+    "preview": "vite --host 127.0.0.1 --port 4175 --strictPort",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && node scripts/sync-storyboard.mjs --check && tsx scripts/check-voiceover.ts",
+    "check:all": "npm run check && npm run build && npm run test:voiceover",
+    "test:voiceover": "tsx scripts/test-voiceover.ts",
+    "sync:storyboard": "node scripts/sync-storyboard.mjs",
+    "assets:audio": "node scripts/make-audio.mjs",
+    "format": "prettier . --write"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.542",
+    "@remotion/fonts": "4.0.542",
+    "@remotion/player": "4.0.542",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.542",
+    "remotion-voiceover": "file:vendor/remotion-voiceover-0.1.0.tgz"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "22.14.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "prettier": "3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "5.7.3",
+    "vite": "6.3.6"
+  }
+}

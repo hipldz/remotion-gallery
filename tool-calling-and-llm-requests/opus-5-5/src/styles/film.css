@@ -1,0 +1,12 @@
+/* 全局只做最少的事：抗锯齿 + 字体渲染。所有布局都在组件里显式给出。 */
+html,
+body {
+  margin: 0;
+  background: #070a10;
+}
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  font-feature-settings: "tnum" 1;
+}

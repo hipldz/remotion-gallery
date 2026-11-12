@@ -1,0 +1,51 @@
+[
+  {"start": 1.2, "end": 4.8, "text": "最近在给 Codex 做 WebUI lite。", "marks": [{"w": "WebUI lite", "c": "violet"}]},
+  {"start": 5.0, "end": 8.9, "text": "用着用着发现：工具调用又长，又重复。", "marks": [{"w": "又长", "c": "red"}, {"w": "又重复", "c": "red"}]},
+  {"start": 9.6, "end": 12.8, "text": "但原生的 Codex，是折叠起来的。", "marks": [{"w": "折叠", "c": "red"}]},
+  {"start": 13.0, "end": 17.0, "text": "一次 Request 的 Tool Calls，被折叠在了一起？", "marks": [{"w": "一次 Request", "c": "amber"}, {"w": "Tool Calls", "c": "green"}]},
+  {"start": 17.2, "end": 20.2, "text": "经过多方求证（其实就是和 GPT 对线）——", "marks": [{"w": "和 GPT 对线", "c": "violet"}]},
+  {"start": 20.4, "end": 22.6, "text": "发现事情并没有这么简单。", "marks": []},
+
+  {"start": 24.6, "end": 27.4, "text": "时间宝贵，先给结论：", "marks": []},
+  {"start": 27.6, "end": 30.0, "text": "不是一对一。", "marks": [{"w": "不是", "c": "red"}]},
+
+  {"start": 31.2, "end": 34.4, "text": "举个例子：让 Agent 分析一个项目。", "marks": [{"w": "Agent", "c": "violet"}]},
+  {"start": 34.8, "end": 39.2, "text": "模型在同一个 Response 里，一口气返回 3 个 Tool Calls。", "marks": [{"w": "同一个 Response", "c": "blue"}, {"w": "3 个 Tool Calls", "c": "green"}]},
+  {"start": 39.8, "end": 43.2, "text": "Agent 执行这些工具，把结果交还给模型。", "marks": [{"w": "交还", "c": "green"}]},
+  {"start": 43.6, "end": 47.0, "text": "模型发现还要搜索代码，又返回 2 个 Tool Calls。", "marks": [{"w": "2 个 Tool Calls", "c": "green"}]},
+  {"start": 49.4, "end": 52.6, "text": "最后，模型生成最终回答。", "marks": [{"w": "最终回答", "c": "blue"}]},
+  {"start": 55.0, "end": 58.2, "text": "1 个 Turn · 3 次 Response · 5 个 Tool Calls", "marks": [{"w": "1 个 Turn", "c": "violet"}, {"w": "3 次 Response", "c": "blue"}, {"w": "5 个 Tool Calls", "c": "green"}]},
+  {"start": 58.8, "end": 62.2, "text": "这就是典型的 Agent Loop。", "marks": [{"w": "Agent Loop", "c": "violet"}]},
+
+  {"start": 64.8, "end": 68.0, "text": "这里要看背书的东西了……", "marks": []},
+  {"start": 68.4, "end": 72.4, "text": "不用研究整个 JSON，就看这三个变量得了：", "marks": [{"w": "三个变量", "c": "text"}]},
+  {"start": 75.0, "end": 78.8, "text": "3 个 call_id 各不相同，却属于同一个 response.id。", "marks": [{"w": "call_id", "c": "green"}, {"w": "response.id", "c": "blue"}]},
+  {"start": 79.2, "end": 82.6, "text": "想知道哪些 Tool Calls 来自同一次响应，就看 response.id。", "marks": [{"w": "Tool Calls", "c": "green"}, {"w": "response.id", "c": "blue"}]},
+  {"start": 83.0, "end": 86.6, "text": "官方文档：一次响应可以返回零个、一个或多个函数调用。", "marks": [{"w": "零个、一个或多个", "c": "green"}], "source": "OpenAI Function Calling"},
+
+  {"start": 87.6, "end": 91.4, "text": "但这里，不能把顶层 API Request 和模型内部执行混为一谈啊。", "marks": [{"w": "顶层 API Request", "c": "amber"}, {"w": "模型内部执行", "c": "blue"}]},
+  {"start": 91.8, "end": 95.6, "text": "Web Search 这类托管工具，由平台负责执行和编排。", "marks": [{"w": "托管工具", "c": "text"}]},
+  {"start": 96.0, "end": 99.6, "text": "这时，应用看到的这几个数，未必是同一个统计口径。", "marks": [{"w": "统计口径", "c": "amber"}]},
+  {"start": 100.2, "end": 103.4, "text": "它们可能相关，但不能不加区分地互相替代。", "marks": [{"w": "不能", "c": "red"}]},
+
+  {"start": 104.4, "end": 107.8, "text": "有没有更直接的证据？有：OpenAI 的 Tracing。", "marks": [{"w": "Tracing", "c": "text"}]},
+  {"start": 108.6, "end": 112.4, "text": "POST /v1/responses 是 Generation Span：一次模型响应。", "marks": [{"w": "Generation Span", "c": "blue"}]},
+  {"start": 112.8, "end": 116.4, "text": "codex 是 Tool Span：一次具体的工具调用。", "marks": [{"w": "Tool Span", "c": "green"}]},
+  {"start": 117.0, "end": 120.8, "text": "同一个 Turn 里，有多次模型响应、工具执行和 Handoff——", "marks": [{"w": "同一个 Turn", "c": "violet"}]},
+  {"start": 121.0, "end": 124.6, "text": "它们属于同一个任务周期，但不是同一个模型响应。", "marks": [{"w": "不是同一个模型响应", "c": "blue"}]},
+
+  {"start": 126.0, "end": 129.6, "text": "自己开发 Agent Runtime，我建议至少区分三个核心实体：", "marks": [{"w": "三个核心实体", "c": "text"}]},
+  {"start": 130.2, "end": 134.0, "text": "Turn、Generation、ToolCall，各用自己的内部 ID。", "marks": [{"w": "Turn", "c": "violet"}, {"w": "Generation", "c": "blue"}, {"w": "ToolCall", "c": "green"}]},
+  {"start": 134.4, "end": 138.2, "text": "同时，把 Provider 返回的 ID 一起保留下来。", "marks": [{"w": "Provider 返回的 ID", "c": "text"}]},
+  {"start": 139.0, "end": 142.6, "text": "特别提醒：response.id 和 x-request-id 不是一回事。", "marks": [{"w": "response.id", "c": "blue"}, {"w": "x-request-id", "c": "amber"}]},
+  {"start": 143.0, "end": 146.0, "text": "前者标识 Response 对象，后者定位 HTTP 请求。", "marks": [{"w": "Response 对象", "c": "blue"}, {"w": "HTTP 请求", "c": "amber"}]},
+
+  {"start": 147.2, "end": 150.6, "text": "还有个坑：并发执行时，完成顺序可能和发起顺序不同。", "marks": [{"w": "完成顺序", "c": "red"}]},
+  {"start": 151.0, "end": 154.8, "text": "所以别靠工具名称、数组下标或完成顺序去对结果——", "marks": [{"w": "工具名称、数组下标或完成顺序", "c": "red"}]},
+  {"start": 155.2, "end": 158.8, "text": "用 call_id，把 Tool Result 关联回原始 Tool Call。", "marks": [{"w": "call_id", "c": "green"}]},
+
+  {"start": 160.4, "end": 163.4, "text": "回到最开始的问题：一对一吗？不是。", "marks": [{"w": "不是", "c": "red"}]},
+  {"start": 163.8, "end": 167.6, "text": "想按模型响应折叠，就在模型调用层创建 generation_id，", "marks": [{"w": "generation_id", "c": "blue"}]},
+  {"start": 168.0, "end": 171.6, "text": "把 Tool Calls 关联到对应的 Generation，UI 按它分组。", "marks": [{"w": "Generation", "c": "blue"}]},
+  {"start": 172.0, "end": 175.2, "text": "前者是执行数据模型，后者是产品 UI 的展示策略。", "marks": [{"w": "执行数据模型", "c": "blue"}, {"w": "展示策略", "c": "text"}]}
+]

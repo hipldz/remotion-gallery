@@ -1,0 +1,46 @@
+{
+  "name": "chatgpt-to-agent-film",
+  "version": "1.0.0",
+  "private": true,
+  "description": "从 ChatGPT 到 Agent：2023—2026，AI 应用技术的变化 — 20-shot Remotion film",
+  "scripts": {
+    "dev": "remotion studio src/index.ts --port=3006",
+    "preview": "vite --host 127.0.0.1 --port 4173",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && tsx scripts/check-timeline.ts && tsx scripts/check-voiceover.ts",
+    "build": "remotion bundle src/index.ts --out-dir=build/remotion",
+    "build:preview": "vite build",
+    "test:preview": "tsx scripts/test-preview.ts",
+    "test:voiceover": "tsx scripts/test-voiceover.ts",
+    "captions": "tsx scripts/export-captions.ts",
+    "music": "tsx scripts/prepare-music.ts"
+  },
+  "dependencies": {
+    "@react-three/fiber": "9.8.2",
+    "@remotion/cli": "4.0.542",
+    "@remotion/fonts": "4.0.542",
+    "@remotion/motion-blur": "4.0.542",
+    "@remotion/noise": "4.0.542",
+    "@remotion/player": "4.0.542",
+    "@remotion/three": "4.0.542",
+    "@remotion/transitions": "4.0.542",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.542",
+    "remotion-voiceover": "file:vendor/remotion-voiceover-0.1.0.tgz",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.18.0",
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "pngjs": "^7.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.2.0"
+  }
+}

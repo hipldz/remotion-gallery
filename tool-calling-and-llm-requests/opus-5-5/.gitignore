@@ -1,0 +1,12 @@
+node_modules/
+output/
+.DS_Store
+*.log
+__pycache__/
+*.py[cod]
+production/film.zh-CN.srt
+production/voiceover/
+.env
+.env.*
+!.env.example
+*.local.py

@@ -1,0 +1,238 @@
+[
+  {
+    "id": "chatgpt",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 14.png",
+    "output": "public/shots/chatgpt-2022.png",
+    "sha256": "b7b5525fb21b314d87f48c0c575848ec41150f8a6c2133c6f2ee30c67af70545",
+    "crop": null,
+    "sourceUrl": "https://www.japanpowered.com/writing/chatgpt-and-bloggings-future"
+  },
+  {
+    "id": "copilot",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 23.png",
+    "output": "public/shots/copilot-nes.png",
+    "sha256": "0a218b9a01850f85d85eb9bf296a56dfd4c30ec79b21ab51f7de85c110882ab0",
+    "crop": null,
+    "sourceUrl": "https://code.visualstudio.com/docs/agents/agent-troubleshooting/faq"
+  },
+  {
+    "id": "cursor",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 1.png",
+    "output": "public/shots/cursor-modes.png",
+    "sha256": "e7d56cfc197e191bdaf1204620f1ec1c7b316c16d241e21ac2c6d885dc95ae6f",
+    "crop": null,
+    "sourceUrl": "https://aidd.jp/blog/knowledge/cursor-ai-complete-guide/"
+  },
+  {
+    "id": "aider",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 4.png",
+    "output": "public/shots/aider.png",
+    "sha256": "e9465e1234933aa8b76b9978fc0f453954c06889c98f8217a95ce400de3d9312",
+    "crop": null,
+    "sourceUrl": "https://aider.chat/"
+  },
+  {
+    "id": "devin",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 19.png",
+    "output": "public/shots/devin.png",
+    "sha256": "ec99210d798cf727a75064b80a984c78bbf21e7035387c8ca1a64a1bca1d9ad2",
+    "crop": null,
+    "sourceUrl": "https://www.toksta.com/products/devin-ai"
+  },
+  {
+    "id": "windsurf",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 6.png",
+    "output": "public/shots/windsurf.png",
+    "sha256": "306291dd2c1c11c08f88b01c8c5efd932cc957fb6a793e9ae4802bd9bac29520",
+    "crop": null,
+    "sourceUrl": "https://www.datacamp.com/tutorial/windsurf-ai-agentic-code-editor"
+  },
+  {
+    "id": "cline",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 9.png",
+    "output": "public/shots/cline.png",
+    "sha256": "4573f5b1da3cf7a253b4f8d9051cd1218c85db0c89ebe5047e14b07c6b02fba7",
+    "crop": null,
+    "sourceUrl": "https://cline.bot/"
+  },
+  {
+    "id": "n8n",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 16.png",
+    "output": "public/shots/n8n.png",
+    "sha256": "35f11f28d4291dc90c23d94ca8a975e8daa60b7c5a00fc1cdcef46cf5dea6b22",
+    "crop": null,
+    "sourceUrl": "https://betazeta.dev/blog/automatization-n8n-nodes/"
+  },
+  {
+    "id": "dify",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 13.png",
+    "output": "public/shots/dify.png",
+    "sha256": "a87c5d0690fd4e583bbc34fbd17918f5e4abcfc6044f8f4c88881201b5a58132",
+    "crop": null,
+    "sourceUrl": "https://dify.ai/zh/workflows"
+  },
+  {
+    "id": "coze",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image.png",
+    "output": "public/shots/coze-workflow.png",
+    "sha256": "b22b20c6d849f04047d232136fcae6be71a9ae5a3d082b4f861f80e3e204ca14",
+    "crop": null,
+    "sourceUrl": "https://blog.csdn.net/xianyu120/article/details/137353856"
+  },
+  {
+    "id": "trae",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 25.png",
+    "output": "public/shots/trae.png",
+    "sha256": "874f89848d9796035eb93833b1ab90f8654bbd9c34e6b5e62a10eedfa59401e5",
+    "crop": [
+      108,
+      115,
+      2605,
+      1458
+    ],
+    "sourceUrl": "https://www.clubic.com/actualite-551492-bytedance-tiktok-lance-son-concurrent-a-vs-code-et-cursor-ai-et-il-est-totalement-gratuit-pour-l-instant.html"
+  },
+  {
+    "id": "claude-code",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 5.png",
+    "output": "public/shots/claude-code.png",
+    "sha256": "529d21d8ea88a9ea064d950a3da518fb629cf5d5c234b753fabbc2976fe57121",
+    "crop": null,
+    "sourceUrl": "https://anthropic.skilljar.com/claude-code-101"
+  },
+  {
+    "id": "codex-web",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 15.png",
+    "output": "public/shots/codex-web.png",
+    "sha256": "adbaf2b5d572fe7ae4c3eb53d51fc29e291212f4f48bf3abab93dcf4f496b340",
+    "crop": null,
+    "sourceUrl": ""
+  },
+  {
+    "id": "manus",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 11.png",
+    "output": "public/shots/manus.png",
+    "sha256": "c6901bf2dae90bbea967efc7cb792206650fa4a0cf1c429617e45bf7a6df6364",
+    "crop": null,
+    "sourceUrl": "https://workos.com/blog/introducing-manus-the-general-ai-agent"
+  },
+  {
+    "id": "cowork",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 22.png",
+    "output": "public/shots/claude-cowork.png",
+    "sha256": "be2478fb3ae621f5ffde5bac31aef9bd3576743081d502838e61329dd9c8b808",
+    "crop": [
+      112,
+      76,
+      1858,
+      1204
+    ],
+    "sourceUrl": "https://academy.claude.com/tutorials/get-started-in-claude-cowork-in-three-steps"
+  },
+  {
+    "id": "openclaw",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 24.png",
+    "output": "public/shots/openclaw.png",
+    "sha256": "2b914a2e8fdda390182bf0e56e6cc5a5b05533778f061daf82cc52b21eeecf52",
+    "crop": null,
+    "sourceUrl": "https://skywork.ai/skypage/en/openclaw-agent-framework-ai/2049089901959643136"
+  },
+  {
+    "id": "codex-agents",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 21.png",
+    "output": "public/shots/codex-multi-agent.png",
+    "sha256": "d7bcedd97a739511e040afdbe3495c5135ec38859fa8baf6a44676b9d83add03",
+    "crop": null,
+    "sourceUrl": "https://community.openai.com/t/hierarchical-multi-agent-workflow-visual-tree-based-agent-orchestration-in-codex-app/1401395"
+  },
+  {
+    "id": "workbuddy",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 18.png",
+    "output": "public/shots/workbuddy-task.png",
+    "sha256": "0db7f7cd3b4d0339e6fa0c84a21a9d2ef271911e777cfeaecbf40ecb9f66e429",
+    "crop": [
+      386,
+      112,
+      1454,
+      668
+    ],
+    "sourceUrl": "https://cloud.tencent.com/act/pro/workbuddy"
+  },
+  {
+    "id": "dumate",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 20.png",
+    "output": "public/shots/dumate-poster.png",
+    "sha256": "ebf674dec55cae8fcc2b77fa1d87d80131db97af64e6c5c5bfc5105c4aaa80b3",
+    "crop": null,
+    "sourceUrl": "https://qianfan.cloud.baidu.com/qianfandev/topic/687919"
+  },
+  {
+    "id": "qoderwork",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 8.png",
+    "output": "public/shots/qoderwork.png",
+    "sha256": "61f443d37531ce39d4d19c4e32b6600629d1f09dcaad1ff5215514d86c0d39fa",
+    "crop": [
+      68,
+      68,
+      1012,
+      678
+    ],
+    "sourceUrl": "https://yunpan.plus/t/11911-1-1"
+  },
+  {
+    "id": "doubao",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 2.png",
+    "output": "public/shots/doubao-work.png",
+    "sha256": "2648561838543c14b78bbfa11e87411921a376bb44e378d31065aea7591d9453",
+    "crop": null,
+    "sourceUrl": "https://www.cbinews.com/AI/g0qxu"
+  },
+  {
+    "id": "harness",
+    "source": "回头看到2026年的Agent产品\\图片和附件\\image 10.png",
+    "output": "public/shots/deepseek-harness.png",
+    "sha256": "187f7075514cd04d286daf43e5d5ccc01565488a8d19fcd2012d7565214aa797",
+    "crop": [
+      125,
+      30,
+      1898,
+      1095
+    ],
+    "sourceUrl": "https://tenten.co/learning/deepseek-harness-desktop-app-walkthrough/"
+  },
+  {
+    "id": "deep-research",
+    "source": "production/collected-deep-research.png",
+    "output": "public/shots/deep-research.png",
+    "sha256": "4d3a50694cfcd777e6fff44d4e2957010085ad7ab6e5a1b8f036aaa0de027e09",
+    "crop": null,
+    "sourceUrl": "https://help.openai.com/en/articles/10500283-deep-research-in-chatgpt",
+    "downloadUrl": "https://images.ctfassets.net/j22is2dtoxu1/6HvalMJqB9m7aEw1TQQ6HN/4bb571b3eda41d27af12eabe0c2fad1d/manage_sites.png",
+    "collectedAt": "2026-11-10"
+  },
+  {
+    "id": "chatgpt-agent",
+    "source": "production/collected-chatgpt-agent.png",
+    "output": "public/shots/chatgpt-agent.png",
+    "sha256": "c50c58cfea0b2e2e215dd834d9cd1674d4009bffe260b3652654f88a11f7054c",
+    "crop": null,
+    "sourceUrl": "https://openai.com/index/introducing-chatgpt-agent/",
+    "downloadUrl": "https://images.ctfassets.net/kftzwdyauwt9/2f49zVmdlCmeQo5K2lluv2/327048a86f1db7f50e3efbc88252fbe2/Agent_Blog_SEO_Image.png",
+    "collectedAt": "2026-11-10"
+  },
+  {
+    "id": "pi-agent",
+    "source": "production/collected-pi-agent.png",
+    "output": "public/shots/pi-agent.png",
+    "sha256": "e2515afbbcdb0084d06ef988827afa315469d7bb1c36acb4289d62b054dd1242",
+    "crop": [
+      0,
+      86,
+      1638,
+      1262
+    ],
+    "sourceUrl": "https://mariozechner.at/posts/2025-11-30-pi-coding-agent/",
+    "downloadUrl": "https://mariozechner.at/posts/2025-11-30-pi-coding-agent/media/header.png",
+    "collectedAt": "2026-11-10"
+  }
+]

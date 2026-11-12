@@ -1,0 +1,69 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+out/
+output/
+coverage/
+.remotion/
+.cache/
+.vite/
+*.tsbuildinfo
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.npmrc
+.pypirc
+*.local.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+
+# Personal recordings and generated voiceover
+**/public/narration/*
+!**/public/narration/README.md
+**/public/vo/*
+!**/public/vo/README.md
+**/production/voiceover/
+
+# Local archives (required vendor packages are kept)
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+!**/vendor/remotion-voiceover-0.1.0.tgz
+
+# Logs, temporary files and test artifacts
+*.log
+.tmp/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+test-results/
+playwright-report/
+
+# Editor, OS and local agent settings
+.idea/
+.vscode/
+.codex/
+.claude/
+.DS_Store
+Thumbs.db
+Desktop.ini

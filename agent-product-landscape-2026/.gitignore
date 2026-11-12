@@ -1,0 +1,12 @@
+node_modules/
+.remotion/
+dist/
+build/
+out/
+*.tsbuildinfo
+production/*.srt
+production/*.vtt
+production/timing.json
+.cache/
+public/narration/*
+!public/narration/README.md
