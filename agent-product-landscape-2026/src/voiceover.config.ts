@@ -1,4 +1,4 @@
-import { defineVoiceoverProject, type VoiceTrack } from 'remotion-voiceover/core';
+import { defineVoiceoverProject, getVoiceCaptions, retimeVoiceTracks, type VoiceoverProject, type VoiceTrack } from 'remotion-voiceover/core';
 import { captionsFor, FPS, totalFrames, type TimedShot } from './lib/timeline';
 
 // Use the resolved edit, including any shots extended by imported voice files.
@@ -21,6 +21,21 @@ export const createVoiceoverProject = (timeline: TimedShot[]) =>
     })),
   });
 
+// Preserve the shot choreography while using the recorder's edited cut points.
+// Captions stay in the voice project so added/deleted sentences remain exact.
+export function resolveVoiceTimeline(timeline: TimedShot[], project: VoiceoverProject): TimedShot[] {
+  return timeline.map((shot) => {
+    const scene = project.scenes!.find((entry) => entry.id === shot.id)!;
+    const captions = getVoiceCaptions(shot.id, project);
+    return {
+      ...shot,
+      from: scene.from,
+      duration: scene.durationInFrames,
+      narration: captions.map((cue) => cue.text).join('／'),
+    };
+  });
+}
+
 // Browser takes replace the whole shot. A full-film take replaces imported VO;
 // otherwise, untouched shots continue to use their existing public/vo files.
 export function withImportedVoiceTracks(timeline: TimedShot[], recorded: readonly VoiceTrack[]): VoiceTrack[] {
@@ -41,4 +56,11 @@ export function withImportedVoiceTracks(timeline: TimedShot[], recorded: readonl
       : [],
   );
   return [...imported, ...recorded];
+}
+
+export function resolveFilmVoiceTracks(timeline: TimedShot[], project: VoiceoverProject, recorded: readonly VoiceTrack[]): VoiceTrack[] {
+  if (recorded.some((track) => track.scope === 'full')) return [...recorded];
+  const imported = retimeVoiceTracks(withImportedVoiceTracks(timeline, []), createVoiceoverProject(timeline), project);
+  const replaced = new Set(recorded.map((track) => track.scope));
+  return [...imported.filter((track) => !replaced.has(track.scope)), ...recorded];
 }

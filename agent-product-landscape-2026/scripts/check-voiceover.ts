@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import { parseVoiceManifest, resolveVoiceSegments, type VoiceTrack } from 'remotion-voiceover/core';
+import { parseVoiceManifest, resizeVoiceRange, resolveVoiceSegments, retimeVoiceTracks, type VoiceTrack } from 'remotion-voiceover/core';
 import { baseTimeline, captionsFor, resolveTiming, totalFrames } from '../src/lib/timeline';
 import { musicMix, musicVolumeAt } from '../src/lib/music';
-import { createVoiceoverProject, withImportedVoiceTracks } from '../src/voiceover.config';
+import { createVoiceoverProject, resolveVoiceTimeline, withImportedVoiceTracks } from '../src/voiceover.config';
 
 const project = createVoiceoverProject(baseTimeline);
 assert.equal(project.durationInFrames, totalFrames(baseTimeline));
@@ -63,4 +63,13 @@ for (const frame of [cardFrame, shot.from + 60, baseTimeline.find((entry) => ent
 }
 assert.equal(musicVolumeAt(0, baseTimeline), 0);
 assert.equal(musicVolumeAt(totalFrames(baseTimeline) - 1, baseTimeline), 0);
+const edited = resizeVoiceRange(project, 'P01', baseTimeline[0].duration + 90);
+const retimed = resolveVoiceTimeline(baseTimeline, edited);
+assert.equal(totalFrames(retimed), project.durationInFrames + 90);
+assert.equal(retimed[1].from, baseTimeline[1].from + 90);
+assert.equal(retimed[0].animationFrames, baseTimeline[0].animationFrames, 'Shot choreography survives edited timing');
+const moved = retimeVoiceTracks([retake], project, edited)[0];
+assert.equal(moved.startFrame, retake.startFrame + 90, 'Later voice tracks follow the edited cut');
+const script = { ...edited, captions: [{ text: '新的一句字幕', startFrame: 0, endFrame: 60 }] };
+assert.equal(resolveVoiceTimeline(baseTimeline, script)[0].narration, '新的一句字幕', 'Whole-film edits may omit sceneId');
 console.log('PASS: 35 recording slots, 4:24 timeline, chapter offsets, prompt pauses, elastic timing, retakes, and constant music.');

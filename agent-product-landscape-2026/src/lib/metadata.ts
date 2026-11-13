@@ -1,7 +1,9 @@
 import { getAudioDurationInSeconds } from '@remotion/media-utils';
 import { getStaticFiles, staticFile, type CalculateMetadataFunction } from 'remotion';
-import { resolveTiming, shots, totalFrames, voiceFileFor, type FilmProps } from './timeline';
+import { resolveTiming, shots, voiceFileFor, type FilmProps } from './timeline';
 import assets from '../../production/assets.json';
+import { loadVoiceoverState } from 'remotion-voiceover/react';
+import { createVoiceoverProject } from '../voiceover.config';
 
 export async function loadProjectMetadata(files: string[], signal?: AbortSignal): Promise<Pick<FilmProps, 'timeline' | 'availableFiles'>> {
   const missing = assets.filter((a) => !files.includes(`shots/${a.file}`));
@@ -23,5 +25,9 @@ export async function loadProjectMetadata(files: string[], signal?: AbortSignal)
 export const calculateFilmMetadata: CalculateMetadataFunction<FilmProps> = async ({ props, abortSignal }) => {
   const files = getStaticFiles().map((f) => f.name);
   const resolved = await loadProjectMetadata(files, abortSignal);
-  return { durationInFrames: totalFrames(resolved.timeline), props: { ...props, ...resolved, frameOffset: 0 } };
+  const saved = await loadVoiceoverState(createVoiceoverProject(resolved.timeline), { signal: abortSignal });
+  return {
+    durationInFrames: saved.project.durationInFrames,
+    props: { ...props, ...resolved, frameOffset: 0, voiceProject: saved.project, voiceTracks: saved.manifest.tracks },
+  };
 };

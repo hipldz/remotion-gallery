@@ -13,10 +13,12 @@ npm run preview
 浏览器打开 `http://127.0.0.1:4173`。左侧选择镜头，下方切换章节、字幕和音效，右侧是真人录音面板。`/?clean` 提供 1920×1080 的影片画布。
 
 1. 选择一段或“整片”，跟着新的提词录制。共 35 段有旁白的镜头。
-2. 倒计时后按高亮提词朗读，每段末尾留白。画面、字幕和提词来自同一时间线。
+2. 默认“按朗读节奏”，倒计时后按高亮提词朗读，用“读完，下一句”或空格切句，每段末尾留白。超出原镜头时长也会继续录音，停止后延长片段并顺延后面的镜头。选择“按画面时长”可恢复到区间末尾自动停止。
 3. 跟画面试听后“保存并使用”，也可下载 WAV。录音保存在 `public/narration/`，刷新可恢复。
 
 录制期间影片静音，避免配乐进入麦克风。逐镜重录可以覆盖整片录音中的对应镜头，旧 WAV 保留。
+
+配音预览已升级至 `remotion-voiceover 0.2.0`（配音 V2）。点击“编辑稿件与时长”可以修改或增删字幕、调整持续时间，或按正常语速估算。保存后的时间线与录音共存于 `public/narration/manifest.json`；刷新预览、Studio 的全片和章节合成、以及渲染都会使用这份时间线。原有 version 1 录音清单兼容，无需迁移。镜头动画按新时长播放，人声保持正常语速。
 
 Remotion Studio：
 
@@ -35,9 +37,9 @@ npm run sync:storyboard
 npm run captions
 ```
 
-字幕导出为 `production/agent-map.srt`、`production/agent-map.vtt`，实际时间线为 `production/timing.json`，逐镜录音表为 `production/narration-cues.md`。字幕仍按标点和文本长度估算，尚未做语音强制对齐。
+字幕导出为 `production/agent-map.srt`、`production/agent-map.vtt`，实际时间线为 `production/timing.json`，逐镜录音表为 `production/narration-cues.md`。导出优先采用已保存的配音时间线和编辑稿件。初始字幕按标点和文本长度估算；分段朗读可逐句打点，尚未做语音强制对齐。
 
-外部录音可放在 `public/vo/P01.wav` 等逐镜文件中，支持 WAV、MP3、M4A、AAC、OGG。弹性镜头按录音长度和末尾留白延长，后续镜头一起重排；固定镜头超长会提示。浏览器录音使用当前区间长度，放慢口播前请先调整镜头时长。
+外部录音可放在 `public/vo/P01.wav` 等逐镜文件中，支持 WAV、MP3、M4A、AAC、OGG。弹性镜头按录音长度和末尾留白延长，后续镜头一起重排；固定镜头超长会提示。浏览器的“按朗读节奏”模式可自动延长当前区间，已有后续录音随切点顺延；“按画面时长”模式使用当前区间长度。
 
 ## 配乐与产品热度
 
@@ -68,4 +70,4 @@ npm run test:voiceover
 
 检查涵盖 4:24 时间线、章节连续性、字幕留白、恒定配乐及真人录音流程。录音测试使用模拟麦克风和隔离素材目录，不写入用户自己的录音。浏览器优先使用本机 Chrome 或 Edge，测试结果存放在 `build/review/`。
 
-依赖采用 Remotion 4.0.542、React 19.2.0；本地配音工具包为 `vendor/remotion-voiceover-0.1.0.tgz`。镜头设计和本版调整见 `production/SHOT_CRAFT.md`。
+依赖采用 Remotion 4.0.542、React 19.2.0；本地配音工具包为 `vendor/remotion-voiceover-0.2.0.tgz`。影片内容版本仍为 V3，配音工具升级为 V2。镜头设计和本版调整见 `production/SHOT_CRAFT.md`。

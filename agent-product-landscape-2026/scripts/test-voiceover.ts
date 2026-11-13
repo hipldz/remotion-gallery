@@ -106,6 +106,11 @@ async function main() {
     const range = page.getByRole('combobox', { name: '录制范围' });
     assert.equal(await range.locator('option').count(), baseTimeline.filter((shot) => shot.narration).length + 1);
     assert.equal(await range.inputValue(), 'P01');
+    const timingMode = page.getByRole('combobox', { name: '录音时间方式' });
+    await expect(timingMode).toHaveValue('reading');
+    await expect(page.getByRole('button', { name: '编辑稿件与时长', exact: true })).toBeEnabled();
+    // Keep legacy coverage for auto-stop, then exercise V2 reading separately.
+    await timingMode.selectOption('fixed');
     assert.equal(await page.evaluate(() => (window as TestWindow).__testStreams.length), 0);
     await page.screenshot({ path: join(output, 'voice-recorder-desktop.png'), fullPage: true });
 
@@ -153,6 +158,7 @@ async function main() {
     assert.equal((await fetch(`${url}/${first.src}`)).status, 200, 'New recordings must be served without a Vite reload');
     await page.reload({ waitUntil: 'networkidle' });
     await page.getByTestId('saved-voice').waitFor();
+    await timingMode.selectOption('fixed');
     await page.screenshot({ path: join(output, 'voice-recorder-saved.png'), fullPage: true });
     await page.getByRole('button', { name: '开始录音', exact: true }).click();
     await expect(recorder).toHaveAttribute('data-phase', 'recording', { timeout: 10000 });
@@ -242,6 +248,51 @@ async function main() {
       const music = [...document.querySelectorAll<HTMLAudioElement>('#chapter-fixture audio')].find((audio) => audio.src.endsWith('/audio/music.mp3'));
       return music && Math.abs(music.volume - 0.2) < 0.00001;
     });
+
+    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => window.__agentReview?.ready);
+    await range.selectOption('P01');
+    await page.getByRole('button', { name: '编辑稿件与时长', exact: true }).click();
+    const dialog = page.getByRole('dialog');
+    while (await dialog.getByRole('button', { name: /^删除第/ }).count()) {
+      await dialog.getByRole('button', { name: /^删除第/ }).first().click();
+    }
+    await dialog.getByRole('button', { name: '＋ 增加一句字幕', exact: true }).click();
+    const editedText = '这是升级后按朗读节奏录制的字幕。';
+    await dialog.getByRole('textbox', { name: '第 1 句正文', exact: true }).fill(editedText);
+    await dialog.getByRole('spinbutton', { name: '第 1 句持续（秒）', exact: true }).fill('1');
+    await dialog.getByRole('spinbutton', { name: '片段时长（秒）', exact: true }).fill('1.2');
+    await dialog.getByRole('button', { name: '保存字幕与时间', exact: true }).click();
+    await expect(dialog).toHaveCount(0);
+    await page.waitForFunction(() => window.__agentReview!.timeline[0].duration === 36);
+    manifest = await load();
+    assert.equal(manifest.timeline!.captions![0].text, editedText);
+    assert.equal(manifest.timeline!.durationInFrames, project.durationInFrames - firstShot.duration + 36);
+    await expect(timingMode).toHaveValue('reading');
+    await page.getByRole('button', { name: '开始录音', exact: true }).click();
+    await expect(recorder).toHaveAttribute('data-phase', 'recording', { timeout: 10000 });
+    await page.waitForTimeout(2200);
+    await expect(recorder).toHaveAttribute('data-phase', 'recording');
+    await page.getByRole('button', { name: '停止录音', exact: true }).click();
+    await page.getByTestId('voice-take').waitFor();
+    const extendedFrames = await page.evaluate(() => window.__agentReview!.timeline[0].duration);
+    assert.ok(extendedFrames > 36, 'Reading continues past the planned cut');
+    await page.getByRole('button', { name: '保存并使用', exact: true }).click();
+    await page.getByRole('button', { name: '已保存并使用', exact: true }).waitFor();
+    manifest = await load();
+    assert.equal(manifest.timeline!.scenes![0].durationInFrames, extendedFrames);
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForFunction((frames) => window.__agentReview?.timeline[0].duration === frames, extendedFrames);
+    await page.evaluate(() => window.__agentReview!.seekTo(10));
+    await expect(page.locator('[data-film-caption="P01"]')).toHaveText(editedText);
+    await page.screenshot({ path: join(output, 'voice-recorder-v2.png'), fullPage: true });
+    // The chapter fixture loads the same saved project used by Studio metadata.
+    await page.addScriptTag({ type: 'module', url: `${url}/scripts/voiceover-chapter-fixture.tsx?v2` });
+    await page.waitForFunction(() => Boolean((window as TestWindow).__voiceoverChapter));
+    const chapterDelta = extendedFrames - firstShot.duration;
+    await page.evaluate(() => (window as TestWindow).__voiceoverChapter!.play());
+    await checkAudio(full.src, (chapterFrom + 20) / 30);
+    assert.equal(manifest.timeline!.scenes!.find((scene) => scene.id === 'C00')!.from, chapterFrom + chapterDelta);
     assert.deepEqual(errors, []);
     await writeFile(
       join(output, 'voiceover-check.json'),
@@ -263,6 +314,10 @@ async function main() {
           studioManifestLoading: true,
           chapterOffsets: true,
           constantBackgroundMusic: true,
+          readingPastCut: true,
+          scriptEditing: true,
+          editedTimelineReload: true,
+          editedChapterOffsets: true,
           errors,
         },
         null,
@@ -270,7 +325,7 @@ async function main() {
       ),
     );
     console.log(
-      'PASS: invalid uploads, permission denial, mobile layout, clean canvas, Studio-style manifest loading, chapter audio/source offsets. User recordings untouched; no video rendered.',
+      'PASS: invalid uploads, permission denial, mobile layout, clean canvas, Studio-style manifest loading, chapter offsets, V2 script edits, reading past cuts, and edited timeline reload. User recordings untouched; no video rendered.',
     );
   } finally {
     await browser?.close();

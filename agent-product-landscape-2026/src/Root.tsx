@@ -2,6 +2,7 @@ import { Composition, Folder, type CalculateMetadataFunction } from 'remotion';
 import { AgentMap2026 } from './AgentMap2026';
 import { baseTimeline, chapterInfo, defaultProps, totalFrames, type FilmProps } from './lib/timeline';
 import { calculateFilmMetadata } from './lib/metadata';
+import { resolveVoiceTimeline } from './voiceover.config';
 
 export function RemotionRoot() {
   return (
@@ -22,7 +23,7 @@ export function RemotionRoot() {
           const calculateChapter: CalculateMetadataFunction<FilmProps> = async (args) => {
             const resolved = await calculateFilmMetadata(args);
             const props = resolved.props!;
-            const selection = props.timeline.filter((s) => s.chapterKey === chapter.key);
+            const selection = resolveVoiceTimeline(props.timeline, props.voiceProject!).filter((s) => s.chapterKey === chapter.key);
             return { ...resolved, durationInFrames: totalFrames(selection), props: { ...props, frameOffset: selection[0].from } };
           };
           return (

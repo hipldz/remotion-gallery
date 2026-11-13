@@ -1,5 +1,5 @@
 import rawShots from '../data/shots.json';
-import type { VoiceTrack } from 'remotion-voiceover/core';
+import type { VoiceoverProject, VoiceTrack } from 'remotion-voiceover/core';
 
 export const FPS = 30;
 export type Shot = (typeof rawShots)[number];
@@ -11,6 +11,7 @@ export type FilmProps = {
   enableSfx: boolean;
   frameOffset: number;
   voiceTracks?: VoiceTrack[];
+  voiceProject?: VoiceoverProject;
 };
 
 export const shots: Shot[] = rawShots;

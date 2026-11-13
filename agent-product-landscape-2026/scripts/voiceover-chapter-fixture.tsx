@@ -5,11 +5,14 @@ import { Player, type PlayerRef } from '@remotion/player';
 import { AgentMap2026 } from '../src/AgentMap2026';
 import { loadProjectMetadata } from '../src/lib/metadata';
 import { defaultProps, totalFrames } from '../src/lib/timeline';
+import { loadVoiceoverState } from 'remotion-voiceover/react';
+import { createVoiceoverProject, resolveVoiceTimeline } from '../src/voiceover.config';
 
 const files: string[] = await (await fetch('/__project/assets')).json();
 const resolved = await loadProjectMetadata(files);
-const selection = resolved.timeline.filter((shot) => shot.chapterKey === 'C');
-const props = { ...defaultProps, ...resolved, frameOffset: selection[0].from };
+const saved = await loadVoiceoverState(createVoiceoverProject(resolved.timeline));
+const selection = resolveVoiceTimeline(resolved.timeline, saved.project).filter((shot) => shot.chapterKey === 'C');
+const props = { ...defaultProps, ...resolved, voiceProject: saved.project, frameOffset: selection[0].from };
 
 function ChapterFixture() {
   const player = useRef<PlayerRef>(null);

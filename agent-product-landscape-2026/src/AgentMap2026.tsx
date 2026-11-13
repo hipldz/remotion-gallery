@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame } from 'remotion';
 import { C, fonts } from './data/theme';
-import { animationFrameFor, captionsFor, shotAt, totalFrames, type FilmProps, type TimedShot } from './lib/timeline';
+import { animationFrameFor, shotAt, type FilmProps, type TimedShot } from './lib/timeline';
+import { createVoiceoverProject, resolveVoiceTimeline } from './voiceover.config';
 import { buildCameraTrack, cameraAt } from './lib/camera';
 import { CinemaContext, fade, focalAssets, limit, type CinemaState } from './lib/cinematics';
 import { AssetContext } from './components/Media';
@@ -73,7 +74,9 @@ const cleanInserts = new Set([
   'G02',
 ]);
 
-export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSfx, frameOffset, voiceTracks }: FilmProps) {
+export function AgentMap2026({ timeline: sourceTimeline, availableFiles, showSubtitles, enableSfx, frameOffset, voiceTracks, voiceProject }: FilmProps) {
+  const project = useMemo(() => voiceProject ?? createVoiceoverProject(sourceTimeline), [voiceProject, sourceTimeline]);
+  const timeline = useMemo(() => resolveVoiceTimeline(sourceTimeline, project), [sourceTimeline, project]);
   const frame = useCurrentFrame() + frameOffset;
   const shot = shotAt(timeline, frame);
   const f = animationFrameFor(shot, frame - shot.from);
@@ -87,9 +90,8 @@ export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSf
   const impact = impactCues[shot.id as keyof typeof impactCues];
   const impactNow = !!impact && f >= impact.at && f < impact.at + 2;
   const shake = shakeAt(f, shot.id);
-  const captions = useMemo(() => timeline.flatMap(captionsFor), [timeline]);
-  const caption = captions.find((c) => c.from <= frame && c.to > frame);
-  const duration = totalFrames(timeline);
+  const caption = project.captions!.find((c) => c.startFrame <= frame && c.endFrame > frame);
+  const duration = project.durationInFrames;
   const focus = !!focalAssets[shot.id];
   const mapOpacity =
     shot.id === 'P07'
@@ -133,7 +135,7 @@ export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSf
           {showSubtitles && caption && !impactNow && (
             <At x={100} style={{ top: 'auto', bottom: 96, width: 1720, display: 'flex', justifyContent: 'center', zIndex: 200 }}>
               <div
-                data-film-caption={caption.shotId}
+                data-film-caption={caption.sceneId ?? shot.id}
                 style={{
                   maxWidth: 1670,
                   fontSize: 31,
@@ -153,7 +155,7 @@ export function AgentMap2026({ timeline, availableFiles, showSubtitles, enableSf
           )}
           {frame < 25 && <AbsoluteFill style={{ background: '#FCFCFD', opacity: 1 - fade(frame, 0, 25), zIndex: 300 }} />}
           {frame >= duration - 18 && <AbsoluteFill style={{ background: '#000', opacity: limit((frame - duration + 18) / 17), zIndex: 300 }} />}
-          <Soundtrack timeline={timeline} files={availableFiles} frameOffset={frameOffset} sfx={enableSfx} voiceTracks={voiceTracks} />
+          <Soundtrack timeline={sourceTimeline} project={project} files={availableFiles} frameOffset={frameOffset} sfx={enableSfx} voiceTracks={voiceTracks} />
         </AbsoluteFill>
       </AssetContext.Provider>
     </CinemaContext.Provider>

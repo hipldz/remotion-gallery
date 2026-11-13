@@ -1,12 +1,18 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { captionsFor } from '../src/lib/timeline';
+import { applyVoiceTimeline, parseVoiceManifest } from 'remotion-voiceover/core';
+import { createVoiceoverProject, resolveVoiceTimeline } from '../src/voiceover.config';
 import { readVoiceTimeline } from './voiceover-files';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const timeline = readVoiceTimeline(path.join(root, 'public'));
-const captions = timeline.flatMap(captionsFor);
+const sourceTimeline = readVoiceTimeline(path.join(root, 'public'));
+const base = createVoiceoverProject(sourceTimeline);
+const manifestFile = path.join(root, 'public/narration/manifest.json');
+const manifest = existsSync(manifestFile) ? parseVoiceManifest(JSON.parse(readFileSync(manifestFile, 'utf8')), base) : undefined;
+const project = applyVoiceTimeline(base, manifest?.timeline);
+const timeline = resolveVoiceTimeline(sourceTimeline, project);
+const captions = project.captions!.map((cue) => ({ text: cue.text, from: cue.startFrame, to: cue.endFrame }));
 const format = (frame: number, separator: string) => {
   const ms = Math.round((frame / 30) * 1000);
   return `${String(Math.floor(ms / 3600000)).padStart(2, '0')}:${String(Math.floor(ms / 60000) % 60).padStart(2, '0')}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}${separator}${String(ms % 1000).padStart(3, '0')}`;

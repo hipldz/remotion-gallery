@@ -9,7 +9,7 @@ import { loadProjectMetadata } from './lib/metadata';
 import { chapterInfo, defaultProps, shotAt, totalFrames, type FilmProps } from './lib/timeline';
 import { voiceCoverage } from 'remotion-voiceover/core';
 import { VoiceRecorder, useVoiceover } from 'remotion-voiceover/react';
-import { createVoiceoverProject, withImportedVoiceTracks } from './voiceover.config';
+import { createVoiceoverProject, resolveFilmVoiceTracks, resolveVoiceTimeline } from './voiceover.config';
 import 'remotion-voiceover/styles.css';
 import './preview.css';
 
@@ -31,12 +31,13 @@ function ReviewApp() {
   const [expanded, setExpanded] = useState<string[]>(['P']);
   const voiceProject = useMemo(() => createVoiceoverProject(props.timeline), [props.timeline]);
   const voice = useVoiceover(voiceProject);
-  const playerProps = useMemo(() => ({ ...props, voiceTracks: voice.tracks }), [props, voice.tracks]);
-  const shot = shotAt(props.timeline, frame);
-  const length = totalFrames(props.timeline);
+  const timeline = useMemo(() => resolveVoiceTimeline(props.timeline, voice.project), [props.timeline, voice.project]);
+  const playerProps = useMemo(() => ({ ...props, voiceProject: voice.project, voiceTracks: voice.tracks }), [props, voice.project, voice.tracks]);
+  const shot = shotAt(timeline, frame);
+  const length = voice.project.durationInFrames;
   const realShots = assets.filter((a) => props.availableFiles.includes(`shots/${a.file}`)).length;
-  const voiceCount = voiceCoverage(withImportedVoiceTracks(props.timeline, voice.manifest.tracks), voiceProject);
-  const narrationCount = props.timeline.filter((s) => s.narration).length;
+  const voiceCount = voiceCoverage(resolveFilmVoiceTracks(props.timeline, voice.project, voice.tracks), voice.project);
+  const narrationCount = voice.project.scenes!.filter((scene) => scene.recordable).length;
   const refresh = useCallback(async () => {
     setReady(false);
     setError('');
@@ -65,10 +66,10 @@ function ReviewApp() {
   const seekPlayer = useCallback(
     (f: number) => {
       player.current?.pause();
-      player.current?.seekTo(Math.max(0, Math.min(totalFrames(props.timeline) - 1, Math.round(f))));
-      setFrame(Math.max(0, Math.min(totalFrames(props.timeline) - 1, Math.round(f))));
+      player.current?.seekTo(Math.max(0, Math.min(length - 1, Math.round(f))));
+      setFrame(Math.max(0, Math.min(length - 1, Math.round(f))));
     },
-    [props.timeline],
+    [length],
   );
   const seek = useCallback(
     (f: number) => {
@@ -81,11 +82,11 @@ function ReviewApp() {
       seekTo: seek,
       getFrame: () => player.current?.getCurrentFrame() ?? frame,
       isMuted: () => player.current?.isMuted() ?? false,
-      timeline: props.timeline,
+      timeline,
       ready,
     };
-  }, [seek, frame, props.timeline, ready]);
-  const index = props.timeline.findIndex((s) => s.id === shot.id);
+  }, [seek, frame, timeline, ready]);
+  const index = timeline.findIndex((s) => s.id === shot.id);
   return (
     <div className={`review-app${cleanMode ? ' clean-preview' : ''}`}>
       <aside className="sidebar">
@@ -99,11 +100,11 @@ function ReviewApp() {
         </div>
         <div className="side-heading">
           <span>分镜目录</span>
-          <span>{props.timeline.length} SHOTS</span>
+          <span>{timeline.length} SHOTS</span>
         </div>
         <nav>
           {chapterInfo.map((chapter) => {
-            const items = props.timeline.filter((s) => s.chapterKey === chapter.key);
+            const items = timeline.filter((s) => s.chapterKey === chapter.key);
             const open = expanded.includes(chapter.key);
             return (
               <div className="chapter-nav" key={chapter.key}>
@@ -192,10 +193,10 @@ function ReviewApp() {
                 </time>
               </div>
               <div className="tool-actions">
-                <button disabled={voice.busy} onClick={() => seek(props.timeline[Math.max(0, index - 1)].from + 35)}>
+                <button disabled={voice.busy} onClick={() => seek(timeline[Math.max(0, index - 1)].from + 35)}>
                   ← 上一镜
                 </button>
-                <button disabled={voice.busy} onClick={() => seek(props.timeline[Math.min(props.timeline.length - 1, index + 1)].from + 35)}>
+                <button disabled={voice.busy} onClick={() => seek(timeline[Math.min(timeline.length - 1, index + 1)].from + 35)}>
                   下一镜 →
                 </button>
                 <label>
@@ -210,7 +211,7 @@ function ReviewApp() {
             </div>
             <div className="chapter-timeline">
               {chapterInfo.map((chapter) => {
-                const items = props.timeline.filter((s) => s.chapterKey === chapter.key);
+                const items = timeline.filter((s) => s.chapterKey === chapter.key);
                 return (
                   <button
                     key={chapter.key}
@@ -237,7 +238,7 @@ function ReviewApp() {
                   { id: 'G01', label: '回头总结', at: 150 },
                 ] as const
               ).map((item) => {
-                const keyShot = props.timeline.find((s) => s.id === item.id)!;
+                const keyShot = timeline.find((s) => s.id === item.id)!;
                 return (
                   <button
                     key={item.id}
@@ -291,7 +292,7 @@ function ReviewApp() {
                     <span>逐镜录音</span>
                   </div>
                   <div>
-                    <strong>{props.timeline.length}</strong>
+                    <strong>{timeline.length}</strong>
                     <span>动画分镜</span>
                   </div>
                 </div>
@@ -307,11 +308,11 @@ function ReviewApp() {
             <aside className="voiceover-panel" aria-label="录制配音">
               <div className="recorder-heading">
                 <strong>录制配音</strong>
-                <span>{narrationCount} 段旁白 · 可整片录制</span>
+                <span>配音 V2 · {narrationCount} 段旁白 · 时长跟着朗读调整</span>
               </div>
               {ready ? (
                 <VoiceRecorder
-                  project={voiceProject}
+                  project={voice.project}
                   player={player}
                   frame={frame}
                   currentSceneId={shot.id}
@@ -320,6 +321,7 @@ function ReviewApp() {
                   onManifest={voice.setManifest}
                   onBusy={voice.setBusy}
                   onDraft={voice.setDraft}
+                  onProject={voice.setProjectDraft}
                   onSeek={seekPlayer}
                 />
               ) : (
