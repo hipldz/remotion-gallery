@@ -26,9 +26,11 @@ export function projectAssetsPlugin(publicDir = path.resolve('public')): Plugin 
           ignored: [
             '**/build/**',
             '**/.cache/**',
-            path.join(narrationDir, 'manifest.json').replaceAll('\\', '/'),
-            path.join(narrationDir, 'voice-*.wav').replaceAll('\\', '/'),
-            path.join(narrationDir, 'manifest-*.tmp').replaceAll('\\', '/'),
+            // Watching an existing manifest can hold a Windows file handle and
+            // block the recorder's atomic replacement. Serve this folder below.
+            '**/public/narration/**',
+            narrationDir.replaceAll('\\', '/'),
+            `${narrationDir.replaceAll('\\', '/')}/**`,
           ],
         },
       },
@@ -41,7 +43,7 @@ export function projectAssetsPlugin(publicDir = path.resolve('public')): Plugin 
           const project = createVoiceoverProject(readVoiceTimeline(publicDir));
           const nextSignature = JSON.stringify(project);
           if (!voiceover || signature !== nextSignature) {
-            voiceover = createVoiceoverMiddleware({ project, projectRoot: path.dirname(publicDir), publicDir });
+            voiceover = createVoiceoverMiddleware({ project, projectRoot: path.dirname(publicDir), publicDir, maxBytes: 256 * 1024 * 1024 });
             signature = nextSignature;
           }
           void voiceover(req, res);

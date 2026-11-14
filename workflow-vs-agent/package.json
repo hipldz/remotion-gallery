@@ -10,9 +10,10 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && node scripts/sync-storyboard.mjs --check && tsx scripts/check-voiceover.ts",
-    "check:all": "npm run check && npm run build && npm run test:voiceover && npm run test:timing",
+    "check:all": "npm run check && npm run build && npm run test:voiceover && npm run test:timing && npm run test:editing",
     "test:voiceover": "tsx scripts/test-voiceover.ts",
     "test:timing": "tsx scripts/test-timing.ts",
+    "test:editing": "tsx scripts/test-edit-timing.ts",
     "sync:storyboard": "node scripts/sync-storyboard.mjs",
     "assets:audio": "node scripts/make-audio.mjs",
     "assets:follow": "python scripts/prepare-follow-gif.py",
@@ -25,7 +26,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "remotion": "4.0.542",
-    "remotion-voiceover": "file:vendor/remotion-voiceover-0.2.0.tgz"
+    "remotion-voiceover": "file:vendor/remotion-voiceover-0.2.1.tgz"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

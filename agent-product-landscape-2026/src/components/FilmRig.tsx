@@ -7,7 +7,7 @@ export function ShotRig({ children, still = false }: { children: ReactNode; stil
   const camera =
     shot.id === 'F04'
       ? { scale: f >= 302 ? 1 : move(f, 0, 300, 1, 1.16), r: f >= 302 ? 0 : move(f, 100, 200, 0, -3) }
-      : { scale: still ? 1 : move(f, 0, shot.minFrames, 1, 1.018), r: 0 };
+      : { scale: still ? 1 : move(f, 0, shot.animationFrames, 1, 1.018), r: 0 };
   return (
     <AbsoluteFill style={{ perspective: 2200 }}>
       <AbsoluteFill

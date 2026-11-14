@@ -19,14 +19,14 @@ npm run preview
 
 ## 真人配音
 
-使用同级 `remotion-voiceover` 0.2.0 的本地打包版本；包位于 `vendor/remotion-voiceover-0.2.0.tgz`，执行 `npm ci` 即可安装。
+使用同级 `remotion-voiceover` 0.2.1 的本地打包版本；包位于 `vendor/remotion-voiceover-0.2.1.tgz`，执行 `npm ci` 即可安装。
 
 1. 运行 `npm run preview`，用 Chrome / Edge 打开 <http://127.0.0.1:4175>。
 2. 录音面板选择整片或当前镜头。46 镜中，39 个有字幕的镜头可以单独录制；7 个无旁白的章节卡不列入选项。
 3. 默认选择“按朗读节奏”，点击“开始录音”并允许麦克风，3 秒倒计时后朗读。提词逐句显示，使用原有字幕或已编辑稿件，自动去掉 Markdown 加粗标记。
 4. 一句没读完时保留当前画面和提词；读完点击“读完，下一句”或按空格，最后一句读完后停止。8 秒的字幕可以读到 10 秒，完整 WAV 会保留，字幕和镜头随实际朗读延长。
 5. 先“跟画面试听”，满意后“保存并使用”或下载 WAV，再“录下一段”。未保存时只改变试听；放弃会恢复已保存的时间。“按画面时长”保留原来的到点自动停止方式。
-6. “编辑稿件与时长”可改正文、每句起点和持续秒数，或增加、删除字幕；也可以先按正常语速估算时间，再实际录音。
+6. “编辑稿件与时长”可改正文、每句起点和持续秒数，或增加、删除字幕；改一句时长后，下一句开始时间立即更新，保存后所属分镜、后续镜头和人声一起调整。整片编辑同样保留字幕的分镜关联。也可以先按正常语速估算时间，再实际录音。
 
 录音保存在本工程自己的 `public/narration/`，刷新页面即可恢复；刷新 Remotion Studio 后，全片和 11 个独立章节合成也会加载。重录与移除只更新清单，保留旧 WAV 原件。录音和清单默认不提交 Git。
 
@@ -69,6 +69,7 @@ npm run check
 npm run build
 npm run test:voiceover
 npm run test:timing
+npm run test:editing
 npm run format
 ```
 
@@ -77,5 +78,7 @@ npm run format
 `test:voiceover` 使用模拟麦克风和独立临时目录，检查录音、试听、下载、保存恢复、重录、移除、章节音频偏移与音乐降低音量，不会访问真实麦克风或修改自己的录音。优先使用本机 Chrome / Edge，也可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` 指定浏览器；截图与结果保存在 `build/review/`。`check:all` 可运行完整检查。
 
 `test:timing` 验证 8 秒字幕实际录到超过 10 秒、画面等待、完整 WAV 保存、后续顺延、metadata 回写、新增字幕与 SRT 下载，并检查 1280×720、1366×768、1440×900、1920×1080 与 390×844 窗口下的布局。录音仍写入独立临时目录。
+
+`test:editing` 验证修改第一句的时长后，第二句输入值、第二镜头起点、现有音轨与 metadata 一起变化；覆盖分段及整片编辑、分镜关联、反复增长与缩短、小数秒输入和刷新。使用独立临时数据，不改现有录音。
 
 动画按 Remotion 的[帧号驱动方式](https://www.remotion.dev/docs/idea)实现，章节使用 [Sequence](https://www.remotion.dev/docs/sequence)，审片页面嵌入 [Remotion Player](https://www.remotion.dev/docs/player)。

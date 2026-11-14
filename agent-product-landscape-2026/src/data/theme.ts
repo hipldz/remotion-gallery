@@ -26,6 +26,6 @@ export const colors = [C.blue, C.green, C.yellow, C.red];
 export const fonts = {
   sans: 'Outfit, "Noto Sans SC", sans-serif',
   chinese: '"Noto Sans SC", sans-serif',
-  mono: '"JetBrains Mono", monospace',
+  mono: '"JetBrains Mono", "Noto Sans SC", monospace',
 };
 export const elevation = '0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3)';

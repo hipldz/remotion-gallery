@@ -3,7 +3,7 @@ import { Html5Audio, Sequence, staticFile } from 'remotion';
 import type { VoiceoverProject, VoiceTrack } from 'remotion-voiceover/core';
 import { Voiceover, useVoiceTracks } from 'remotion-voiceover/react';
 import { musicVolumeAt } from '../lib/music';
-import type { TimedShot } from '../lib/timeline';
+import { animationTimeFor, type TimedShot } from '../lib/timeline';
 import { resolveFilmVoiceTracks, resolveVoiceTimeline } from '../voiceover.config';
 import { impactCues } from './FX';
 
@@ -46,13 +46,14 @@ export function Soundtrack({
           const cues: { at: number; name: string; volume: number }[] = [];
           if (impact) cues.push({ at: impact.at, name: 'impact', volume: 0.45 });
           if (shot.kind === 'CARD' || shot.id === 'P06') cues.push({ at: 2, name: 'swoosh', volume: 0.2 });
-          if (shot.id === 'F04') [30, 60, 90].forEach((at) => cues.push({ at, name: 'pop', volume: 0.18 }));
+          if (shot.id === 'C01') cues.push({ at: 31, name: 'pop', volume: 0.18 });
+          if (shot.id === 'F04') [145, 162, 180].forEach((at) => cues.push({ at, name: 'pop', volume: 0.18 }));
           return cues
             .filter((cue) => files.includes(`sfx/${cue.name}.wav`))
             .map((cue, i) => (
               <Sequence
                 key={`${shot.id}-${i}`}
-                from={shot.from - frameOffset + Math.round((cue.at / shot.animationFrames) * shot.duration)}
+                from={animationTimeFor(shot, cue.at) - frameOffset}
                 durationInFrames={16}
                 name={`${shot.id} · ${cue.name}`}
                 layout="none"

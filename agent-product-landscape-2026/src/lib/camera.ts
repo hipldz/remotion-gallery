@@ -1,5 +1,5 @@
 import { clamp } from './motion';
-import type { TimedShot } from './timeline';
+import { motionSpansFor, type TimedShot } from './timeline';
 
 export type Camera = { x: number; y: number; z: number; r: number };
 type Cue = [progress: number, x: number, y: number, z: number, r?: number];
@@ -88,15 +88,36 @@ export const cameraCues: Record<string, Cue[]> = {
 export function buildCameraTrack(timeline: TimedShot[]) {
   const result: (Camera & { frame: number })[] = [];
   for (const shot of timeline) {
-    for (const [p, x, y, z, r = 0] of cameraCues[shot.id] ?? []) {
-      result.push({ frame: shot.from + Math.round(p * (shot.duration - 1)), x, y, z, r });
+    const hints = cameraCues[shot.id] ?? [];
+    const push = (local: number, x: number, y: number, z: number, r = 0) => {
+      const frame = shot.from + Math.max(0, Math.min(shot.duration - 1, Math.round(local)));
+      const point = { frame, x, y, z, r };
+      if (result.at(-1)?.frame === frame) result[result.length - 1] = point;
+      else result.push(point);
+    };
+    if (shot.id === 'P06') {
+      push(Math.min(18, shot.duration * 0.18), 15000, 0, 0.35, -2);
+      push(Math.min(78, shot.duration * 0.64), 3200, 0, 0.35, -1);
+      push(Math.min(104, shot.duration * 0.85), 2925, -100, 1);
+    } else if (shot.id === 'B04' || shot.id === 'F02') {
+      const switchAt = motionSpansFor(shot).find((span) => span.beat.cueIndex === 1)?.start ?? shot.duration / 2;
+      const one = shot.id === 'B04' ? [3733, -300, 1] : [12898, -100, 1];
+      const two = shot.id === 'B04' ? [4800, -300, 0.9] : [13058, -100, 1];
+      push(Math.min(30, switchAt / 2), one[0], one[1], one[2]);
+      push(Math.max(0, switchAt - 12), one[0], one[1], one[2]);
+      push(switchAt + 36, two[0], two[1], two[2]);
+    } else if (hints.length) {
+      const [, x, y, z, r = 0] = hints.at(-1)!;
+      // A camera move keeps its punch, then holds instead of stretching across speech.
+      push(Math.min(36, shot.duration * 0.4), x, y, z, r);
     }
     const last = result[result.length - 1];
     const end = shot.from + shot.duration - 1;
     // Unspecified beats hold the last pose instead of drifting toward a later shot.
     if (last && last.frame < end) result.push({ ...last, frame: end });
   }
-  return result;
+  // Very short edited ranges can collapse several cues to the same frame.
+  return [...new Map(result.map((point) => [point.frame, point])).values()].sort((a, b) => a.frame - b.frame);
 }
 
 export function cameraAt(frame: number, track: ReturnType<typeof buildCameraTrack>): Camera {

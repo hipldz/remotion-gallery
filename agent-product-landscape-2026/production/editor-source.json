@@ -1,0 +1,437 @@
+{
+  "origin": "public/narration/manifest.json, saved by remotion-voiceover 0.2.1 editor",
+  "capturedAt": "2026-11-13",
+  "sha256": "d63b4e6957fa4c4fc66cf4a8d47528409915f7b449be5a84968088d1c5c0644f",
+  "captions": [
+    {
+      "text": "大家好，今天大家几乎都在聊",
+      "startFrame": 10,
+      "endFrame": 97
+    },
+    {
+      "text": "WorkBuddy、Codex 这些 AI Agent",
+      "startFrame": 97,
+      "endFrame": 259
+    },
+    {
+      "text": "那从 2022 年 ChatGPT 网页版出现，",
+      "startFrame": 259,
+      "endFrame": 394
+    },
+    {
+      "text": "到今天，中间有哪些热门的 Agent 产品呢",
+      "startFrame": 394,
+      "endFrame": 529
+    },
+    {
+      "text": "我整理了一些能代表不同阶段的产品，",
+      "startFrame": 529,
+      "endFrame": 643
+    },
+    {
+      "text": "今天想带着大家一起回顾一下",
+      "startFrame": 643,
+      "endFrame": 730
+    },
+    {
+      "text": "开讲前，求个关注，这样能帮我升级到 LV2",
+      "startFrame": 730,
+      "endFrame": 865
+    },
+    {
+      "text": "解锁视频合集的权益，谢谢大家。",
+      "startFrame": 865,
+      "endFrame": 967
+    },
+    {
+      "text": "本期我们会先看聊天和编程工具，",
+      "startFrame": 967,
+      "endFrame": 1069
+    },
+    {
+      "text": "然后再看查资料、做办公的 Agent，",
+      "startFrame": 1069,
+      "endFrame": 1192
+    },
+    {
+      "text": "最后聊聊，这些工作台是怎么来的",
+      "startFrame": 1192,
+      "endFrame": 1294
+    },
+    {
+      "text": "那我们就把时间线拉回到 2022 年... ...",
+      "startFrame": 1294,
+      "endFrame": 1447
+    },
+    {
+      "text": "2022年6月的github copilot, 就能让我们的编程代码写一半，",
+      "startFrame": 1447,
+      "endFrame": 1690
+    },
+    {
+      "text": "它继续帮你接着往下写",
+      "startFrame": 1690,
+      "endFrame": 1756
+    },
+    {
+      "text": "等到了22年11月, ChatGPT WEB初次登场，这次就更直接了：",
+      "startFrame": 1756,
+      "endFrame": 1978
+    },
+    {
+      "text": "直接让大家从打开网页开始，问问题、写东西。",
+      "startFrame": 1978,
+      "endFrame": 2122
+    },
+    {
+      "text": "这个期间，AI给出的建议是有了，",
+      "startFrame": 2122,
+      "endFrame": 2230
+    },
+    {
+      "text": "但复制代码、运行、检查，这些操作还得我们自己来",
+      "startFrame": 2230,
+      "endFrame": 2386
+    },
+    {
+      "text": "那怎么让它动手呢",
+      "startFrame": 2386,
+      "endFrame": 2440
+    },
+    {
+      "text": "先给它查资料、跑代码的工具",
+      "startFrame": 2440,
+      "endFrame": 2527
+    },
+    {
+      "text": "AI 选好工具，程序去跑",
+      "startFrame": 2527,
+      "endFrame": 2602
+    },
+    {
+      "text": "结果回来，再决定下一步",
+      "startFrame": 2602,
+      "endFrame": 2677
+    },
+    {
+      "text": "Cursor 让你边聊边改代码，",
+      "startFrame": 2677,
+      "endFrame": 2779
+    },
+    {
+      "text": "Aider 则在终端里改文件",
+      "startFrame": 2779,
+      "endFrame": 2866
+    },
+    {
+      "text": "这回，能直接改项目了",
+      "startFrame": 2866,
+      "endFrame": 2935
+    },
+    {
+      "text": "编程很适合先试一试：",
+      "startFrame": 2935,
+      "endFrame": 3004
+    },
+    {
+      "text": "代码能直接改，改完还能跑测试",
+      "startFrame": 3004,
+      "endFrame": 3097
+    },
+    {
+      "text": "Devin 有编辑器、终端和浏览器",
+      "startFrame": 3097,
+      "endFrame": 3205
+    },
+    {
+      "text": "你把任务交给它，",
+      "startFrame": 3205,
+      "endFrame": 3259
+    },
+    {
+      "text": "它试着做完再给你看",
+      "startFrame": 3259,
+      "endFrame": 3319
+    },
+    {
+      "text": "用 Replit Agent、Bolt.new，",
+      "startFrame": 3319,
+      "endFrame": 3469
+    },
+    {
+      "text": "说说需求，就能试着搭个应用",
+      "startFrame": 3469,
+      "endFrame": 3556
+    },
+    {
+      "text": "Windsurf、Cline，",
+      "startFrame": 3556,
+      "endFrame": 3658
+    },
+    {
+      "text": "能在编辑器里改文件、跑命令",
+      "startFrame": 3658,
+      "endFrame": 3745
+    },
+    {
+      "text": "如果事情总是重复，",
+      "startFrame": 3745,
+      "endFrame": 3805
+    },
+    {
+      "text": "也可以用 n8n、Dify、Coze，",
+      "startFrame": 3805,
+      "endFrame": 3928
+    },
+    {
+      "text": "先把步骤排好",
+      "startFrame": 3928,
+      "endFrame": 3973
+    },
+    {
+      "text": "再往后，",
+      "startFrame": 3973,
+      "endFrame": 4018
+    },
+    {
+      "text": "你给它一个目标，",
+      "startFrame": 4018,
+      "endFrame": 4072
+    },
+    {
+      "text": "做完了再来检查",
+      "startFrame": 4072,
+      "endFrame": 4120
+    },
+    {
+      "text": "比如修个 bug",
+      "startFrame": 4120,
+      "endFrame": 4168
+    },
+    {
+      "text": "改文件、跑测试，",
+      "startFrame": 4168,
+      "endFrame": 4222
+    },
+    {
+      "text": "最后把修改交给你检查",
+      "startFrame": 4222,
+      "endFrame": 4288
+    },
+    {
+      "text": "Claude Code 就在终端里工作",
+      "startFrame": 4288,
+      "endFrame": 4402
+    },
+    {
+      "text": "看代码、改文件、跑命令",
+      "startFrame": 4402,
+      "endFrame": 4477
+    },
+    {
+      "text": "Pi 先给你几样基本工具，",
+      "startFrame": 4477,
+      "endFrame": 4558
+    },
+    {
+      "text": "需要什么，再加上去",
+      "startFrame": 4558,
+      "endFrame": 4618
+    },
+    {
+      "text": "终端里，你边做边看",
+      "startFrame": 4618,
+      "endFrame": 4678
+    },
+    {
+      "text": "放到云端，就等它做好再检查",
+      "startFrame": 4678,
+      "endFrame": 4765
+    },
+    {
+      "text": "有了浏览器和文件工具，",
+      "startFrame": 4765,
+      "endFrame": 4840
+    },
+    {
+      "text": "查资料、做报告，",
+      "startFrame": 4840,
+      "endFrame": 4894
+    },
+    {
+      "text": "也能交给 AI 试试了",
+      "startFrame": 4894,
+      "endFrame": 4954
+    },
+    {
+      "text": "Deep Research 帮你查资料、写报告，",
+      "startFrame": 4954,
+      "endFrame": 5101
+    },
+    {
+      "text": "也会把来源列出来",
+      "startFrame": 5101,
+      "endFrame": 5155
+    },
+    {
+      "text": "Manus 能用浏览器找资料，",
+      "startFrame": 5155,
+      "endFrame": 5248
+    },
+    {
+      "text": "再整理成文件给你",
+      "startFrame": 5248,
+      "endFrame": 5302
+    },
+    {
+      "text": "ChatGPT Agent 查完资料，",
+      "startFrame": 5302,
+      "endFrame": 5416
+    },
+    {
+      "text": "还能用浏览器接着做",
+      "startFrame": 5416,
+      "endFrame": 5476
+    },
+    {
+      "text": "事情多了，",
+      "startFrame": 5476,
+      "endFrame": 5521
+    },
+    {
+      "text": "放在一起更方便：",
+      "startFrame": 5521,
+      "endFrame": 5575
+    },
+    {
+      "text": "看进度、查结果",
+      "startFrame": 5575,
+      "endFrame": 5623
+    },
+    {
+      "text": "Cowork 帮你整理文件、处理文档",
+      "startFrame": 5623,
+      "endFrame": 5737
+    },
+    {
+      "text": "OpenClaw 则让你发条消息，",
+      "startFrame": 5737,
+      "endFrame": 5845
+    },
+    {
+      "text": "把任务交给它",
+      "startFrame": 5845,
+      "endFrame": 5890
+    },
+    {
+      "text": "编程这边，",
+      "startFrame": 5890,
+      "endFrame": 5935
+    },
+    {
+      "text": "Codex App 也能把任务放到一起看",
+      "startFrame": 5935,
+      "endFrame": 6055
+    },
+    {
+      "text": "WorkBuddy、豆包工作，",
+      "startFrame": 6055,
+      "endFrame": 6157
+    },
+    {
+      "text": "也是用来帮你处理办公任务的",
+      "startFrame": 6157,
+      "endFrame": 6244
+    },
+    {
+      "text": "DeepSeek Harness 有桌面和网页版",
+      "startFrame": 6244,
+      "endFrame": 6391
+    },
+    {
+      "text": "能处理文件、写代码，",
+      "startFrame": 6391,
+      "endFrame": 6460
+    },
+    {
+      "text": "也可以加插件",
+      "startFrame": 6460,
+      "endFrame": 6505
+    },
+    {
+      "text": "任务一多，",
+      "startFrame": 6505,
+      "endFrame": 6550
+    },
+    {
+      "text": "得看看谁卡住了，",
+      "startFrame": 6550,
+      "endFrame": 6604
+    },
+    {
+      "text": "谁还在等你确认",
+      "startFrame": 6604,
+      "endFrame": 6652
+    },
+    {
+      "text": "记住做到哪了，",
+      "startFrame": 6652,
+      "endFrame": 6700
+    },
+    {
+      "text": "下次还能接着做",
+      "startFrame": 6700,
+      "endFrame": 6748
+    },
+    {
+      "text": "这背后的工具，一般叫 Harness",
+      "startFrame": 6748,
+      "endFrame": 6862
+    },
+    {
+      "text": "这几年，AI 从给建议，",
+      "startFrame": 6862,
+      "endFrame": 6937
+    },
+    {
+      "text": "到动手做事，再到做完给你检查",
+      "startFrame": 6937,
+      "endFrame": 7030
+    },
+    {
+      "text": "写代码、做办公、跑流程，",
+      "startFrame": 7030,
+      "endFrame": 7114
+    },
+    {
+      "text": "各有各的工具",
+      "startFrame": 7114,
+      "endFrame": 7159
+    },
+    {
+      "text": "真要选工具，就看三件事：",
+      "startFrame": 7159,
+      "endFrame": 7240
+    },
+    {
+      "text": "你想做什么，",
+      "startFrame": 7240,
+      "endFrame": 7285
+    },
+    {
+      "text": "它能做出什么，",
+      "startFrame": 7285,
+      "endFrame": 7333
+    },
+    {
+      "text": "哪些地方还得你来检查",
+      "startFrame": 7333,
+      "endFrame": 7399
+    },
+    {
+      "text": "谢谢大家",
+      "startFrame": 7399,
+      "endFrame": 7444
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import { createVoiceoverProject, resolveVoiceTimeline, withImportedVoiceTracks }
 const project = createVoiceoverProject(baseTimeline);
 assert.equal(project.durationInFrames, totalFrames(baseTimeline));
 assert.equal(project.scenes!.filter((scene) => scene.recordable).length, 35);
-assert.equal(project.durationInFrames, 7920);
+assert.ok(project.durationInFrames >= 7 * 60 * 30 && project.durationInFrames <= 8 * 60 * 30, 'The initial spoken edit must stay within 7–8 minutes');
 for (const chapter of new Set(baseTimeline.map((entry) => entry.chapterKey))) {
   const chapterShots = baseTimeline.filter((entry) => entry.chapterKey === chapter);
   assert.equal(
@@ -45,12 +45,13 @@ assert.ok(
 assert.equal(segments.find((segment) => segment.from === shot.from + shot.duration)!.trimBefore, shot.from + shot.duration);
 parseVoiceManifest({ version: 1, tracks: [full, retake] }, project);
 
-const importedTimeline = resolveTiming({ P06: 10 }, ['vo/P06.wav']);
+const rewind = baseTimeline.find((entry) => entry.id === 'P06')!;
+const importedTimeline = resolveTiming({ P06: rewind.duration / 30 + 5 }, ['vo/P06.wav']);
 assert.ok(totalFrames(importedTimeline) > totalFrames(baseTimeline));
 const extended = createVoiceoverProject(importedTimeline);
 assert.equal(extended.scenes!.find((scene) => scene.id === 'Z04')!.from, importedTimeline.find((entry) => entry.id === 'Z04')!.from);
 const imported = withImportedVoiceTracks(importedTimeline, []);
-assert.equal(imported[0].startFrame, importedTimeline.find((entry) => entry.id === 'P06')!.from + 9);
+assert.equal(imported[0].startFrame, importedTimeline.find((entry) => entry.id === 'P06')!.from + rewind.voOffset);
 const replacement = { ...retake, scope: 'P06', startFrame: importedTimeline.find((entry) => entry.id === 'P06')!.from };
 assert.deepEqual(withImportedVoiceTracks(importedTimeline, [replacement]), [replacement]);
 assert.deepEqual(withImportedVoiceTracks(importedTimeline, [full]), [full]);
@@ -72,4 +73,4 @@ const moved = retimeVoiceTracks([retake], project, edited)[0];
 assert.equal(moved.startFrame, retake.startFrame + 90, 'Later voice tracks follow the edited cut');
 const script = { ...edited, captions: [{ text: '新的一句字幕', startFrame: 0, endFrame: 60 }] };
 assert.equal(resolveVoiceTimeline(baseTimeline, script)[0].narration, '新的一句字幕', 'Whole-film edits may omit sceneId');
-console.log('PASS: 35 recording slots, 4:24 timeline, chapter offsets, prompt pauses, elastic timing, retakes, and constant music.');
+console.log('PASS: complete spoken timeline, 35 recording slots, exact saved captions, chapter offsets, elastic timing, retakes, and constant music.');

@@ -150,11 +150,11 @@ function ReviewApp() {
       <main className="review-main">
         <header className="review-header">
           <div>
-            <div className="eyebrow">STORY EDITION / V3 · REAL SOURCE</div>
+            <div className="eyebrow">7–8 分钟科普 / V4.1 · 原版动效</div>
             <h1>AI 工具这几年，是怎么变的？</h1>
           </div>
           <div className="format-meta">
-            <span>V3 / SOURCE {assets.length}</span>
+            <span>V4.1 / SOURCE {assets.length}</span>
             <span>1920 × 1080</span>
             <span>30 FPS</span>
             <span>{timecode(length)}</span>
@@ -308,7 +308,7 @@ function ReviewApp() {
             <aside className="voiceover-panel" aria-label="录制配音">
               <div className="recorder-heading">
                 <strong>录制配音</strong>
-                <span>配音 V2 · {narrationCount} 段旁白 · 时长跟着朗读调整</span>
+                <span>{narrationCount} 段旁白 · 字幕切点驱动原版动画</span>
               </div>
               {ready ? (
                 <VoiceRecorder
@@ -323,6 +323,7 @@ function ReviewApp() {
                   onDraft={voice.setDraft}
                   onProject={voice.setProjectDraft}
                   onSeek={seekPlayer}
+                  maxRecordingSeconds={Math.max(600, Math.ceil(length / 30) + 300)}
                 />
               ) : (
                 <p className="recorder-loading">{error ? '请先处理素材问题。' : '正在载入分镜与提词…'}</p>

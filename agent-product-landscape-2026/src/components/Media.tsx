@@ -88,7 +88,7 @@ export function Media({
   return (
     <At
       x={x}
-      y={y + drift(t, 1.5)}
+      y={y + drift(cinema.frame - cinema.shot.from, 1.5)}
       style={{
         width: w,
         height: h,
@@ -233,7 +233,7 @@ export function Media({
 }
 
 export function SourceLine({ shotId }: { shotId: string }) {
-  const { f } = useCinema();
+  const { f, visualAssets } = useCinema();
   const phase: Record<string, string[]> = {
     A02: ['chatgpt'],
     B04: [f < 180 ? 'cursor' : 'aider'],
@@ -244,7 +244,7 @@ export function SourceLine({ shotId }: { shotId: string }) {
     F07: ['harness'],
     F06: [],
   };
-  const selected = phase[shotId];
+  const selected = visualAssets ?? phase[shotId];
   const related = assets.filter((a) => (selected ? selected.includes(a.id) : a.shots.includes(shotId)));
   const source = related.map((a) => a.source).join('　／　');
   const diagramSource = shotId === 'F06' ? '图解依据：Anthropic · 长任务执行系统' : 'PLDZ · 原创图解';

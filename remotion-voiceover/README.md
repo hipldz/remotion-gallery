@@ -41,10 +41,10 @@ npm run check
 npm run pack:local
 ```
 
-将 `build/` 中生成的 `remotion-voiceover-0.2.0.tgz` 放入目标视频工程的 `vendor/`，在视频工程执行：
+将 `build/` 中生成的 `remotion-voiceover-0.2.1.tgz` 放入目标视频工程的 `vendor/`，在视频工程执行：
 
 ```bash
-npm install ./vendor/remotion-voiceover-0.2.0.tgz
+npm install ./vendor/remotion-voiceover-0.2.1.tgz
 ```
 
 使用 npm 打包后的依赖可避免本地源码链接引入两份 React 或 Remotion。工具更新后重新构建、打包并更新视频工程的依赖包。各 `remotion`、`@remotion/*` 包应使用相同版本；当前已验证 4.0.542，React 19。
@@ -125,7 +125,9 @@ const tracks = useVoiceTracks(voiceProject, props.voiceTracks);
 
 ## 字幕编辑与 Remotion 时长回写
 
-点击“编辑稿件与时长”可修改正文、起点和持续秒数，也可以增加或删除一句。片段时间不足时会自动扩大；“按正常语速估算”给出包含停顿的参考时间，实际录音仍按人的节奏。SRT 可通过 `voiceCaptionsToSrt(voice.project)` 导出。
+点击“编辑稿件与时长”可修改正文、起点和持续秒数，也可以增加或删除一句。修改一句的时间后，后续字幕的开始时间立即更新，所属分镜与后续分镜一起调整，并保留原来的留白；缩短时反向移动。整片编辑保留字幕的分镜关联，增长发生在被编辑的分镜。直接修改“片段时长”只调整片段的尾部留白，保留每句时长。“按正常语速估算”给出包含停顿的参考时间，实际录音仍按人的节奏。SRT 可通过 `voiceCaptionsToSrt(voice.project)` 导出。
+
+自定义编辑界面可调用 `retimeVoiceCaption(project, captionIndex, {startFrame?, durationInFrames?})`，一次调整当前句、后续字幕、所属分镜和后续分镜；返回值不修改原配置。保存编辑后的时间轴时，现有音轨按分镜位置调整并保留 WAV 源偏移。
 
 时间轴保存在同一份 `public/narration/manifest.json` 的可选 `timeline` 字段中；旧版 version 1 清单保持兼容。未保存的录音只调整预览，放弃后恢复已保存的时间。保存与刷新会保留已编辑的字幕；如果另一窗口修改了时间轴，保存会提示刷新并保留可下载的录音。
 

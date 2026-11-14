@@ -17,7 +17,16 @@ export const f2 = (f: number) => Math.floor(f / 2) * 2;
 export const pathValue = (f: number, stops: number[], values: number[]) =>
   interpolate(f, stops, values, { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: smooth });
 
-export type CinemaState = { frame: number; f: number; shot: TimedShot; timeline: TimedShot[]; camera: Camera; velocity: number; dark: boolean };
+export type CinemaState = {
+  frame: number;
+  f: number;
+  shot: TimedShot;
+  timeline: TimedShot[];
+  camera: Camera;
+  velocity: number;
+  dark: boolean;
+  visualAssets?: string[];
+};
 export const CinemaContext = createContext<CinemaState | null>(null);
 export const useCinema = () => {
   const value = useContext(CinemaContext);

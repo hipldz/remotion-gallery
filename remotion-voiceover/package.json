@@ -1,6 +1,6 @@
 {
   "name": "remotion-voiceover",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Reusable local microphone recording and voiceover timeline integration for Remotion projects",
   "type": "module",

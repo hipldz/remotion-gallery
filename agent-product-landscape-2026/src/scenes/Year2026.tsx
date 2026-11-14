@@ -1,5 +1,5 @@
 import { C, fonts } from '../data/theme';
-import { fade, f2, limit, mix, move } from '../lib/cinematics';
+import { fade, f2, limit, mix, move, useCinema } from '../lib/cinematics';
 import { At, Chip, Cursor, Icon, Progress } from '../components/Primitives';
 import { GlyphTile, Note, Orb, Signal, TitleBlock } from '../components/CinematicActors';
 import { Media } from '../components/Media';
@@ -10,14 +10,16 @@ const tasks = ['改登录页', '补齐测试', '调研竞品', '写项目文档'
 const taskColors = [C.blue, C.green, C.yellow, C.red, '#1967D2', '#1E8E3E', '#F9AB00', '#D93025', '#8AB4F8', '#81C995'];
 
 function TenAgents({ f }: { f: number }) {
-  const t = f2(Math.min(f, 300));
+  const { frame, shot } = useCinema();
+  const clock = frame - shot.from;
+  const t = f2(f < 145 ? Math.min(28, f / 5) : 30 + Math.min(270, ((f - 145) * 270) / 155));
   const stage = t < 30 ? 0 : t < 60 ? 1 : t < 90 ? 2 : 3,
     counts = [1, 2, 4, 10],
     starts = [0, 30, 60, 90];
   const count = counts[stage],
     previous = counts[Math.max(0, stage - 1)],
     transition = move(t, starts[stage], 18);
-  const phase = t * 0.003 + Math.pow(Math.max(0, t - 90), 2) * 0.00006;
+  const phase = clock * (0.003 + Math.max(0, t - 90) * 0.00006);
   const objects = Array.from({ length: count }, (_, i) => {
     const a = (i / count) * Math.PI * 2 + phase;
     const parent = Math.min(previous - 1, Math.floor((i * previous) / count)),
@@ -28,16 +30,16 @@ function TenAgents({ f }: { f: number }) {
     return { i, x, y, a, depth };
   }).sort((a, b) => a.depth - b.depth);
   return (
-    <div data-agent-orbit="ten-agents" data-motion-frame={t} style={{ position: 'absolute', inset: 0 }}>
+    <div data-agent-orbit="ten-agents" data-agent-count={count} data-motion-frame={t} data-orbit-clock={clock} style={{ position: 'absolute', inset: 0 }}>
       <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
         <ellipse cx="960" cy="540" rx="620" ry="200" fill="none" stroke="#DCE4EF" strokeWidth="1" />
         <ellipse cx="960" cy="540" rx="650" ry="213" fill="none" stroke="#E6ECF4" strokeWidth="1" strokeDasharray="2 14" />
       </svg>
       {objects.map(({ i, x, y, a, depth }) => {
-        const blocked = i === 2 || i === 7,
-          waiting = i === 3 || i === 8;
+        const blocked = f >= 302 && (i === 2 || i === 7),
+          waiting = f >= 302 && (i === 3 || i === 8);
         const v = 0.003 + Math.max(0, t - 90) * 0.00012;
-        const progress = blocked ? 0.56 : waiting ? 0.28 : 0.2 + ((t * 0.003 + i * 0.078) % 0.78);
+        const progress = blocked ? 0.56 : waiting ? 0.28 : 0.2 + ((clock * 0.003 + i * 0.078) % 0.78);
         return (
           <At
             key={i}
@@ -93,7 +95,7 @@ function TenAgents({ f }: { f: number }) {
               </div>
             </div>
             <Orb x={0} y={12} size={50} color={taskColors[i]} f={100} shadow={false} />
-            {t > 140 && (blocked || waiting) && (
+            {(blocked || waiting) && (
               <At x={-15} y={-32} style={{ fontSize: 22, color: blocked ? C.red : '#8D99AB', fontWeight: 600, whiteSpace: 'nowrap' }}>
                 {blocked ? '卡住了' : '等你确认'}
               </At>
@@ -297,8 +299,8 @@ export function Year2026({ id, f }: { id: string; f: number }) {
       <>
         <TitleBlock f={f} eyebrow="2026 / 事情一多，怎么顾得过来" lines={['事情一多，得看清做到哪了。']} x={180} size={86} />
         <TenAgents f={f} />
-        {f >= 280 && (
-          <At x={520} y={875} style={{ display: 'flex', gap: 38, opacity: fade(f, 280, 22), zIndex: 100 }}>
+        {f >= 302 && (
+          <At x={520} y={875} style={{ display: 'flex', gap: 38, opacity: fade(f, 302, 22), zIndex: 100 }}>
             <Chip color={C.red} style={{ fontSize: 35, background: '#FFF' }}>
               卡住了
             </Chip>

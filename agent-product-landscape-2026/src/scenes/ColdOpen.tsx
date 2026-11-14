@@ -1,6 +1,6 @@
 import { C, colors, fonts } from '../data/theme';
 import { fade, limit, move, useCinema } from '../lib/cinematics';
-import { animationFrameFor, captionsFor } from '../lib/timeline';
+import { captionsFor } from '../lib/timeline';
 import { At } from '../components/Primitives';
 import { Note, Orb, TitleBlock } from '../components/CinematicActors';
 import { FollowRequest } from './FollowRequest';
@@ -9,8 +9,8 @@ export function ColdOpen({ id, f }: { id: string; f: number }) {
   const { shot } = useCinema();
   if (id === 'P01') {
     const cues = captionsFor(shot);
-    const historyAt = animationFrameFor(shot, (cues.find((cue) => cue.text.startsWith('那从'))?.from ?? shot.from + 248) - shot.from);
-    const representativesAt = animationFrameFor(shot, (cues.find((cue) => cue.text.startsWith('我整理'))?.from ?? shot.from + 523) - shot.from);
+    const historyAt = (cues.find((cue) => cue.scriptIndex === 2)?.from ?? shot.from + 248) - shot.from;
+    const representativesAt = (cues.find((cue) => cue.scriptIndex === 4)?.from ?? shot.from + 523) - shot.from;
     const historyFrame = f - historyAt;
     const representativesFrame = f - representativesAt;
     const current = [

@@ -1,5 +1,5 @@
 import { C, fonts } from '../data/theme';
-import { fade, mix, move } from '../lib/cinematics';
+import { fade, mix, move, useCinema } from '../lib/cinematics';
 import { At, Chip, Icon } from '../components/Primitives';
 import { GlyphTile, Note, Orb, Signal, TitleBlock } from '../components/CinematicActors';
 import { Media } from '../components/Media';
@@ -7,6 +7,8 @@ import { StoryBridge } from '../components/StoryBridge';
 import { PopularityBadge } from '../components/PopularityBadge';
 
 export function EarlyYears({ id, f }: { id: string; f: number }) {
+  const cinema = useCinema();
+  const clock = cinema.frame - cinema.shot.from;
   if (id === 'A01')
     return (
       <>
@@ -82,7 +84,7 @@ export function EarlyYears({ id, f }: { id: string; f: number }) {
           }}
         />
         {[0, 1, 2].map((i) => {
-          const a = ((-90 + i * 120 + f * 0.16) * Math.PI) / 180,
+          const a = ((-90 + i * 120 + clock * 0.16) * Math.PI) / 180,
             x = 1240 + Math.cos(a) * 390,
             y = 550 + Math.sin(a) * 240;
           return (

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {defineVoiceoverProject, getVoiceCaptions, parseVoiceManifest, previewVoiceTracks,
-  alignVoiceRecording, applyVoiceTimeline, mapVoiceFrame, resizeVoiceRange, retimeVoiceTracks,
+  alignVoiceRecording, applyVoiceTimeline, mapVoiceFrame, resizeVoiceRange, retimeVoiceCaption, retimeVoiceTracks,
   resolveVoiceSegments, voiceCaptionsToSrt, voiceCoverage, voiceoverVolume, voiceSeconds, voiceTimeline} from '../dist/core/index.js';
 
 const track = (scope, startFrame, durationInFrames, id = scope) =>
@@ -125,6 +125,47 @@ test('sentence markers extend a cue within a longer scene and preserve unread te
   assert.equal(complete.scenes[0].durationInFrames, 660, 'The original silent tail remains');
   assert.equal(complete.scenes[1].from, 660);
   assert.throws(() => alignVoiceRecording(project, 'a', 330, [{index: 0, startFrame: 30, endFrame: 400}]));
+});
+
+for (const fps of [24, 30, 60, 29.97]) {
+  test(`editing the first sentence shifts the next sentence and scene while preserving gaps at ${fps} fps`, () => {
+    const frame = seconds => Math.round(seconds * fps);
+    const total = frame(15) + frame(4);
+    const project = defineVoiceoverProject({fps, durationInFrames: total, scenes: [
+      {id: 'a', title: 'two sentences and a tail', from: 0, durationInFrames: frame(14)},
+      {id: 'b', title: 'after a gap', from: frame(15), durationInFrames: frame(4)},
+    ], captions: [
+      {sceneId: 'a', startFrame: frame(1), endFrame: frame(9), text: 'eight seconds'},
+      {sceneId: 'a', startFrame: frame(10), endFrame: frame(13), text: 'three seconds'},
+      {sceneId: 'b', startFrame: frame(15), endFrame: frame(18), text: 'next scene'},
+    ]});
+    const original = structuredClone(project), ten = frame(10), extra = ten - (frame(9) - frame(1));
+    const edited = retimeVoiceCaption(project, 0, {durationInFrames: ten});
+    assert.equal(edited.captions[1].startFrame, frame(10) + extra);
+    assert.equal(edited.captions[1].endFrame, frame(13) + extra);
+    assert.equal(edited.scenes[0].durationInFrames, frame(14) + extra);
+    assert.equal(edited.scenes[1].from, frame(15) + extra);
+    assert.equal(edited.scenes[1].from - edited.scenes[0].durationInFrames, frame(15) - frame(14));
+    assert.equal(edited.scenes[0].durationInFrames - edited.captions[1].endFrame, frame(14) - frame(13));
+    assert.equal(edited.durationInFrames, total + extra);
+    assert.deepEqual(edited.captions.map(cue => cue.sceneId), ['a', 'a', 'b']);
+    assert.deepEqual(retimeVoiceCaption(edited, 0, {durationInFrames: frame(9) - frame(1)}), project);
+    assert.deepEqual(project, original);
+  });
+}
+
+test('caption edits infer unassigned scenes, move later captions without scenes, and reject invalid starts', () => {
+  const project = defineVoiceoverProject({fps: 30, durationInFrames: 360, scenes: [
+    {id: 'a', title: 'a', from: 0, durationInFrames: 240}, {id: 'b', title: 'b', from: 240, durationInFrames: 120},
+  ], captions: [{startFrame: 0, endFrame: 240, text: 'first'}, {startFrame: 240, endFrame: 360, text: 'next'}]});
+  const edited = retimeVoiceCaption(project, 0, {startFrame: 30, durationInFrames: 300});
+  assert.equal(edited.scenes[1].from, 330);
+  assert.equal(edited.captions[1].startFrame, 330);
+  const withoutScenes = defineVoiceoverProject({...project, scenes: []});
+  assert.equal(retimeVoiceCaption(withoutScenes, 0, {durationInFrames: 300}).durationInFrames, 420);
+  assert.throws(() => retimeVoiceCaption(project, 1, {startFrame: 200}));
+  assert.throws(() => retimeVoiceCaption(project, 0, {durationInFrames: 0}));
+  assert.throws(() => retimeVoiceCaption(project, -1, {durationInFrames: 30}));
 });
 
 test('ripple edits preserve full-recording WAV offsets, later retakes and repeated edits', () => {

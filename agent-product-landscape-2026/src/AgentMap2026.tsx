@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame } from 'remotion';
 import { C, fonts } from './data/theme';
-import { animationFrameFor, shotAt, type FilmProps, type TimedShot } from './lib/timeline';
+import { animationFrameFor, motionStateFor, shotAt, type FilmProps, type TimedShot } from './lib/timeline';
 import { createVoiceoverProject, resolveVoiceTimeline } from './voiceover.config';
 import { buildCameraTrack, cameraAt } from './lib/camera';
-import { CinemaContext, fade, focalAssets, limit, type CinemaState } from './lib/cinematics';
+import { CinemaContext, fade, focalAssets, useCinema, type CinemaState } from './lib/cinematics';
 import { AssetContext } from './components/Media';
 import { FilmBranding } from './components/FilmBranding';
 import { WorldLayer } from './components/WorldLayer';
@@ -23,9 +23,7 @@ import { Finale } from './scenes/Finale';
 import './film.css';
 import './fonts';
 
-function ShotContent({ shot }: { shot: TimedShot }) {
-  const local = useCurrentFrame();
-  const f = animationFrameFor(shot, local);
+function OriginalScene({ shot, f }: { shot: TimedShot; f: number }) {
   const props = { id: shot.id, f };
   if (shot.kind === 'CARD') return <Eyecatch chapterKey={shot.chapterKey} f={f} />;
   const content =
@@ -45,6 +43,34 @@ function ShotContent({ shot }: { shot: TimedShot }) {
       <Finale {...props} />
     );
   return <ShotRig still={['B02', 'P03'].includes(shot.id)}>{content}</ShotRig>;
+}
+
+function ShotContent({ shot }: { shot: TimedShot }) {
+  const local = useCurrentFrame();
+  const cinema = useCinema();
+  const held = Math.min(local, shot.duration - 1);
+  const motion = motionStateFor(shot, held);
+  const context = { ...cinema, shot, frame: shot.from + held };
+  const snapshots = [
+    ...(motion.previousFrame === undefined ? [] : [{ frame: motion.previousFrame, opacity: 1 - motion.blend }]),
+    { frame: motion.frame, opacity: motion.blend },
+  ];
+  return (
+    <AbsoluteFill
+      data-cinematic-shot={shot.id}
+      data-motion-frame={motion.frame}
+      data-motion-cue={motion.cueIndex}
+      style={{ opacity: shot.from === 0 ? 1 : fade(local, 0, 12) }}
+    >
+      {snapshots.map((snapshot, index) => (
+        <CinemaContext.Provider key={index} value={{ ...context, f: snapshot.frame }}>
+          <AbsoluteFill style={{ opacity: snapshot.opacity }}>
+            <OriginalScene shot={shot} f={snapshot.frame} />
+          </AbsoluteFill>
+        </CinemaContext.Provider>
+      ))}
+    </AbsoluteFill>
+  );
 }
 
 const mapShots = new Set(['P06', 'Z04', 'D01', 'D06', 'G01', 'G06']);
@@ -74,6 +100,13 @@ const cleanInserts = new Set([
   'G02',
 ]);
 
+function sourceAssets(shot: TimedShot, f: number) {
+  if (shot.id === 'B04') return [f < 180 ? 'cursor' : 'aider'];
+  if (shot.id === 'C02') return f < 140 ? [] : ['devin'];
+  if (shot.id === 'F02') return [f < 130 ? 'cowork' : 'openclaw'];
+  return focalAssets[shot.id] ?? [];
+}
+
 export function AgentMap2026({ timeline: sourceTimeline, availableFiles, showSubtitles, enableSfx, frameOffset, voiceTracks, voiceProject }: FilmProps) {
   const project = useMemo(() => voiceProject ?? createVoiceoverProject(sourceTimeline), [voiceProject, sourceTimeline]);
   const timeline = useMemo(() => resolveVoiceTimeline(sourceTimeline, project), [sourceTimeline, project]);
@@ -84,14 +117,11 @@ export function AgentMap2026({ timeline: sourceTimeline, availableFiles, showSub
   const camera = cameraAt(frame, track),
     previous = cameraAt(Math.max(0, frame - 1), track);
   const velocity = (camera.x - previous.x) * camera.z;
-  // Keep the opening in the same light atlas as the product chapters.
-  const dark = false;
-  const value: CinemaState = { frame, f, shot, timeline, camera, velocity, dark };
+  const value: CinemaState = { frame, f, shot, timeline, camera, velocity, dark: false, visualAssets: sourceAssets(shot, f) };
   const impact = impactCues[shot.id as keyof typeof impactCues];
   const impactNow = !!impact && f >= impact.at && f < impact.at + 2;
   const shake = shakeAt(f, shot.id);
-  const caption = project.captions!.find((c) => c.startFrame <= frame && c.endFrame > frame);
-  const duration = project.durationInFrames;
+  const caption = project.captions!.find((cue) => cue.startFrame <= frame && cue.endFrame > frame);
   const focus = !!focalAssets[shot.id];
   const mapOpacity =
     shot.id === 'P07'
@@ -102,59 +132,73 @@ export function AgentMap2026({ timeline: sourceTimeline, availableFiles, showSub
           ? shot.id === 'G01'
             ? 1 - fade(f, 58, 45) * 0.93
             : 1
-          : dark
-            ? 0.35
-            : focus
-              ? 0.16
-              : 0.075;
+          : focus
+            ? 0.16
+            : 0.075;
+  const outroFrom = Math.max(project.durationInFrames - 18, project.captions!.at(-1)?.endFrame ?? 0);
+  const outroDuration = project.durationInFrames - outroFrom;
   return (
     <CinemaContext.Provider value={value}>
       <AssetContext.Provider value={availableFiles}>
         <AbsoluteFill
           data-film="AgentMap2026"
-          data-version="3"
+          data-version="4.1"
           data-shot={shot.id}
-          style={{ fontFamily: fonts.sans, color: C.ink, overflow: 'hidden', background: dark ? C.night : '#FCFCFD' }}
+          data-animation-frame={f}
+          data-cinematic-style="original"
+          style={{ fontFamily: fonts.sans, color: C.ink, overflow: 'hidden', background: '#FCFCFD' }}
         >
           <AbsoluteFill style={{ transform: `translate(${shake.x}px,${shake.y}px)` }}>
             <WorldLayer dim={mapOpacity} blur={focus ? 5 : 0} />
             {shot.id === 'F01' && <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 55% 60%,#FEF7E0AA,transparent 80%)' }} />}
             {impactNow && <AbsoluteFill style={{ background: impact.color }} />}
             <AbsoluteFill style={{ filter: impactNow ? 'brightness(0)' : undefined }}>
-              {timeline.map((s) => (
-                <Sequence key={s.id} from={s.from - frameOffset} durationInFrames={s.duration} name={`${s.id} · ${s.title}`}>
-                  <ShotContent shot={s} />
-                </Sequence>
-              ))}
+              {timeline
+                .filter((entry) => entry.from + entry.duration > frameOffset)
+                .map((entry, index, selection) => (
+                  <Sequence
+                    key={entry.id}
+                    from={entry.from - frameOffset}
+                    durationInFrames={entry.duration + (index < selection.length - 1 ? 12 : 0)}
+                    name={`${entry.id} · ${entry.title}`}
+                  >
+                    <ShotContent shot={entry} />
+                  </Sequence>
+                ))}
             </AbsoluteFill>
             <Impact id={shot.id} f={f} />
             <EditBridge />
           </AbsoluteFill>
           <FilmOptics />
           <FilmBranding />
-          {showSubtitles && caption && !impactNow && (
+          {showSubtitles && caption && (
             <At x={100} style={{ top: 'auto', bottom: 96, width: 1720, display: 'flex', justifyContent: 'center', zIndex: 200 }}>
               <div
                 data-film-caption={caption.sceneId ?? shot.id}
+                data-caption-start={caption.startFrame}
+                data-caption-end={caption.endFrame}
                 style={{
                   maxWidth: 1670,
+                  fontFamily: fonts.chinese,
                   fontSize: 31,
                   fontWeight: 500,
                   lineHeight: 1.42,
                   letterSpacing: 0.4,
-                  color: dark ? '#F1F3F7' : C.ink,
-                  background: dark ? '#11151DCA' : '#FFFFFFDC',
+                  color: C.ink,
+                  background: '#FFFFFFDC',
                   padding: '6px 22px',
                   borderRadius: 8,
-                  boxShadow: dark ? '0 2px 16px #0002' : '0 2px 12px #FFFFFFA0',
+                  boxShadow: '0 2px 12px #FFFFFFA0',
                 }}
               >
                 {caption.text}
               </div>
             </At>
           )}
-          {frame < 25 && <AbsoluteFill style={{ background: '#FCFCFD', opacity: 1 - fade(frame, 0, 25), zIndex: 300 }} />}
-          {frame >= duration - 18 && <AbsoluteFill style={{ background: '#000', opacity: limit((frame - duration + 18) / 17), zIndex: 300 }} />}
+          {frame < 25 && <AbsoluteFill style={{ background: '#FCFCFD', opacity: 1 - fade(frame, 0, 25), zIndex: 145 }} />}
+          {outroDuration > 1 && frame >= outroFrom && (
+            <AbsoluteFill data-film-outro style={{ background: '#000', opacity: fade(frame, outroFrom, outroDuration - 1), zIndex: 250 }} />
+          )}
           <Soundtrack timeline={sourceTimeline} project={project} files={availableFiles} frameOffset={frameOffset} sfx={enableSfx} voiceTracks={voiceTracks} />
         </AbsoluteFill>
       </AssetContext.Provider>

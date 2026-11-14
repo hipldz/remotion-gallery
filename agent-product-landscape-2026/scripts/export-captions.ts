@@ -32,7 +32,7 @@ const cueSheet = timeline
   .join('\n');
 writeFileSync(
   path.join(production, 'narration-cues.md'),
-  `# 录音与剪辑提示 · V3\n\n按 Storyboard.md 的新剧本生成。真人提词与字幕共用时间线，末尾留白让音乐与画面参与转场。字幕仍按句子长度估算，未做语音强制对齐。\n\n| 镜头 | 入点 | 时长 | 类型 | 末尾留白 | 旁白 |\n|---|---|---|---|---|---|\n${cueSheet}\n`,
+  `# 录音与剪辑提示 · 7–8 分钟动效科普 V4.1\n\n优先使用 vendor 编辑器保存到 public/narration/manifest.json 的当前字幕和时间。每句保留分镜关联，原版特效按实际切点推进，进入之后保持阅读画面。初始按自然口语估时，真人朗读可逐句打点；镜头末尾留白参与叠化。\n\n| 镜头 | 入点 | 时长 | 类型 | 末尾留白 | 旁白 |\n|---|---|---|---|---|---|\n${cueSheet}\n`,
 );
 console.log(
   `Exported ${captions.length} caption cues, SRT, VTT, timing.json, narration-cues.md. ${timeline.filter((shot) => shot.vo).length} imported voice files detected.`,

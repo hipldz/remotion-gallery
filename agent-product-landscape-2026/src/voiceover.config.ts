@@ -1,5 +1,6 @@
 import { defineVoiceoverProject, getVoiceCaptions, retimeVoiceTracks, type VoiceoverProject, type VoiceTrack } from 'remotion-voiceover/core';
 import { captionsFor, FPS, totalFrames, type TimedShot } from './lib/timeline';
+import { matchScriptCues } from './lib/cue-match';
 
 // Use the resolved edit, including any shots extended by imported voice files.
 export const createVoiceoverProject = (timeline: TimedShot[]) =>
@@ -27,11 +28,13 @@ export function resolveVoiceTimeline(timeline: TimedShot[], project: VoiceoverPr
   return timeline.map((shot) => {
     const scene = project.scenes!.find((entry) => entry.id === shot.id)!;
     const captions = getVoiceCaptions(shot.id, project);
+    const assignments = matchScriptCues(shot.cues, captions);
     return {
       ...shot,
       from: scene.from,
       duration: scene.durationInFrames,
       narration: captions.map((cue) => cue.text).join('／'),
+      captionCues: captions.map((cue, index) => ({ text: cue.text, from: cue.startFrame, to: cue.endFrame, shotId: shot.id, scriptIndex: assignments[index] })),
     };
   });
 }

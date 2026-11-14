@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
-import { chromium, expect } from '@playwright/test';
+import { chromium, expect, type Page } from '@playwright/test';
 import { createServer } from 'vite';
 import { inspectVoiceWave } from 'remotion-voiceover/server';
 import { parseVoiceManifest } from 'remotion-voiceover/core';
@@ -60,9 +60,12 @@ async function main() {
     root: resolve('.'),
     publicDir,
     plugins: [projectAssetsPlugin(publicDir)],
+    optimizeDeps: { include: ['react/jsx-runtime', 'react/jsx-dev-runtime'] },
     server: { host: '127.0.0.1', port: 0 },
   });
   let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
+  let diagnosticPage: Page | undefined;
+  const errors: string[] = [];
   try {
     await server.listen();
     const address = server.httpServer!.address();
@@ -97,7 +100,7 @@ async function main() {
       };
     });
     const page = await context.newPage();
-    const errors: string[] = [];
+    diagnosticPage = page;
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(url, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.__agentReview?.ready);
@@ -217,7 +220,12 @@ async function main() {
 
     // This Player receives no voiceTracks, as in Studio. Verify manifest loading
     // and source offsets when the entire film is cropped to an independent chapter.
-    assert.equal((await fetch(`${url}/api/voiceover?scope=full`, { method: 'POST', body: wave(project.durationInFrames / 30) })).status, 200);
+    // Save a full-length, 48 kHz take for the final 7–8 minute edit.
+    // Use Playwright's request client for large binary fixtures on Windows.
+    const longFilmWave = wave(project.durationInFrames / 30, 48000);
+    assert.equal(Math.round(inspectVoiceWave(longFilmWave).duration * 30), project.durationInFrames);
+    const fullUpload = await page.request.post(`${url}/api/voiceover?scope=full`, { data: longFilmWave, timeout: 60000 });
+    assert.equal(fullUpload.status(), 200, await fullUpload.text());
     assert.equal((await fetch(`${url}/api/voiceover?scope=C01`, { method: 'POST', body: wave(1) })).status, 200);
     manifest = await load();
     const full = manifest.tracks.find((track) => track.scope === 'full')!;
@@ -255,7 +263,10 @@ async function main() {
     await page.getByRole('button', { name: '编辑稿件与时长', exact: true }).click();
     const dialog = page.getByRole('dialog');
     while (await dialog.getByRole('button', { name: /^删除第/ }).count()) {
-      await dialog.getByRole('button', { name: /^删除第/ }).first().click();
+      await dialog
+        .getByRole('button', { name: /^删除第/ })
+        .first()
+        .click();
     }
     await dialog.getByRole('button', { name: '＋ 增加一句字幕', exact: true }).click();
     const editedText = '这是升级后按朗读节奏录制的字幕。';
@@ -307,6 +318,8 @@ async function main() {
           saveReload: true,
           retake: true,
           fullFilm: true,
+          longFilmUploadBytes: longFilmWave.length,
+          fullLength48KhzUpload: true,
           invalidUploadsRejected: true,
           deniedPermission: true,
           mobile: true,
@@ -327,6 +340,17 @@ async function main() {
     console.log(
       'PASS: invalid uploads, permission denial, mobile layout, clean canvas, Studio-style manifest loading, chapter offsets, V2 script edits, reading past cuts, and edited timeline reload. User recordings untouched; no video rendered.',
     );
+  } catch (failure) {
+    await diagnosticPage?.screenshot({ path: join(output, 'voice-recorder-failure.png'), fullPage: true }).catch(() => undefined);
+    console.error('Voiceover test browser errors:', errors);
+    console.error(
+      'Voiceover test alerts:',
+      await diagnosticPage
+        ?.getByRole('alert')
+        .allTextContents()
+        .catch(() => []),
+    );
+    throw failure;
   } finally {
     await browser?.close();
     await server.close();

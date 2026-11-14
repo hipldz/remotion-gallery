@@ -56,7 +56,8 @@ export function Year2024({ id, f }: { id: string; f: number }) {
       ['browser', '浏览器'],
       ['file', '文件'],
     ];
-    const current = Math.floor(f / 31) % 4;
+    const clock = cinema.frame - cinema.shot.from;
+    const current = Math.floor(clock / 31) % 4;
     return (
       <>
         <TitleBlock f={f} eyebrow="2024.03 / 试着自己把事情做完" lines={['Devin']} x={110} y={190} width={600} size={112} />
@@ -101,7 +102,7 @@ export function Year2024({ id, f }: { id: string; f: number }) {
                   <div style={{ fontSize: 29, marginTop: 20, color: '#6E7C90' }}>{name}</div>
                 </At>
               ))}
-              <Orb x={(current % 2) * 480 + 340} y={Math.floor(current / 2) * 250 + 130 + arc((f % 31) / 31, 45)} f={100} color={C.blue} size={50} />
+              <Orb x={(current % 2) * 480 + 340} y={Math.floor(current / 2) * 250 + 130 + arc((clock % 31) / 31, 45)} f={100} color={C.blue} size={50} />
             </div>
           </At>
         )}

@@ -2,589 +2,2022 @@
   {
     "id": "P01",
     "title": "大家好，今天回顾这些 AI Agent",
-    "chapter": "开场",
     "chapterKey": "P",
-    "minFrames": 720,
-    "animationFrames": 720,
-    "originalFrom": 0,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "大家好，今天大家几乎都在聊／WorkBuddy、Codex 这些 AI Agent。／那从 2022 年 ChatGPT 网页版出现，／到今天，中间有哪些热门的 Agent 产品呢？／我整理了一些能代表不同阶段的产品，／今天想带着大家一起回顾一下。",
-    "voOffset": 10,
-    "tailFrames": 18
+    "animationFrames": 720,
+    "chapter": "开场",
+    "originalFrom": 0,
+    "minFrames": 743,
+    "elastic": true,
+    "narration": "大家好，今天大家几乎都在聊／WorkBuddy、Codex 这些 AI Agent／那从 2022 年 ChatGPT 网页版出现，／到今天，中间有哪些热门的 Agent 产品呢／我整理了一些能代表不同阶段的产品，／今天想带着大家一起回顾一下",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "大家好，今天大家几乎都在聊",
+        "startFrame": 15,
+        "endFrame": 119,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 0
+      },
+      {
+        "text": "WorkBuddy、Codex 这些 AI Agent",
+        "startFrame": 124,
+        "endFrame": 204,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 1
+      },
+      {
+        "text": "那从 2022 年 ChatGPT 网页版出现，",
+        "startFrame": 209,
+        "endFrame": 329,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 2
+      },
+      {
+        "text": "到今天，中间有哪些热门的 Agent 产品呢",
+        "startFrame": 334,
+        "endFrame": 466,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 3
+      },
+      {
+        "text": "我整理了一些能代表不同阶段的产品，",
+        "startFrame": 471,
+        "endFrame": 606,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 4
+      },
+      {
+        "text": "今天想带着大家一起回顾一下",
+        "startFrame": 611,
+        "endFrame": 719,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 5
+      }
+    ],
+    "motion": []
   },
   {
     "id": "P03",
     "title": "开讲前，求个关注，帮我升到 LV2",
-    "chapter": "开场",
     "chapterKey": "P",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 720,
     "kind": "INSERT",
-    "elastic": false,
-    "narration": "开讲前，求个关注，／帮我升到 LV2。／多谢多谢！",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 180,
+    "chapter": "开场",
+    "originalFrom": 743,
+    "minFrames": 308,
+    "elastic": true,
+    "narration": "开讲前，求个关注，这样能帮我升级到 LV2／解锁视频合集的权益，谢谢大家。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "开讲前，求个关注，这样能帮我升级到 LV2",
+        "startFrame": 15,
+        "endFrame": 164,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 6
+      },
+      {
+        "text": "解锁视频合集的权益，谢谢大家。",
+        "startFrame": 169,
+        "endFrame": 284,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 7
+      }
+    ],
+    "motion": []
   },
   {
     "id": "P02",
     "title": "这次怎么回顾",
-    "chapter": "开场",
     "chapterKey": "P",
-    "minFrames": 270,
-    "animationFrames": 270,
-    "originalFrom": 900,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "先看聊天和编程工具，／再看查资料、做办公的 Agent，／最后聊聊，／这些工作台是怎么来的。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 270,
+    "chapter": "开场",
+    "originalFrom": 1051,
+    "minFrames": 395,
+    "elastic": true,
+    "narration": "本期我们会先看聊天和编程工具，／然后再看查资料、做办公的 Agent，／最后聊聊，这些工作台是怎么来的",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "本期我们会先看聊天和编程工具，",
+        "startFrame": 15,
+        "endFrame": 134,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 8
+      },
+      {
+        "text": "然后再看查资料、做办公的 Agent，",
+        "startFrame": 139,
+        "endFrame": 247,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 9
+      },
+      {
+        "text": "最后聊聊，这些工作台是怎么来的",
+        "startFrame": 252,
+        "endFrame": 371,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 10
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 47,
+        "frames": 47
+      },
+      {
+        "cueIndex": 1,
+        "from": 48,
+        "to": 73,
+        "frames": 25
+      },
+      {
+        "cueIndex": 2,
+        "from": 74,
+        "to": 110,
+        "frames": 36
+      }
+    ]
   },
   {
     "id": "P06",
     "title": "先回到 2022 年",
-    "chapter": "开场",
     "chapterKey": "P",
-    "minFrames": 90,
-    "animationFrames": 285,
-    "originalFrom": 1170,
     "kind": "WORLD",
+    "animationFrames": 285,
+    "chapter": "开场",
+    "originalFrom": 1446,
+    "minFrames": 192,
     "elastic": true,
-    "narration": "先回到 2022 年。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "那我们就把时间线拉回到 2022 年... ...",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "那我们就把时间线拉回到 2022 年... ...",
+        "startFrame": 15,
+        "endFrame": 168,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 11
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 250,
+        "frames": 100
+      }
+    ]
   },
   {
     "id": "P07",
     "title": "片名",
-    "chapter": "开场",
     "chapterKey": "P",
-    "minFrames": 60,
-    "animationFrames": 135,
-    "originalFrom": 1260,
     "kind": "INSERT",
+    "animationFrames": 135,
+    "chapter": "开场",
+    "originalFrom": 1638,
+    "minFrames": 90,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "Z04",
     "title": "先认一下图上的颜色",
-    "chapter": "读图",
     "chapterKey": "Z",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 1320,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "蓝色是编程，绿色是办公。／另外两条，后面再说。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 180,
+    "chapter": "读图",
+    "originalFrom": 1728,
+    "minFrames": 407,
+    "elastic": true,
+    "narration": "图上主要看两条线：写代码，和做日常工作。／流程负责提前排步骤，Harness 则把工具、进度和上下文组织起来。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "图上主要看两条线：写代码，和做日常工作。",
+        "startFrame": 15,
+        "endFrame": 166,
+        "beatId": "cinematic",
+        "focus": 0
+      },
+      {
+        "text": "流程负责提前排步骤，Harness 则把工具、进度和上下文组织起来。",
+        "startFrame": 171,
+        "endFrame": 383,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 54,
+        "frames": 54
+      },
+      {
+        "cueIndex": 1,
+        "from": 55,
+        "to": 160,
+        "frames": 80
+      }
+    ]
   },
   {
     "id": "A00",
     "title": "聊天和补代码",
-    "chapter": "第 1 话",
     "chapterKey": "A",
-    "minFrames": 60,
-    "animationFrames": 60,
-    "originalFrom": 1500,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "回答与补全",
+    "originalFrom": 2135,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "A03",
     "title": "Copilot：接着写代码",
-    "chapter": "第 1 话",
     "chapterKey": "A",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 1560,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "你写到一半，／Copilot 帮你接着往下写。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 180,
+    "chapter": "回答与补全",
+    "originalFrom": 2207,
+    "minFrames": 338,
+    "elastic": true,
+    "narration": "2022年6月的github copilot, 就能让我们的编程代码写一半，／它继续帮你接着往下写",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "2022年6月的github copilot, 就能让我们的编程代码写一半，",
+        "startFrame": 15,
+        "endFrame": 225,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 12
+      },
+      {
+        "text": "它继续帮你接着往下写",
+        "startFrame": 230,
+        "endFrame": 314,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 13
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 49,
+        "frames": 49
+      },
+      {
+        "cueIndex": 1,
+        "from": 50,
+        "to": 125,
+        "frames": 75
+      }
+    ]
   },
   {
     "id": "A01",
     "title": "ChatGPT：打开网页就能聊",
-    "chapter": "第 1 话",
     "chapterKey": "A",
-    "minFrames": 180,
-    "animationFrames": 300,
-    "originalFrom": 1740,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "ChatGPT 就更直接了：／打开网页，问问题、写东西。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 300,
+    "chapter": "回答与补全",
+    "originalFrom": 2545,
+    "minFrames": 400,
+    "elastic": true,
+    "narration": "等到了22年11月, ChatGPT WEB初次登场，这次就更直接了：／直接让大家从打开网页开始，问问题、写东西。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "等到了22年11月, ChatGPT WEB初次登场，这次就更直接了：",
+        "startFrame": 15,
+        "endFrame": 216,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 14
+      },
+      {
+        "text": "直接让大家从打开网页开始，问问题、写东西。",
+        "startFrame": 221,
+        "endFrame": 376,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 15
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 64,
+        "frames": 64
+      },
+      {
+        "cueIndex": 1,
+        "from": 65,
+        "to": 130,
+        "frames": 65
+      }
+    ]
   },
   {
     "id": "A02",
     "title": "有了建议，活儿还得自己干",
-    "chapter": "第 1 话",
     "chapterKey": "A",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 1920,
     "kind": "INSERT",
-    "elastic": false,
-    "narration": "建议是有了，／但复制代码、运行、检查，还得你来。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 180,
+    "chapter": "回答与补全",
+    "originalFrom": 2945,
+    "minFrames": 501,
+    "elastic": true,
+    "narration": "这个期间，AI给出的建议是有了，／但复制代码、运行、检查，这些操作还得我们自己来／就像修个按钮，拿到方案后，真正操作的还是你。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "这个期间，AI给出的建议是有了，",
+        "startFrame": 15,
+        "endFrame": 133,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 16
+      },
+      {
+        "text": "但复制代码、运行、检查，这些操作还得我们自己来",
+        "startFrame": 138,
+        "endFrame": 305,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 17
+      },
+      {
+        "text": "就像修个按钮，拿到方案后，真正操作的还是你。",
+        "startFrame": 310,
+        "endFrame": 477,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 36,
+        "frames": 36
+      },
+      {
+        "cueIndex": 1,
+        "from": 38,
+        "to": 110,
+        "frames": 72
+      }
+    ]
   },
   {
     "id": "B00",
     "title": "AI 开始动手了",
-    "chapter": "第 2 话",
     "chapterKey": "B",
-    "minFrames": 60,
-    "animationFrames": 60,
-    "originalFrom": 2100,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "接上工具",
+    "originalFrom": 3446,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "B01",
     "title": "想让 AI 动手，先给它工具",
-    "chapter": "第 2 话",
     "chapterKey": "B",
-    "minFrames": 180,
-    "animationFrames": 135,
-    "originalFrom": 2160,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "那怎么让它动手呢？／先给它查资料、跑代码的工具。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 135,
+    "chapter": "接上工具",
+    "originalFrom": 3518,
+    "minFrames": 380,
+    "elastic": true,
+    "narration": "那怎么让它动手呢／先给它查资料、跑代码的工具／工具把文字判断接到实际程序，这才有了动作。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "那怎么让它动手呢",
+        "startFrame": 15,
+        "endFrame": 83,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 18
+      },
+      {
+        "text": "先给它查资料、跑代码的工具",
+        "startFrame": 88,
+        "endFrame": 188,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 19
+      },
+      {
+        "text": "工具把文字判断接到实际程序，这才有了动作。",
+        "startFrame": 193,
+        "endFrame": 356,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 37,
+        "frames": 37
+      },
+      {
+        "cueIndex": 1,
+        "from": 38,
+        "to": 135,
+        "frames": 75
+      }
+    ]
   },
   {
     "id": "B02",
     "title": "选个工具，跑一下，再看结果",
-    "chapter": "第 2 话",
     "chapterKey": "B",
-    "minFrames": 210,
-    "animationFrames": 330,
-    "originalFrom": 2340,
     "kind": "INSERT",
+    "animationFrames": 330,
+    "chapter": "接上工具",
+    "originalFrom": 3898,
+    "minFrames": 391,
     "elastic": true,
-    "narration": "AI 选好工具，程序去跑。／结果回来，再决定下一步。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "narration": "AI 选好工具，程序去跑／结果回来，再决定下一步／调用和反馈连起来，才有办法决定接下来怎么做。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "AI 选好工具，程序去跑",
+        "startFrame": 15,
+        "endFrame": 98,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 20
+      },
+      {
+        "text": "结果回来，再决定下一步",
+        "startFrame": 103,
+        "endFrame": 191,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 21
+      },
+      {
+        "text": "调用和反馈连起来，才有办法决定接下来怎么做。",
+        "startFrame": 196,
+        "endFrame": 367,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 90
+      },
+      {
+        "cueIndex": 1,
+        "from": 145,
+        "to": 255,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "B04",
     "title": "Cursor 和 Aider：开始改项目",
-    "chapter": "第 2 话",
     "chapterKey": "B",
-    "minFrames": 270,
-    "animationFrames": 360,
-    "originalFrom": 2550,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "Cursor 让你边聊边改代码，／Aider 则在终端里改文件。／这回，能直接改项目了。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 360,
+    "chapter": "接上工具",
+    "originalFrom": 4289,
+    "minFrames": 297,
+    "elastic": true,
+    "narration": "Cursor 让你边聊边改代码，／Aider 则在终端里改文件／这回，能直接改项目了",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Cursor 让你边聊边改代码，",
+        "startFrame": 15,
+        "endFrame": 102,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 22
+      },
+      {
+        "text": "Aider 则在终端里改文件",
+        "startFrame": 107,
+        "endFrame": 188,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 23
+      },
+      {
+        "text": "这回，能直接改项目了",
+        "startFrame": 193,
+        "endFrame": 273,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 24
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 145,
+        "frames": 90
+      },
+      {
+        "cueIndex": 1,
+        "from": 180,
+        "to": 265,
+        "frames": 75
+      },
+      {
+        "cueIndex": 2,
+        "from": 265,
+        "to": 300,
+        "frames": 35
+      }
+    ]
   },
   {
     "id": "C00",
     "title": "进到项目里干活",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 60,
-    "animationFrames": 60,
-    "originalFrom": 2820,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "工作环境",
+    "originalFrom": 4586,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "C01",
     "title": "写代码，适合先试一试",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 210,
-    "animationFrames": 210,
-    "originalFrom": 2880,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "编程很适合先试一试：／代码能直接改，改完还能跑测试。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 210,
+    "chapter": "工作环境",
+    "originalFrom": 4658,
+    "minFrames": 404,
+    "elastic": true,
+    "narration": "编程很适合先试一试：／代码能直接改，改完还能跑测试／运行结果提供反馈，修得对不对就能继续验证。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "编程很适合先试一试：",
+        "startFrame": 15,
+        "endFrame": 95,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 25
+      },
+      {
+        "text": "代码能直接改，改完还能跑测试",
+        "startFrame": 100,
+        "endFrame": 212,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 26
+      },
+      {
+        "text": "运行结果提供反馈，修得对不对就能继续验证。",
+        "startFrame": 217,
+        "endFrame": 380,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 30,
+        "frames": 30
+      },
+      {
+        "cueIndex": 1,
+        "from": 31,
+        "to": 95,
+        "frames": 48
+      }
+    ]
   },
   {
     "id": "C02",
     "title": "Devin：试着自己做完一件事",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 240,
-    "animationFrames": 390,
-    "originalFrom": 3090,
     "kind": "WORLD",
+    "animationFrames": 390,
+    "chapter": "工作环境",
+    "originalFrom": 5062,
+    "minFrames": 470,
     "elastic": true,
-    "narration": "Devin 有编辑器、终端和浏览器。／你把任务交给它，／它试着做完再给你看。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "Devin 有编辑器、终端和浏览器／你把任务交给它，／它试着做完再给你看／工作环境把这些操作放在一起，让任务能连续推进。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Devin 有编辑器、终端和浏览器",
+        "startFrame": 15,
+        "endFrame": 112,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 27
+      },
+      {
+        "text": "你把任务交给它，",
+        "startFrame": 117,
+        "endFrame": 181,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 28
+      },
+      {
+        "text": "它试着做完再给你看",
+        "startFrame": 186,
+        "endFrame": 262,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 29
+      },
+      {
+        "text": "工作环境把这些操作放在一起，让任务能连续推进。",
+        "startFrame": 267,
+        "endFrame": 446,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 136,
+        "frames": 100
+      },
+      {
+        "cueIndex": 1,
+        "from": 140,
+        "to": 290,
+        "frames": 95
+      },
+      {
+        "cueIndex": 2,
+        "from": 300,
+        "to": 360,
+        "frames": 60
+      }
+    ]
   },
   {
     "id": "C03",
     "title": "Replit Agent 和 Bolt.new：说说需求，搭个应用",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 3330,
     "kind": "INSERT",
-    "elastic": false,
-    "narration": "用 Replit Agent、Bolt.new，／说说需求，就能试着搭个应用。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 180,
+    "chapter": "工作环境",
+    "originalFrom": 5532,
+    "minFrames": 397,
+    "elastic": true,
+    "narration": "用 Replit Agent、Bolt.new，／说说需求，就能试着搭个应用／比如做个记账网页，先跑出原型，再讨论哪里要改。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "用 Replit Agent、Bolt.new，",
+        "startFrame": 15,
+        "endFrame": 84,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 30
+      },
+      {
+        "text": "说说需求，就能试着搭个应用",
+        "startFrame": 89,
+        "endFrame": 193,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 31
+      },
+      {
+        "text": "比如做个记账网页，先跑出原型，再讨论哪里要改。",
+        "startFrame": 198,
+        "endFrame": 373,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 35,
+        "frames": 50
+      },
+      {
+        "cueIndex": 1,
+        "from": 40,
+        "to": 158,
+        "frames": 100
+      }
+    ]
   },
   {
     "id": "C04",
     "title": "Windsurf 和 Cline：在编辑器里做事",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 180,
-    "animationFrames": 330,
-    "originalFrom": 3510,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "Windsurf、Cline，／能在编辑器里改文件、跑命令。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 330,
+    "chapter": "工作环境",
+    "originalFrom": 5929,
+    "minFrames": 349,
+    "elastic": true,
+    "narration": "Windsurf、Cline，／能在编辑器里改文件、跑命令／这些操作连起来，就可以逐步推进一项需求。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Windsurf、Cline，",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 32
+      },
+      {
+        "text": "能在编辑器里改文件、跑命令",
+        "startFrame": 65,
+        "endFrame": 165,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 33
+      },
+      {
+        "text": "这些操作连起来，就可以逐步推进一项需求。",
+        "startFrame": 170,
+        "endFrame": 325,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 54,
+        "frames": 54
+      },
+      {
+        "cueIndex": 1,
+        "from": 55,
+        "to": 130,
+        "frames": 65
+      }
+    ]
   },
   {
     "id": "C05",
     "title": "重复的事，先排好步骤",
-    "chapter": "第 3 话",
     "chapterKey": "C",
-    "minFrames": 240,
-    "animationFrames": 210,
-    "originalFrom": 3690,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "如果事情总是重复，／也可以用 n8n、Dify、Coze，／先把步骤排好。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 210,
+    "chapter": "工作环境",
+    "originalFrom": 6278,
+    "minFrames": 451,
+    "elastic": true,
+    "narration": "如果事情总是重复，／也可以用 n8n、Dify、Coze，／先把步骤排好／固定流程适合重复任务，也可以把其中一步交给 Agent。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "如果事情总是重复，",
+        "startFrame": 15,
+        "endFrame": 87,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 34
+      },
+      {
+        "text": "也可以用 n8n、Dify、Coze，",
+        "startFrame": 92,
+        "endFrame": 182,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 35
+      },
+      {
+        "text": "先把步骤排好",
+        "startFrame": 187,
+        "endFrame": 239,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 36
+      },
+      {
+        "text": "固定流程适合重复任务，也可以把其中一步交给 Agent。",
+        "startFrame": 244,
+        "endFrame": 427,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 85,
+        "frames": 85
+      },
+      {
+        "cueIndex": 1,
+        "from": 88,
+        "to": 152,
+        "frames": 64
+      },
+      {
+        "cueIndex": 2,
+        "from": 154,
+        "to": 205,
+        "frames": 51
+      }
+    ]
   },
   {
     "id": "D00",
     "title": "交给它做，做完你再看",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 60,
-    "animationFrames": 60,
-    "originalFrom": 3930,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "交代任务与验收",
+    "originalFrom": 6729,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "D01",
     "title": "交代好任务，做完再来看",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 3990,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "再往后，／你给它一个目标，／做完了再来检查。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 180,
+    "chapter": "交代任务与验收",
+    "originalFrom": 6801,
+    "minFrames": 409,
+    "elastic": true,
+    "narration": "再往后，／你给它一个目标，／做完了再来检查／你要交代清楚目标和完成标准，中间的步骤由它判断。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "再往后，",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 37
+      },
+      {
+        "text": "你给它一个目标，",
+        "startFrame": 65,
+        "endFrame": 129,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 38
+      },
+      {
+        "text": "做完了再来检查",
+        "startFrame": 134,
+        "endFrame": 194,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 39
+      },
+      {
+        "text": "你要交代清楚目标和完成标准，中间的步骤由它判断。",
+        "startFrame": 199,
+        "endFrame": 385,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 20,
+        "frames": 20
+      },
+      {
+        "cueIndex": 1,
+        "from": 22,
+        "to": 64,
+        "frames": 42
+      },
+      {
+        "cueIndex": 2,
+        "from": 65,
+        "to": 110,
+        "frames": 45
+      }
+    ]
   },
   {
     "id": "D02",
     "title": "修个 bug，改完给你检查",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 210,
-    "animationFrames": 300,
-    "originalFrom": 4170,
     "kind": "INSERT",
-    "elastic": false,
-    "narration": "比如修个 bug。／改文件、跑测试，／最后把修改交给你检查。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 300,
+    "chapter": "交代任务与验收",
+    "originalFrom": 7210,
+    "minFrames": 412,
+    "elastic": true,
+    "narration": "比如修个 bug／改文件、跑测试，／最后把修改交给你检查／说改好了还不够，修改和测试结果也要对照着看。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "比如修个 bug",
+        "startFrame": 15,
+        "endFrame": 62,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 40
+      },
+      {
+        "text": "改文件、跑测试，",
+        "startFrame": 67,
+        "endFrame": 123,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 41
+      },
+      {
+        "text": "最后把修改交给你检查",
+        "startFrame": 128,
+        "endFrame": 212,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 42
+      },
+      {
+        "text": "说改好了还不够，修改和测试结果也要对照着看。",
+        "startFrame": 217,
+        "endFrame": 388,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 84,
+        "frames": 80
+      },
+      {
+        "cueIndex": 1,
+        "from": 85,
+        "to": 195,
+        "frames": 85
+      },
+      {
+        "cueIndex": 2,
+        "from": 206,
+        "to": 270,
+        "frames": 64
+      }
+    ]
   },
   {
     "id": "D03",
     "title": "Claude Code：在终端里做事",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 180,
-    "animationFrames": 285,
-    "originalFrom": 4380,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "Claude Code 就在终端里工作。／看代码、改文件、跑命令。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 285,
+    "chapter": "交代任务与验收",
+    "originalFrom": 7622,
+    "minFrames": 206,
+    "elastic": true,
+    "narration": "Claude Code 就在终端里工作／看代码、改文件、跑命令",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Claude Code 就在终端里工作",
+        "startFrame": 15,
+        "endFrame": 101,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 43
+      },
+      {
+        "text": "看代码、改文件、跑命令",
+        "startFrame": 106,
+        "endFrame": 182,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 44
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "D10",
     "title": "Pi：先用基本工具，需要什么再加",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 180,
-    "animationFrames": 270,
-    "originalFrom": 4560,
     "kind": "WORLD",
+    "animationFrames": 270,
+    "chapter": "交代任务与验收",
+    "originalFrom": 7828,
+    "minFrames": 390,
     "elastic": true,
-    "narration": "Pi 先给你几样基本工具，／需要什么，再加上去。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "Pi 先给你几样基本工具，／需要什么，再加上去／小工具组配上扩展，也是一种组织编程助手的方式。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Pi 先给你几样基本工具，",
+        "startFrame": 15,
+        "endFrame": 105,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 45
+      },
+      {
+        "text": "需要什么，再加上去",
+        "startFrame": 110,
+        "endFrame": 182,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 46
+      },
+      {
+        "text": "小工具组配上扩展，也是一种组织编程助手的方式。",
+        "startFrame": 187,
+        "endFrame": 366,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 180,
+        "frames": 100
+      }
+    ]
   },
   {
     "id": "D06",
     "title": "终端和云端，各怎么用",
-    "chapter": "第 4 话",
     "chapterKey": "D",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 4740,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "终端里，你边做边看。／放到云端，就等它做好再检查。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 180,
+    "chapter": "交代任务与验收",
+    "originalFrom": 8218,
+    "minFrames": 392,
+    "elastic": true,
+    "narration": "终端里，你边做边看／放到云端，就等它做好再检查／入口不同，人的参与节奏不同，结果都需要验收。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "终端里，你边做边看",
+        "startFrame": 15,
+        "endFrame": 87,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 47
+      },
+      {
+        "text": "放到云端，就等它做好再检查",
+        "startFrame": 92,
+        "endFrame": 196,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 48
+      },
+      {
+        "text": "入口不同，人的参与节奏不同，结果都需要验收。",
+        "startFrame": 201,
+        "endFrame": 368,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 34,
+        "frames": 34
+      },
+      {
+        "cueIndex": 1,
+        "from": 35,
+        "to": 100,
+        "frames": 65
+      }
+    ]
   },
   {
     "id": "E01",
     "title": "不光写代码，还能查资料、做报告",
-    "chapter": "第 5 话",
     "chapterKey": "E",
-    "minFrames": 240,
-    "animationFrames": 240,
-    "originalFrom": 4920,
     "kind": "INSERT",
+    "animationFrames": 240,
+    "chapter": "研究与办公",
+    "originalFrom": 8610,
+    "minFrames": 455,
     "elastic": true,
-    "narration": "有了浏览器和文件工具，／查资料、做报告，／也能交给 AI 试试了。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "narration": "有了浏览器和文件工具，／查资料、做报告，／也能交给 AI 试试了／从代码换成网页和文档，操作加反馈的思路仍然相通。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "有了浏览器和文件工具，",
+        "startFrame": 15,
+        "endFrame": 103,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 49
+      },
+      {
+        "text": "查资料、做报告，",
+        "startFrame": 108,
+        "endFrame": 164,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 50
+      },
+      {
+        "text": "也能交给 AI 试试了",
+        "startFrame": 169,
+        "endFrame": 240,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 51
+      },
+      {
+        "text": "从代码换成网页和文档，操作加反馈的思路仍然相通。",
+        "startFrame": 245,
+        "endFrame": 431,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 36,
+        "frames": 36
+      },
+      {
+        "cueIndex": 1,
+        "from": 38,
+        "to": 64,
+        "frames": 26
+      },
+      {
+        "cueIndex": 2,
+        "from": 65,
+        "to": 120,
+        "frames": 55
+      }
+    ]
   },
   {
     "id": "D08",
     "title": "Deep Research：查资料，带出处",
-    "chapter": "第 5 话",
     "chapterKey": "E",
-    "minFrames": 180,
-    "animationFrames": 210,
-    "originalFrom": 5160,
     "kind": "WORLD",
+    "animationFrames": 210,
+    "chapter": "研究与办公",
+    "originalFrom": 9065,
+    "minFrames": 391,
     "elastic": true,
-    "narration": "Deep Research 帮你查资料、写报告，／也会把来源列出来。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "Deep Research 帮你查资料、写报告，／也会把来源列出来／有引用仍要检查材料，看看结论是否真的有依据。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Deep Research 帮你查资料、写报告，",
+        "startFrame": 15,
+        "endFrame": 118,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 52
+      },
+      {
+        "text": "也会把来源列出来",
+        "startFrame": 123,
+        "endFrame": 191,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 53
+      },
+      {
+        "text": "有引用仍要检查材料，看看结论是否真的有依据。",
+        "startFrame": 196,
+        "endFrame": 367,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 64,
+        "frames": 64
+      },
+      {
+        "cueIndex": 1,
+        "from": 65,
+        "to": 155,
+        "frames": 80
+      }
+    ]
   },
   {
     "id": "D07",
     "title": "Manus：找资料，做成文件",
-    "chapter": "第 5 话",
     "chapterKey": "E",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 5340,
     "kind": "WORLD",
+    "animationFrames": 180,
+    "chapter": "研究与办公",
+    "originalFrom": 9456,
+    "minFrames": 197,
     "elastic": true,
-    "narration": "Manus 能用浏览器找资料，／再整理成文件给你。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "Manus 能用浏览器找资料，／再整理成文件给你",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Manus 能用浏览器找资料，",
+        "startFrame": 15,
+        "endFrame": 100,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 54
+      },
+      {
+        "text": "再整理成文件给你",
+        "startFrame": 105,
+        "endFrame": 173,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 55
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "D09",
     "title": "ChatGPT Agent：查完资料，接着做",
-    "chapter": "第 5 话",
     "chapterKey": "E",
-    "minFrames": 180,
-    "animationFrames": 180,
-    "originalFrom": 5520,
     "kind": "WORLD",
+    "animationFrames": 180,
+    "chapter": "研究与办公",
+    "originalFrom": 9653,
+    "minFrames": 375,
     "elastic": true,
-    "narration": "ChatGPT Agent 查完资料，／还能用浏览器接着做。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "narration": "ChatGPT Agent 查完资料，／还能用浏览器接着做／研究接上操作，也要说清哪里需要停下来等你确认。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "ChatGPT Agent 查完资料，",
+        "startFrame": 15,
+        "endFrame": 86,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 56
+      },
+      {
+        "text": "还能用浏览器接着做",
+        "startFrame": 91,
+        "endFrame": 167,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 57
+      },
+      {
+        "text": "研究接上操作，也要说清哪里需要停下来等你确认。",
+        "startFrame": 172,
+        "endFrame": 351,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "F00",
     "title": "把事情放到工作台",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 60,
-    "animationFrames": 60,
-    "originalFrom": 5700,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "工作台与长任务",
+    "originalFrom": 10028,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "F01",
     "title": "事情多了，放一起更好管",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 180,
-    "animationFrames": 240,
-    "originalFrom": 5760,
     "kind": "INSERT",
-    "elastic": false,
-    "narration": "事情多了，／放在一起更方便：／看进度、查结果。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 240,
+    "chapter": "工作台与长任务",
+    "originalFrom": 10100,
+    "minFrames": 386,
+    "elastic": true,
+    "narration": "事情多了，／放在一起更方便：／看进度、查结果／任务、材料和产物，都需要放到一个能查看的地方。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "事情多了，",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 58
+      },
+      {
+        "text": "放在一起更方便：",
+        "startFrame": 65,
+        "endFrame": 129,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 59
+      },
+      {
+        "text": "看进度、查结果",
+        "startFrame": 134,
+        "endFrame": 186,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 60
+      },
+      {
+        "text": "任务、材料和产物，都需要放到一个能查看的地方。",
+        "startFrame": 191,
+        "endFrame": 362,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 44,
+        "frames": 44
+      },
+      {
+        "cueIndex": 1,
+        "from": 45,
+        "to": 94,
+        "frames": 49
+      },
+      {
+        "cueIndex": 2,
+        "from": 95,
+        "to": 165,
+        "frames": 70
+      }
+    ]
   },
   {
     "id": "F02",
     "title": "Cowork 和 OpenClaw：处理文件，发消息接活",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 270,
-    "animationFrames": 330,
-    "originalFrom": 5940,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "Cowork 帮你整理文件、处理文档。／OpenClaw 则让你发条消息，／把任务交给它。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 330,
+    "chapter": "工作台与长任务",
+    "originalFrom": 10486,
+    "minFrames": 285,
+    "elastic": true,
+    "narration": "Cowork 帮你整理文件、处理文档／OpenClaw 则让你发条消息，／把任务交给它",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "Cowork 帮你整理文件、处理文档",
+        "startFrame": 15,
+        "endFrame": 114,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 61
+      },
+      {
+        "text": "OpenClaw 则让你发条消息，",
+        "startFrame": 119,
+        "endFrame": 204,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 62
+      },
+      {
+        "text": "把任务交给它",
+        "startFrame": 209,
+        "endFrame": 261,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 63
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 100,
+        "frames": 90
+      },
+      {
+        "cueIndex": 1,
+        "from": 130,
+        "to": 220,
+        "frames": 80
+      },
+      {
+        "cueIndex": 2,
+        "from": 220,
+        "to": 270,
+        "frames": 50
+      }
+    ]
   },
   {
     "id": "F03",
     "title": "Codex App：把编程任务放一起",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 180,
-    "animationFrames": 225,
-    "originalFrom": 6210,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "编程这边，／Codex App 也能把任务放到一起看。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 225,
+    "chapter": "工作台与长任务",
+    "originalFrom": 10771,
+    "minFrames": 196,
+    "elastic": true,
+    "narration": "编程这边，／Codex App 也能把任务放到一起看",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "编程这边，",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 64
+      },
+      {
+        "text": "Codex App 也能把任务放到一起看",
+        "startFrame": 65,
+        "endFrame": 172,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 65
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "F05",
     "title": "WorkBuddy 和豆包工作：帮你办公",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 180,
-    "animationFrames": 255,
-    "originalFrom": 6390,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "WorkBuddy、豆包工作，／也是用来帮你处理办公任务的。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 255,
+    "chapter": "工作台与长任务",
+    "originalFrom": 10967,
+    "minFrames": 215,
+    "elastic": true,
+    "narration": "WorkBuddy、豆包工作，／也是用来帮你处理办公任务的",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "WorkBuddy、豆包工作，",
+        "startFrame": 15,
+        "endFrame": 78,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 66
+      },
+      {
+        "text": "也是用来帮你处理办公任务的",
+        "startFrame": 83,
+        "endFrame": 191,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 67
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 125,
+        "frames": 85
+      }
+    ]
   },
   {
     "id": "F07",
     "title": "DeepSeek Harness：桌面、网页都能用",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 240,
-    "animationFrames": 240,
-    "originalFrom": 6570,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "DeepSeek Harness 有桌面和网页版。／能处理文件、写代码，／也可以加插件。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 240,
+    "chapter": "工作台与长任务",
+    "originalFrom": 11182,
+    "minFrames": 450,
+    "elastic": true,
+    "narration": "DeepSeek Harness 有桌面和网页版／能处理文件、写代码，／也可以加插件／这是具体产品，Harness 也常用来指任务的执行支撑。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "DeepSeek Harness 有桌面和网页版",
+        "startFrame": 15,
+        "endFrame": 114,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 68
+      },
+      {
+        "text": "能处理文件、写代码，",
+        "startFrame": 119,
+        "endFrame": 191,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 69
+      },
+      {
+        "text": "也可以加插件",
+        "startFrame": 196,
+        "endFrame": 248,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 70
+      },
+      {
+        "text": "这是具体产品，Harness 也常用来指任务的执行支撑。",
+        "startFrame": 253,
+        "endFrame": 426,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 175,
+        "frames": 95
+      },
+      {
+        "cueIndex": 2,
+        "from": 180,
+        "to": 260,
+        "frames": 80
+      }
+    ]
   },
   {
     "id": "F04",
     "title": "事情一多，得看清做到哪了",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 180,
-    "animationFrames": 420,
-    "originalFrom": 6810,
     "kind": "INSERT",
+    "animationFrames": 420,
+    "chapter": "工作台与长任务",
+    "originalFrom": 11632,
+    "minFrames": 402,
     "elastic": true,
-    "narration": "任务一多，／得看看谁卡住了，／谁还在等你确认。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "narration": "任务一多，／得看看谁卡住了，／谁还在等你确认／同时跑得多不代表都做对，卡住的原因也得看清楚。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "任务一多，",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 71
+      },
+      {
+        "text": "得看看谁卡住了，",
+        "startFrame": 65,
+        "endFrame": 129,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 72
+      },
+      {
+        "text": "谁还在等你确认",
+        "startFrame": 134,
+        "endFrame": 194,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 73
+      },
+      {
+        "text": "同时跑得多不代表都做对，卡住的原因也得看清楚。",
+        "startFrame": 199,
+        "endFrame": 378,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 140,
+        "frames": 90
+      },
+      {
+        "cueIndex": 1,
+        "from": 145,
+        "to": 300,
+        "frames": 110
+      },
+      {
+        "cueIndex": 2,
+        "from": 302,
+        "to": 340,
+        "frames": 38
+      }
+    ]
   },
   {
     "id": "F06",
     "title": "做了一半，还得能接着做",
-    "chapter": "第 6 话",
     "chapterKey": "F",
-    "minFrames": 210,
-    "animationFrames": 210,
-    "originalFrom": 6990,
     "kind": "INSERT",
+    "animationFrames": 210,
+    "chapter": "工作台与长任务",
+    "originalFrom": 12034,
+    "minFrames": 462,
     "elastic": true,
-    "narration": "记住做到哪了，／下次还能接着做。／这背后的工具，一般叫 Harness。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "narration": "记住做到哪了，／下次还能接着做／这背后的工具，一般叫 Harness／目标、产物和验证结果都要留下，下次才知道从哪里继续。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "记住做到哪了，",
+        "startFrame": 15,
+        "endFrame": 71,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 74
+      },
+      {
+        "text": "下次还能接着做",
+        "startFrame": 76,
+        "endFrame": 136,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 75
+      },
+      {
+        "text": "这背后的工具，一般叫 Harness",
+        "startFrame": 141,
+        "endFrame": 239,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 76
+      },
+      {
+        "text": "目标、产物和验证结果都要留下，下次才知道从哪里继续。",
+        "startFrame": 244,
+        "endFrame": 438,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 36,
+        "frames": 36
+      },
+      {
+        "cueIndex": 1,
+        "from": 38,
+        "to": 64,
+        "frames": 26
+      },
+      {
+        "cueIndex": 2,
+        "from": 65,
+        "to": 120,
+        "frames": 55
+      }
+    ]
   },
   {
     "id": "G00",
     "title": "这几年，变了些什么",
-    "chapter": "终话",
     "chapterKey": "G",
-    "minFrames": 45,
-    "animationFrames": 60,
-    "originalFrom": 7200,
     "kind": "CARD",
+    "animationFrames": 60,
+    "chapter": "回顾与选择",
+    "originalFrom": 12496,
+    "minFrames": 72,
     "elastic": false,
     "narration": "",
-    "voOffset": 9,
-    "tailFrames": 0
+    "voOffset": 0,
+    "tailFrames": 0,
+    "cues": [],
+    "motion": []
   },
   {
     "id": "G01",
     "title": "从给建议，到帮你做事",
-    "chapter": "终话",
     "chapterKey": "G",
-    "minFrames": 330,
-    "animationFrames": 330,
-    "originalFrom": 7245,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "这几年，AI 从给建议，／到动手做事，再到做完给你检查。／写代码、做办公、跑流程，／各有各的工具。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "animationFrames": 330,
+    "chapter": "回顾与选择",
+    "originalFrom": 12568,
+    "minFrames": 545,
+    "elastic": true,
+    "narration": "这几年，AI 从给建议，／到动手做事，再到做完给你检查／写代码、做办公、跑流程，／各有各的工具／这些路线会并存，也可以在同一个产品里组合。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "这几年，AI 从给建议，",
+        "startFrame": 15,
+        "endFrame": 94,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 77
+      },
+      {
+        "text": "到动手做事，再到做完给你检查",
+        "startFrame": 99,
+        "endFrame": 211,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 78
+      },
+      {
+        "text": "写代码、做办公、跑流程，",
+        "startFrame": 216,
+        "endFrame": 296,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 79
+      },
+      {
+        "text": "各有各的工具",
+        "startFrame": 301,
+        "endFrame": 353,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 80
+      },
+      {
+        "text": "这些路线会并存，也可以在同一个产品里组合。",
+        "startFrame": 358,
+        "endFrame": 521,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 34,
+        "frames": 34
+      },
+      {
+        "cueIndex": 1,
+        "from": 35,
+        "to": 120,
+        "frames": 85
+      },
+      {
+        "cueIndex": 2,
+        "from": 125,
+        "to": 185,
+        "frames": 60
+      }
+    ]
   },
   {
     "id": "G02",
     "title": "选工具，先想想这三件事",
-    "chapter": "终话",
     "chapterKey": "G",
-    "minFrames": 270,
-    "animationFrames": 270,
-    "originalFrom": 7575,
     "kind": "INSERT",
+    "animationFrames": 270,
+    "chapter": "回顾与选择",
+    "originalFrom": 13113,
+    "minFrames": 502,
     "elastic": true,
-    "narration": "真要选工具，就看三件事：／你想做什么，／它能做出什么，／哪些地方还得你来检查。",
-    "voOffset": 9,
-    "tailFrames": 30
+    "narration": "真要选工具，就看三件事：／你想做什么，／它能做出什么，／哪些地方还得你来检查／先试一件结果可检查的小事，再决定适不适合。",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "真要选工具，就看三件事：",
+        "startFrame": 15,
+        "endFrame": 107,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 81
+      },
+      {
+        "text": "你想做什么，",
+        "startFrame": 112,
+        "endFrame": 160,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 82
+      },
+      {
+        "text": "它能做出什么，",
+        "startFrame": 165,
+        "endFrame": 221,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 83
+      },
+      {
+        "text": "哪些地方还得你来检查",
+        "startFrame": 226,
+        "endFrame": 310,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 84
+      },
+      {
+        "text": "先试一件结果可检查的小事，再决定适不适合。",
+        "startFrame": 315,
+        "endFrame": 478,
+        "beatId": "cinematic",
+        "focus": 0
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 19,
+        "frames": 19
+      },
+      {
+        "cueIndex": 1,
+        "from": 20,
+        "to": 39,
+        "frames": 19
+      },
+      {
+        "cueIndex": 2,
+        "from": 40,
+        "to": 59,
+        "frames": 19
+      },
+      {
+        "cueIndex": 3,
+        "from": 60,
+        "to": 110,
+        "frames": 50
+      }
+    ]
   },
   {
     "id": "G06",
     "title": "这期就聊到这儿",
-    "chapter": "终话",
     "chapterKey": "G",
-    "minFrames": 75,
-    "animationFrames": 90,
-    "originalFrom": 7845,
     "kind": "WORLD",
-    "elastic": false,
-    "narration": "谢谢大家。",
-    "voOffset": 9,
-    "tailFrames": 18
+    "animationFrames": 90,
+    "chapter": "回顾与选择",
+    "originalFrom": 13615,
+    "minFrames": 84,
+    "elastic": true,
+    "narration": "谢谢大家",
+    "voOffset": 15,
+    "tailFrames": 24,
+    "cues": [
+      {
+        "text": "谢谢大家",
+        "startFrame": 15,
+        "endFrame": 60,
+        "beatId": "cinematic",
+        "focus": 0,
+        "editorIndex": 85
+      }
+    ],
+    "motion": [
+      {
+        "cueIndex": 0,
+        "from": 0,
+        "to": 75,
+        "frames": 60
+      }
+    ]
   }
 ]

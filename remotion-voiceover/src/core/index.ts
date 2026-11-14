@@ -131,6 +131,34 @@ export const resizeVoiceRange = (project: VoiceoverProject, scope: VoiceScope, d
   });
 };
 
+/** Insert/remove speech time inside a scene and ripple every later cue and scene. */
+export const retimeVoiceCaption = (project: VoiceoverProject, index: number,
+  timing: {startFrame?: number; durationInFrames?: number}): VoiceoverProject => {
+  const cue = project.captions?.[index];
+  if (!Number.isInteger(index) || !cue) throw new Error('请选择有效字幕');
+  const startFrame = timing.startFrame ?? cue.startFrame;
+  const durationInFrames = timing.durationInFrames ?? cue.endFrame - cue.startFrame;
+  if (!Number.isInteger(startFrame) || startFrame < 0 || !Number.isInteger(durationInFrames) || durationInFrames < 1) {
+    throw new Error('字幕需要有效起点和时长');
+  }
+  const previous = project.captions?.[index - 1];
+  if (previous && startFrame < previous.endFrame) throw new Error('字幕不能与上一句重叠');
+  const scene = project.scenes?.find(item => cue.sceneId !== undefined ? item.id === cue.sceneId :
+    cue.startFrame >= item.from && cue.endFrame <= item.from + item.durationInFrames);
+  if (scene && (startFrame < scene.from || cue.endFrame > scene.from + scene.durationInFrames)) {
+    throw new Error('字幕需要位于所属分镜内');
+  }
+  const endFrame = startFrame + durationInFrames;
+  const delta = endFrame - cue.endFrame;
+  if (startFrame === cue.startFrame && endFrame === cue.endFrame) return project;
+  const next = scene ? resizeVoiceRange({...project, captions: []}, scene.id, scene.durationInFrames + delta) :
+    {...project, durationInFrames: project.durationInFrames + delta,
+      scenes: (project.scenes ?? []).map(item => item.from >= cue.endFrame ? {...item, from: item.from + delta} : item)};
+  return defineVoiceoverProject({...next, captions: project.captions!.map((item, at) => at === index ?
+    {...item, startFrame, endFrame} : item.startFrame >= cue.endFrame ?
+      {...item, startFrame: item.startFrame + delta, endFrame: item.endFrame + delta} : item)});
+};
+
 export type VoiceCueTiming = {index: number; startFrame: number; endFrame: number};
 
 /** Sentence buttons mark actual speech. Unread sentences keep their allotted time. */
