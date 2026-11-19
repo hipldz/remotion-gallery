@@ -90,9 +90,9 @@ const SummaryRow = ({
 export const S07Bounds = () => {
   const frame = useCurrentFrame();
   const railK = springIn(frame, 16, { damping: 22, stiffness: 100 });
-  const paused = frame >= 240;
-  const pauseNotice = springIn(frame, 244, { damping: 20, stiffness: 115 });
-  const summaryK = springIn(frame, 232, { damping: 22, stiffness: 100 });
+  const paused = frame >= 258;
+  const pauseNotice = springIn(frame, 258, { damping: 20, stiffness: 115 });
+  const summaryK = springIn(frame, 355, { damping: 22, stiffness: 100 });
 
   return (
     <>
@@ -152,10 +152,10 @@ export const S07Bounds = () => {
             KEEP IN FRAME
           </Label>
           <div style={{ marginTop: 7 }}>
-            <SummaryRow frame={frame} delay={236} color={C.yellowDeep} label="目标" value="持续输入" />
-            <SummaryRow frame={frame} delay={244} color={C.blue} label="模型决策" value="提出下一步" />
-            <SummaryRow frame={frame} delay={252} color={C.green} label="工具反馈" value="真实结果" />
-            <SummaryRow frame={frame} delay={260} color={C.red} label="退出条件" value="完成 / 交还" />
+            <SummaryRow frame={frame} delay={358} color={C.yellowDeep} label="目标" value="持续输入" />
+            <SummaryRow frame={frame} delay={362} color={C.blue} label="模型决策" value="提出下一步" />
+            <SummaryRow frame={frame} delay={366} color={C.green} label="工具反馈" value="真实结果" />
+            <SummaryRow frame={frame} delay={370} color={C.red} label="退出条件" value="完成 / 交还" />
           </div>
         </div>
 
@@ -208,7 +208,7 @@ export const S07Bounds = () => {
           fontSize: 9.5,
           letterSpacing: 1.1,
           color: C.faint,
-          opacity: clamp(easeOut(frame, 220, 26)),
+          opacity: clamp(easeOut(frame, 240, 26)),
         }}
       >
         CONTROL / HANDED BACK

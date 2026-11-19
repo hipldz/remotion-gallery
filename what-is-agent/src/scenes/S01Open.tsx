@@ -36,7 +36,7 @@ const SourceCard = ({
   offsetY = 0,
 }: SourceCardProps) => {
   const k = springIn(frame, delay, { damping: 20, stiffness: 105 });
-  const exit = easeIn(frame, 188, 28);
+  const exit = easeIn(frame, 568, 28);
   return (
     <div
       style={{
@@ -161,8 +161,8 @@ const SourceCard = ({
 export const S01Open = () => {
   const frame = useCurrentFrame();
   const intro = springIn(frame, 2, { damping: 18, stiffness: 80 });
-  const introOut = easeIn(frame, 46, 22);
-  const header = springIn(frame, 50, { damping: 22, stiffness: 100 });
+  const introOut = easeIn(frame, 290, 22);
+  const header = springIn(frame, 294, { damping: 22, stiffness: 100 });
   const cameraPush = easeOut(frame, 180, 60);
 
   const cardShift = mix(0, -10, cameraPush);
@@ -296,7 +296,7 @@ export const S01Open = () => {
           <SourceCard
             x={120}
             frame={frame}
-            delay={56}
+            delay={300}
             accent={C.blue}
             kicker="ANTHROPIC"
             title="Building effective agents"
@@ -312,8 +312,8 @@ export const S01Open = () => {
               top: 286,
               width: 820,
               height: 454,
-              opacity: clamp(springIn(frame, 68) * 1.15) * (1 - easeOut(frame, 190, 40) * 0.82),
-              transform: `translateY(${mix(0, 76, easeOut(frame, 190, 44))}px) scale(${mix(1, 0.9, easeOut(frame, 190, 44))})`,
+              opacity: clamp(springIn(frame, 312) * 1.15) * (1 - easeOut(frame, 570, 40) * 0.82),
+              transform: `translateY(${mix(0, 76, easeOut(frame, 570, 44))}px) scale(${mix(1, 0.9, easeOut(frame, 570, 44))})`,
               transformOrigin: "80% 90%",
             }}
           >
@@ -407,7 +407,7 @@ export const S01Open = () => {
             display: "flex",
             alignItems: "center",
             gap: 20,
-            opacity: clamp(easeOut(frame, 130, 30)) * (1 - clamp(easeOut(frame, 196, 30))),
+            opacity: clamp(easeOut(frame, 330, 30)) * (1 - clamp(easeOut(frame, 576, 30))),
           }}
         >
           <span style={{ fontFamily: MONO, fontSize: 12, letterSpacing: 1.6, color: C.faint }}>SOURCE 01 / 02</span>

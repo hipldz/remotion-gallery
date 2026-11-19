@@ -24,10 +24,10 @@ export const S03OpenAI = () => {
 
   const focus = springIn(frame, 46, { damping: 20, stiffness: 110 });
   const translation = springIn(frame, 52, { damping: 22, stiffness: 105 });
-  const systemK = easeOut(frame, 104, 24);
-  const taskK = easeOut(frame, 130, 24);
-  const tagsK = springIn(frame, 244, { damping: 20, stiffness: 110 });
-  const groupK = springIn(frame, 276, { damping: 22, stiffness: 100 });
+  const systemK = easeOut(frame, 86, 24);
+  const taskK = easeOut(frame, 112, 24);
+  const tagsK = springIn(frame, 208, { damping: 20, stiffness: 110 });
+  const groupK = springIn(frame, 240, { damping: 22, stiffness: 100 });
 
   return (
     <>
@@ -211,7 +211,7 @@ export const S03OpenAI = () => {
               letterSpacing: 0.2,
             }}
           >
-            代表用户，
+            <span style={{ fontWeight: 700, color: C.ink }}>替你</span>
             <br />
             独立完成
             <span
@@ -265,7 +265,7 @@ export const S03OpenAI = () => {
             }}
           >
             {tagRows.map(([num, title, note], i) => {
-              const k = springIn(frame, 250 + i * 10, { damping: 20, stiffness: 120 });
+              const k = springIn(frame, 214 + i * 10, { damping: 20, stiffness: 120 });
               return (
                 <div
                   key={num}

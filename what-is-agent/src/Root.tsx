@@ -2,6 +2,7 @@ import { Composition } from "remotion";
 import { WhatIsAgent, type FilmProps } from "./Film";
 import { HEIGHT, FPS, WIDTH } from "./theme";
 import { TOTAL_FRAMES } from "./timeline";
+import { calculateVoiceoverMetadata } from "./voiceover.metadata";
 
 const defaultProps: FilmProps = {
   showSubtitles: true,
@@ -16,5 +17,6 @@ export const RemotionRoot = () => (
     fps={FPS}
     durationInFrames={TOTAL_FRAMES}
     defaultProps={defaultProps}
+    calculateMetadata={calculateVoiceoverMetadata}
   />
 );

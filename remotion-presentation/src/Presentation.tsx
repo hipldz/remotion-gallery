@@ -18,6 +18,7 @@ import type {
   PresentationDefinition,
   PresentationState,
 } from "./types.js";
+import { LASER_COLORS, LaserPointer } from "./LaserPointer.js";
 import "./presentation.css";
 import "../recorder/recorder.js";
 
@@ -34,6 +35,12 @@ function timecode(frame: number, fps: number): string {
   return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
+function clock(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
 function isEditing(target: EventTarget | null): boolean {
   return (
     target instanceof Element &&
@@ -44,6 +51,22 @@ function isEditing(target: EventTarget | null): boolean {
     )
   );
 }
+
+const SHORTCUTS: Array<[string, string]> = [
+  ["→ / 空格 / Enter", "下一段"],
+  ["←", "上一段"],
+  ["P", "播放 / 暂停当前段"],
+  ["R", "重播当前段"],
+  ["Home / End", "首段 / 末段"],
+  ["O", "目录"],
+  ["L", "激光笔开关"],
+  ["Shift + L", "切换激光笔颜色"],
+  ["D", "聚光灯"],
+  ["B", "黑屏"],
+  ["C", "隐藏 / 显示控件"],
+  ["F", "全屏"],
+  ["?", "这个快捷键表"],
+];
 
 /**
  * One muted Player, driven by authored frame intervals. Keep definition and
@@ -60,6 +83,7 @@ export function Presentation<Props extends Record<string, unknown>>({
     [providedDefinition],
   );
   const root = useRef<HTMLElement>(null);
+  const screen = useRef<HTMLDivElement>(null);
   const player = useRef<PlayerRef>(null);
   const [state, setState] = useState<PresentationState>(
     initialPresentationState,
@@ -67,16 +91,24 @@ export function Presentation<Props extends Record<string, unknown>>({
   const latestState = useRef(state);
   const activePlayback = useRef(false);
   const startedRun = useRef(-1);
+  const startedAt = useRef<number | null>(null);
+  const [elapsed, setElapsed] = useState(0);
   const [overview, setOverview] = useState(false);
+  const [help, setHelp] = useState(false);
   const [clean, setClean] = useState(
     () =>
       typeof window !== "undefined" &&
       new URLSearchParams(window.location.search).has("clean"),
   );
   const [fullscreen, setFullscreen] = useState(false);
+  const [laser, setLaser] = useState(true);
+  const [spotlight, setSpotlight] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
+  const [blank, setBlank] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const cue = definition.cues[state.index];
+  const nextCue = definition.cues[state.index + 1];
 
   const send = useCallback(
     (action: PresentationAction) => {
@@ -91,9 +123,21 @@ export function Presentation<Props extends Record<string, unknown>>({
       player.current?.pause();
       latestState.current = next;
       setState(next);
+      if (startedAt.current === null) startedAt.current = Date.now();
     },
     [definition.cues.length],
   );
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setElapsed(
+        startedAt.current === null
+          ? 0
+          : Math.floor((Date.now() - startedAt.current) / 1000),
+      );
+    }, 500);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const current = player.current;
@@ -222,21 +266,41 @@ export function Presentation<Props extends Record<string, unknown>>({
         end: { type: "goto", index: definition.cues.length - 1 },
       };
       const action = actions[key];
-      if (!action && !["o", "f", "c", "escape"].includes(key)) return;
+      const shellKeys = ["o", "f", "c", "escape", "l", "d", "b", "?"];
+      if (!action && !shellKeys.includes(key)) return;
       event.preventDefault();
       if (event.repeat) return;
       if (key === "escape") {
         setOverview(false);
+        setHelp(false);
         setClean(false);
+        setBlank(false);
       } else if (key === "o") {
         setOverview((open) => !open);
+        setHelp(false);
+      } else if (key === "?") {
+        setHelp((open) => !open);
+        setOverview(false);
       } else if (key === "f") {
         void toggleFullscreen();
       } else if (key === "c") {
         setOverview(false);
         setClean((value) => !value);
+      } else if (key === "l") {
+        if (event.shiftKey) {
+          setColorIndex((value) => (value + 1) % LASER_COLORS.length);
+          setLaser(true);
+        } else {
+          setLaser((value) => !value);
+        }
+      } else if (key === "d") {
+        setSpotlight((value) => !value);
+      } else if (key === "b") {
+        setBlank((value) => !value);
       } else if (action && !error) {
         setOverview(false);
+        setHelp(false);
+        setBlank(false);
         send(action);
       }
     };
@@ -249,36 +313,81 @@ export function Presentation<Props extends Record<string, unknown>>({
     setOverview(false);
   };
 
+  const chapters = useMemo(() => {
+    const marks: number[] = [];
+    definition.cues.forEach((item, index) => {
+      if (index === 0) return;
+      if (item.chapter !== definition.cues[index - 1].chapter) marks.push(index);
+    });
+    return marks;
+  }, [definition.cues]);
+
   return (
     <section
       ref={root}
       tabIndex={-1}
-      className={`rmp-shell${clean ? " rmp-clean" : ""}`}
+      className={`rmp-shell${clean ? " rmp-clean" : ""}${laser && !blank ? " rmp-laser-on" : ""}`}
       aria-label={definition.title}
     >
       <header className="rmp-header rmp-ui">
         <div className="rmp-heading">
-          <span className="rmp-mark" aria-hidden="true">
-            ▰
-          </span>
+          <span className="rmp-mark" aria-hidden="true" />
           <div>
             <span className="rmp-eyebrow">PRESENTATION</span>
             <h1>{definition.title}</h1>
           </div>
         </div>
+        <div className="rmp-hud">
+          <span className="rmp-hud-chip" title="从第一次开始播放算起">
+            <b>{clock(elapsed)}</b>
+            <em>已讲</em>
+          </span>
+          <span
+            className={`rmp-hud-chip${laser ? " is-on" : ""}`}
+            title="L 开关激光笔，Shift+L 换色"
+          >
+            <b>{laser ? LASER_COLORS[colorIndex].name : "关"}</b>
+            <em>激光</em>
+          </span>
+          {spotlight && (
+            <span className="rmp-hud-chip is-on" title="D 关闭聚光灯">
+              <b>开</b>
+              <em>聚光</em>
+            </span>
+          )}
+        </div>
         {createElement("remotion-recorder", { "current-tab": "" })}
-        <button
-          type="button"
-          onClick={() => setOverview((open) => !open)}
-          aria-expanded={overview}
-          aria-controls="rmp-directory"
-        >
-          目录 <kbd>O</kbd>
-        </button>
+        <div className="rmp-header-actions">
+          <button
+            type="button"
+            onClick={() => {
+              setOverview((open) => !open);
+              setHelp(false);
+            }}
+            aria-expanded={overview}
+            aria-controls="rmp-directory"
+          >
+            目录 <kbd>O</kbd>
+          </button>
+          <button
+            type="button"
+            className="rmp-icon"
+            onClick={() => {
+              setHelp((open) => !open);
+              setOverview(false);
+            }}
+            aria-expanded={help}
+            aria-label="快捷键"
+            title="快捷键（?）"
+          >
+            ?
+          </button>
+        </div>
       </header>
 
       <div className="rmp-stage">
         <div
+          ref={screen}
           className="rmp-screen"
           style={{
             aspectRatio: `${definition.compositionWidth} / ${definition.compositionHeight}`,
@@ -312,10 +421,37 @@ export function Presentation<Props extends Record<string, unknown>>({
               </div>
             )}
           />
+          <LaserPointer
+            host={screen}
+            laser={laser && !blank}
+            spotlight={spotlight && !blank}
+            colorIndex={colorIndex}
+          />
+          {blank && <div className="rmp-blank" aria-hidden="true" />}
+          {state.index === 0 && state.status === "holding" && !blank && (
+            <p className="rmp-start-hint rmp-ui" aria-hidden="true">
+              按 <kbd>→</kbd> 开始，<kbd>L</kbd> 激光笔，<kbd>?</kbd> 快捷键
+            </p>
+          )}
         </div>
       </div>
 
       <footer className="rmp-footer rmp-ui">
+        <div className="rmp-rail" role="presentation">
+          {definition.cues.map((item, index) => (
+            <button
+              type="button"
+              key={item.id}
+              className={`rmp-rail-seg${index === state.index ? " is-current" : ""}${
+                index < state.index ? " is-past" : ""
+              }${chapters.includes(index) ? " is-chapter" : ""}`}
+              disabled={Boolean(error)}
+              onClick={() => navigate(index)}
+              aria-label={`第 ${index + 1} 段：${item.title}`}
+              aria-current={index === state.index ? "step" : undefined}
+            />
+          ))}
+        </div>
         <div className="rmp-current" aria-live="polite" aria-atomic="true">
           <span className="rmp-count">
             {String(state.index + 1).padStart(2, "0")}{" "}
@@ -326,10 +462,18 @@ export function Presentation<Props extends Record<string, unknown>>({
               {cue.chapter ?? definition.title}
             </span>
             <strong>{cue.title}</strong>
+            {cue.notes && <p className="rmp-cue-notes">{cue.notes}</p>}
           </div>
-          <span className={`rmp-status rmp-status-${state.status}`}>
-            {statusLabels[state.status]}
-          </span>
+          <div className="rmp-current-tail">
+            <span className={`rmp-status rmp-status-${state.status}`}>
+              {statusLabels[state.status]}
+            </span>
+            {nextCue && (
+              <span className="rmp-peek">
+                下一镜 · {nextCue.title}
+              </span>
+            )}
+          </div>
         </div>
         <div className="rmp-controls">
           <button
@@ -378,6 +522,30 @@ export function Presentation<Props extends Record<string, unknown>>({
           <span className="rmp-control-separator" aria-hidden="true" />
           <button
             type="button"
+            className={laser ? "is-active" : undefined}
+            onClick={() => setLaser((value) => !value)}
+            title="L 激光笔；Shift+L 换色"
+          >
+            激光笔 <kbd>L</kbd>
+          </button>
+          <button
+            type="button"
+            className={spotlight ? "is-active" : undefined}
+            onClick={() => setSpotlight((value) => !value)}
+            title="D 聚光灯"
+          >
+            聚光灯 <kbd>D</kbd>
+          </button>
+          <button
+            type="button"
+            onClick={() => setBlank((value) => !value)}
+            title="B 黑屏"
+          >
+            黑屏 <kbd>B</kbd>
+          </button>
+          <span className="rmp-control-separator" aria-hidden="true" />
+          <button
+            type="button"
             onClick={() => {
               setOverview(false);
               setClean(true);
@@ -395,7 +563,9 @@ export function Presentation<Props extends Record<string, unknown>>({
           </button>
         </div>
         <div className="rmp-help">
-          <span>← / → 或翻页笔切换 · 空格下一步 · 到点自动停留</span>
+          <span>
+            ← / → 或翻页笔切换 · 空格下一步 · 到点自动停留
+          </span>
           <span>
             停留画面 {timecode(cue.holdFrame, definition.fps)} · 全片静音
           </span>
@@ -447,6 +617,27 @@ export function Presentation<Props extends Record<string, unknown>>({
               {cue.notes}
             </p>
           )}
+        </aside>
+      )}
+      {help && (
+        <aside className="rmp-shortcuts rmp-ui" aria-label="快捷键">
+          <div className="rmp-directory-header">
+            <div>
+              <span className="rmp-eyebrow">KEYS</span>
+              <h2>键盘与指向</h2>
+            </div>
+            <button type="button" onClick={() => setHelp(false)}>
+              关闭 ×
+            </button>
+          </div>
+          <dl>
+            {SHORTCUTS.map(([keys, label]) => (
+              <div key={keys}>
+                <dt>{keys}</dt>
+                <dd>{label}</dd>
+              </div>
+            ))}
+          </dl>
         </aside>
       )}
       {(error || notice) && (

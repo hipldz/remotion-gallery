@@ -173,7 +173,7 @@ export const S08Close = () => {
           >
             工具和反馈
           </span>
-          ，推进
+          ，替你
           <span
             style={{
               display: "inline-block",
@@ -182,9 +182,9 @@ export const S08Close = () => {
               background: `linear-gradient(transparent 68%, ${C.yellow}25 68%)`,
             }}
           >
-            用户任务
+            完成任务
           </span>
-          的系统。
+          。
         </div>
 
         <div

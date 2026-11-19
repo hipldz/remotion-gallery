@@ -96,8 +96,8 @@ const cards = [
     color: C.blue,
     soft: C.blueSoft,
     icon: "model" as IconName,
-    reveal: 18,
-    roleStart: 182,
+    reveal: 84,
+    roleStart: 200,
     glyph: <ModelGlyph color={C.blue} />,
   },
   {
@@ -109,8 +109,8 @@ const cards = [
     color: C.green,
     soft: C.greenSoft,
     icon: "tools" as IconName,
-    reveal: 30,
-    roleStart: 238,
+    reveal: 102,
+    roleStart: 228,
     glyph: <ToolsGlyph color={C.green} />,
   },
   {
@@ -118,12 +118,12 @@ const cards = [
     title: "指令",
     name: "Instructions",
     role: "行为指导与约束",
-    note: "规定目标、行为和边界，也规定何时停下。",
+    note: "你写下的目标、行为和边界，也规定何时停下。",
     color: C.yellowDeep,
     soft: C.yellowSoft,
     icon: "instructions" as IconName,
-    reveal: 42,
-    roleStart: 286,
+    reveal: 120,
+    roleStart: 265,
     glyph: <InstructionsGlyph color={C.yellow} />,
   },
 ];
@@ -246,13 +246,13 @@ const FoundationCard = ({
 
 export const S04Foundations = () => {
   const frame = useCurrentFrame();
-  const noteEntry = springIn(frame, 5, { damping: 23, stiffness: 95 });
-  const systemK = springIn(frame, 366, { damping: 24, stiffness: 100 });
-  const modelActive = frame >= 180 && frame < 236;
-  const toolsActive = frame >= 238 && frame < 284;
-  const instructionsActive = frame >= 286 && frame < 362;
-  const explained = [frame >= 182, frame >= 238, frame >= 286];
-  const systemOn = frame >= 366;
+  const noteEntry = springIn(frame, 55, { damping: 23, stiffness: 95 });
+  const systemK = springIn(frame, 378, { damping: 24, stiffness: 100 });
+  const modelActive = frame >= 200 && frame < 228;
+  const toolsActive = frame >= 228 && frame < 265;
+  const instructionsActive = frame >= 265 && frame < 378;
+  const explained = [frame >= 200, frame >= 228, frame >= 265];
+  const systemOn = frame >= 378;
 
   return (
     <>

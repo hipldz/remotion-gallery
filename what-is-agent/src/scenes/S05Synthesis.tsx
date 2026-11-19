@@ -203,12 +203,12 @@ const SystemStrip = ({ frame }: { frame: number }) => {
 
 export const S05Synthesis = () => {
   const frame = useCurrentFrame();
-  const definitionEntry = springIn(frame, 94, { damping: 22, stiffness: 105 });
-  const lines = easeOut(frame, 78, 28);
-  const decisionK = easeOut(frame, 160, 28);
-  const toolsK = easeOut(frame, 235, 28);
-  const taskK = easeOut(frame, 310, 28);
-  const keyK = springIn(frame, 362, { damping: 21, stiffness: 115 });
+  const definitionEntry = springIn(frame, 80, { damping: 22, stiffness: 105 });
+  const lines = easeOut(frame, 66, 28);
+  const decisionK = easeOut(frame, 130, 28);
+  const toolsK = easeOut(frame, 194, 28);
+  const taskK = easeOut(frame, 260, 28);
+  const keyK = springIn(frame, 310, { damping: 21, stiffness: 115 });
   const cardBorder = `1.5px solid ${C.blue}30`;
 
   return (
@@ -237,7 +237,7 @@ export const S05Synthesis = () => {
         delay={32}
         color={C.green}
         source="OPENAI"
-        text="代表用户，独立完成任务"
+        text="替你独立完成任务"
       />
 
       <svg width={1920} height={520} viewBox="0 0 1920 520" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
@@ -332,11 +332,11 @@ export const S05Synthesis = () => {
           <Marked color={C.green} progress={toolsK}>
             工具和反馈
           </Marked>
-          ，推进
+          ，替你
           <Marked color={C.yellow} progress={taskK}>
-            用户任务
+            完成任务
           </Marked>
-          的系统。
+          。
         </div>
       </div>
 
@@ -364,7 +364,7 @@ export const S05Synthesis = () => {
             padding: "4px 8px",
           }}
         >
-          关键
+          决策
         </span>
         <span style={{ fontFamily: CJK, fontSize: 19, fontWeight: 550, color: C.ink }}>
           模型参与决定接下来怎么做

@@ -342,17 +342,17 @@ export const LoopDiagram = ({
   style?: CSSProperties;
 }) => {
   const isBounds = mode === "bounds";
-  const feedbackStart = isBounds ? 0 : 225;
+  const feedbackStart = isBounds ? 0 : 272;
   const feedback = isBounds ? 1 : easeOut(frame, feedbackStart, 42);
-  const goalLine = isBounds ? 1 : easeOut(frame, 57, 22);
-  const modelToTool = isBounds ? 1 : easeOut(frame, 95, 24);
-  const toolToResult = isBounds ? 1 : easeOut(frame, 143, 26);
+  const goalLine = isBounds ? 1 : easeOut(frame, 50, 22);
+  const modelToTool = isBounds ? 1 : easeOut(frame, 150, 24);
+  const toolToResult = isBounds ? 1 : easeOut(frame, 212, 26);
 
-  const toolActive = isBounds ? frame < 238 : frame >= 120 && frame < 200;
-  const modelActive = isBounds ? frame < 240 : frame >= 70 && frame < 130;
-  const resultActive = isBounds ? frame < 240 : frame >= 175 && frame < 245;
-  const exitsDelay = isBounds ? 96 : 286;
-  const feedbackPulse = isBounds ? frame < 238 : frame > 225;
+  const toolActive = isBounds ? frame < 258 : frame >= 165 && frame < 235;
+  const modelActive = isBounds ? frame < 258 : frame >= 100 && frame < 170;
+  const resultActive = isBounds ? frame < 258 : frame >= 218 && frame < 265;
+  const exitsDelay = isBounds ? 120 : 345;
+  const feedbackPulse = isBounds ? frame < 258 : frame > 272;
   const pulseT = ((Math.max(0, frame - feedbackStart) / 54) % 1 + 1) % 1;
   const pulseX = feedbackPulse && feedback > 0.9 ? 1190 - pulseT * 890 : 1190;
   const pulseY = 155;
@@ -564,7 +564,7 @@ export const LoopDiagram = ({
               width: 660,
               height: 1,
               background: `linear-gradient(90deg, transparent, ${C.line} 10%, ${C.line} 90%, transparent)`,
-              opacity: clamp(easeOut(frame, 84, 18)),
+              opacity: clamp(easeOut(frame, 110, 18)),
             }}
           />
           <ExitCard
@@ -578,8 +578,8 @@ export const LoopDiagram = ({
             title="完成 · 交付结果"
             sub="任务达到目标，停止循环"
             frame={frame}
-            delay={96}
-            active={frame >= 240}
+            delay={120}
+            active={frame >= 258}
           />
           <ExitCard
             x={372}
@@ -592,8 +592,8 @@ export const LoopDiagram = ({
             title="暂停 · 交还控制"
             sub="处理不了，或需要人来决定"
             frame={frame}
-            delay={186}
-            active={frame >= 240}
+            delay={240}
+            active={frame >= 258}
           />
           <div
             style={{
@@ -603,7 +603,7 @@ export const LoopDiagram = ({
               display: "flex",
               alignItems: "center",
               gap: 8,
-              opacity: clamp(easeOut(frame, 238, 20)),
+              opacity: clamp(easeOut(frame, 258, 20)),
             }}
           >
             <Rule color={C.red} width={22} height={2} />

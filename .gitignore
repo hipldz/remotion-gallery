@@ -54,6 +54,7 @@ temp/
 *.bak
 *.swp
 *.swo
+**/.shots/
 __pycache__/
 *.py[cod]
 .venv/

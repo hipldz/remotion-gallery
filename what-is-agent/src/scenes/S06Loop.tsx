@@ -149,7 +149,7 @@ export const S06Loop = () => {
           display: "flex",
           alignItems: "center",
           gap: 12,
-          opacity: clamp(easeOut(frame, 270, 30)),
+          opacity: clamp(easeOut(frame, 385, 30)),
         }}
       >
         <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: 1.2, color: C.faint }}>
@@ -165,7 +165,7 @@ export const S06Loop = () => {
           display: "flex",
           alignItems: "center",
           gap: 8,
-          opacity: clamp(easeOut(frame, 270, 30)) * 0.85,
+          opacity: clamp(easeOut(frame, 385, 30)) * 0.85,
           fontFamily: CJK,
           fontSize: 11.5,
           color: C.faint,

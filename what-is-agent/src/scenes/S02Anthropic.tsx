@@ -140,10 +140,10 @@ const ReadingCard = ({
 export const S02Anthropic = () => {
   const frame = useCurrentFrame();
   const imageEntry = springIn(frame, 0, { damping: 24, stiffness: 95 });
-  const workflowActive = frame >= 96 && frame < 246;
-  const agentActive = frame >= 246;
-  const conclusion = frame >= 414;
-  const workflowReveal = springIn(frame, 102, { damping: 20, stiffness: 120 });
+  const workflowActive = frame >= 78 && frame < 230;
+  const agentActive = frame >= 237;
+  const conclusion = frame >= 418;
+  const workflowReveal = springIn(frame, 82, { damping: 20, stiffness: 120 });
   const push = easeOut(frame, 0, 570);
 
   return (
@@ -218,7 +218,7 @@ export const S02Anthropic = () => {
 
         <ReadingCard
           frame={frame}
-          delay={84}
+          delay={78}
           accent={C.yellowDeep}
           index="01"
           kind="workflow"
@@ -249,7 +249,7 @@ export const S02Anthropic = () => {
 
         <ReadingCard
           frame={frame}
-          delay={244}
+          delay={238}
           accent={C.blue}
           index="02"
           kind="agent"
@@ -291,8 +291,8 @@ export const S02Anthropic = () => {
           borderRadius: 10,
           border: `1px solid ${C.blue}2B`,
           background: "rgba(255,255,255,.78)",
-          opacity: clamp(springIn(frame, 420, { damping: 20, stiffness: 120 }) * 1.15),
-          transform: `translateY(${(1 - clamp(springIn(frame, 420))) * 8}px)`,
+          opacity: clamp(springIn(frame, 418, { damping: 20, stiffness: 120 }) * 1.15),
+          transform: `translateY(${(1 - clamp(springIn(frame, 418))) * 8}px)`,
         }}
       >
         <StatusDot color={C.blue} size={7} />

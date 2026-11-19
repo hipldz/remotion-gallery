@@ -33,6 +33,15 @@ node remotion-presentation/recorder/serve.mjs
 - **录制器负责采集。** 用户点击开始后，`getDisplayMedia` 请求共享画面，`getUserMedia` 请求麦克风。两路轨道合到同一个 `MediaStream`，由 `MediaRecorder` 编码。第一版的声音来自麦克风。需要无声视频时可取消勾选。
 - **工具栏复用同一个按钮。** 独立页和演示工具栏挂载同一个原生网页组件 `<remotion-recorder>`。共享演示组件只在录制开始时恢复键盘焦点、结束时显示下载入口。录制器自身不依赖 React 或 Remotion。
 
+## 指向层
+
+演示壳在 Player 之上叠一层 canvas，承担激光笔、拖尾、点击涟漪和聚光灯。
+
+- **画在画面里，不画在影片里。** 指向层是 DOM，位于 `.rmp-screen` 之内、Player 之外。它不写入帧、不参与 Remotion 渲染，导出成片仍是没有红点的原动画；只有 `getDisplayMedia` 采集到的讲解画面才包含它。
+- **坐标按画面区换算。** 指针事件挂在 `window` 上，用画面区的 `getBoundingClientRect()` 换算成局部坐标，因此全屏、缩放和黑边都不影响落点；离开画面区时红点淡出。
+- **不走 React 渲染。** 轨迹点、涟漪和聚光灯圆心都存在 ref 与 CSS 变量里，`requestAnimationFrame` 逐帧绘制；指针静止且没有残影时跳过重绘，避免空闲时整帧清屏。
+- **和精简模式共用一套状态。** 按 C / F 进入精简模式时隐藏控件与光标，保留红点；黑屏时指向层一起让位，恢复画面时回来。
+
 ## 文件和录制结果
 
 | 仓库路径 | 用途 |
@@ -40,7 +49,8 @@ node remotion-presentation/recorder/serve.mjs
 | `remotion-presentation/recorder/recorder.js` | 权限申请、录制按钮、计时、停止、回放与下载 |
 | `remotion-presentation/recorder/index.html` | 可独立打开的录制界面 |
 | `remotion-presentation/recorder/serve.mjs` | 通过本机 localhost 提供上述两个静态文件 |
-| `remotion-presentation/src/Presentation.tsx` | 现有演示工具栏中的录制入口 |
+| `remotion-presentation/src/Presentation.tsx` | 现有演示工具栏中的录制入口、播放控制、进度轨与顶栏 HUD |
+| `remotion-presentation/src/LaserPointer.tsx` | 激光笔、拖尾、点击涟漪与聚光灯的 canvas 层 |
 
 浏览器在本机编码，工具根据实际容器生成文件后缀，常见结果为 WebM 或 MP4。录制期间的数据暂存在当前页面，长录制会占用更多浏览器存储资源。请先点击下载，再关页或刷新。浏览器会提示授权，录制服务不接收视频或声音。
 
