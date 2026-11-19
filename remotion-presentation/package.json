@@ -1,0 +1,40 @@
+{
+  "name": "remotion-presentation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A frame-based presentation shell for existing Remotion films",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": [
+    "src",
+    "recorder",
+    "DESIGN.MD",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/controller.ts",
+    "./recorder": "./recorder/recorder.js",
+    "./styles.css": "./src/presentation.css"
+  },
+  "sideEffects": [
+    "**/*.css",
+    "./recorder/recorder.js"
+  ],
+  "scripts": {
+    "record": "node recorder/serve.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@remotion/player": ">=4.0.542 <5",
+    "react": ">=18 <20",
+    "remotion": ">=4.0.542 <5"
+  },
+  "devDependencies": {
+    "@remotion/player": "4.0.542",
+    "@types/react": "^19.2.0",
+    "react": "19.2.0",
+    "remotion": "4.0.542",
+    "typescript": "5.7.3"
+  }
+}

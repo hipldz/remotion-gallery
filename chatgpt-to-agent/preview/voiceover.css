@@ -1,0 +1,38 @@
+.panel-tabs{display:flex;gap:8px;align-items:center}
+.panel-tabs button{background:none;border:0;padding:0 8px;color:#5F6368;font-size:12px}
+.panel-tabs button.selected{color:#1967D2}.panel-tabs button:disabled{cursor:default}
+.voice-panel{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#DADCE0 transparent;flex:1;min-height:0}
+.recording-launch{border:1px solid #4285F450;background:#E8F0FE;color:#1967D2;border-radius:5px;padding:6px 9px;font-size:10px;white-space:nowrap}
+.transport button:disabled,.chapter-track button:disabled{opacity:.4;cursor:default}
+.shot-item:disabled{opacity:.55;cursor:default}
+.shot-item.has-voice .shot-number::after{content:'·';color:#188038;margin-left:4px}
+.voice-save-count{font-size:10px;color:#188038}
+.voice-panel-footer{font-size:10px;padding:13px 17px;color:#5F6368;border-top:1px solid #DADCE0;line-height:1.7}
+[hidden]{display:none!important}
+/* Theme the installed recorder locally, leaving the reusable package untouched. */
+.voice-recorder{background:#FFFFFF;color:#202124;color-scheme:light}
+.voice-intro strong{color:#202124}
+.voice-intro p,.voice-progress,.voice-label,.voice-silent-intro,.voice-microphone,.voice-local-note{color:#5F6368}
+.voice-progress{border-bottom-color:#DADCE0}
+.voice-progress span:last-child,.voice-take-heading span:last-child{color:#188038}
+.voice-recorder select{background:#FFFFFF;color:#202124;border-color:#DADCE0}
+.voice-script{background:#F8F9FA;border-color:#DADCE0;scrollbar-color:#DADCE0 transparent}
+.voice-script p{color:#5F6368}.voice-script p.current-line{color:#202124}
+.voice-meter span{background:#E8EAED}
+.voice-meter span.lit{background:#34A853;box-shadow:none}
+.voice-meter span.hot{background:#FBBC04}
+.voice-status{color:#5F6368}.voice-status strong{color:#1967D2}
+.voice-status .voice-countdown{font-family:Outfit,sans-serif;color:#1967D2}
+.record-dot{background:#EA4335;box-shadow:none}
+.voice-button{background:#E8F0FE;border-color:#4285F450;color:#1967D2}
+.voice-button.primary{background:#1967D2;border-color:#1967D2;color:#FFFFFF}
+.voice-button.primary:hover{background:#185ABC}
+.voice-button.secondary{background:#F8F9FA;border-color:#DADCE0;color:#5F6368}
+.voice-button.stop{background:#FCE8E6;border-color:#EA433560;color:#B3261E}
+.voice-error{background:#FCE8E6;border-color:#EA433540;color:#B3261E}
+.voice-take{border-top-color:#DADCE0}.voice-take-heading{color:#5F6368}
+.voice-take audio{filter:none;opacity:1}
+.voice-take-links a{color:#1967D2}.voice-take-links button{color:#5F6368}
+.voice-saved{background:#E6F4EA;border-color:#34A85340;color:#188038}
+@media(max-width:1100px){.recording-launch{padding:6px;font-size:9px}.transport{flex-wrap:wrap}}
+@media(max-width:800px){.voice-panel{max-height:630px}.shot-panel:has(.voice-panel:not([hidden])){max-height:740px}}

@@ -1,0 +1,359 @@
+.rmp-shell,
+.rmp-stage,
+.rmp-screen,
+.rmp-ui,
+.rmp-ui * {
+  box-sizing: border-box;
+}
+.rmp-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #101215;
+}
+.rmp-ui {
+  color: #e8eaed;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    "Noto Sans SC",
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color-scheme: dark;
+}
+.rmp-ui button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid #34383e;
+  border-radius: 7px;
+  background: #1d2025;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.rmp-ui button:hover:not(:disabled) {
+  background: #2c3139;
+  border-color: #606a77;
+}
+.rmp-ui button:focus-visible {
+  outline: 2px solid #8ab4f8;
+  outline-offset: 3px;
+}
+.rmp-ui button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.rmp-ui kbd {
+  color: #9aa5b5;
+  font:
+    11px ui-monospace,
+    monospace;
+}
+.rmp-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #282c32;
+}
+.rmp-header remotion-recorder {
+  margin-inline-start: auto;
+}
+.rmp-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+.rmp-mark {
+  color: #8ab4f8;
+  font-size: 26px;
+}
+.rmp-eyebrow {
+  display: block;
+  color: #9aa5b5;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.rmp-heading h1 {
+  margin: 3px 0 0;
+  font-size: 15px;
+  font-weight: 550;
+}
+.rmp-stage {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px;
+  overflow: hidden;
+  container-type: size;
+  background: #090b0e;
+}
+.rmp-screen {
+  flex: none;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background: #fff;
+  pointer-events: none;
+}
+.rmp-footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 15px;
+  padding: 17px 24px 13px;
+  border-top: 1px solid #282c32;
+}
+.rmp-current {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+}
+.rmp-count {
+  flex: none;
+  color: #8ab4f8;
+  font:
+    23px ui-monospace,
+    monospace;
+}
+.rmp-count > span {
+  color: #87909d;
+  font-size: 13px;
+}
+.rmp-current > div {
+  min-width: 0;
+}
+.rmp-chapter {
+  display: block;
+  color: #9aa5b5;
+  font-size: 11px;
+}
+.rmp-current strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 550;
+}
+.rmp-status {
+  margin-left: auto;
+  flex: none;
+  color: #9aa5b5;
+  font-size: 12px;
+}
+.rmp-status-playing {
+  color: #8ab4f8;
+}
+.rmp-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rmp-shell .rmp-next {
+  background: #8ab4f8;
+  border-color: #8ab4f8;
+  color: #101827;
+  font-weight: 600;
+}
+.rmp-shell .rmp-next:hover:not(:disabled) {
+  background: #a6c7ff;
+  border-color: #a6c7ff;
+}
+.rmp-control-separator {
+  width: 1px;
+  height: 22px;
+  margin: 0 5px;
+  background: #34383e;
+}
+.rmp-help {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #87909d;
+  font-size: 11px;
+}
+.rmp-clean .rmp-header,
+.rmp-clean .rmp-footer {
+  display: none;
+}
+.rmp-clean .rmp-stage {
+  padding: 0;
+  cursor: none;
+}
+.rmp-clean {
+  background: #000;
+}
+.rmp-clean .rmp-stage {
+  background: #000;
+}
+.rmp-directory {
+  position: absolute;
+  z-index: 50;
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  width: min(490px, calc(100% - 24px));
+  border: 1px solid #3a424e;
+  border-radius: 12px;
+  background: #15191f;
+  box-shadow: 0 20px 70px #0009;
+}
+.rmp-directory-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #303741;
+}
+.rmp-directory h2 {
+  margin: 5px 0 0;
+  font-size: 18px;
+  font-weight: 550;
+}
+.rmp-directory nav {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+  padding: 10px;
+}
+.rmp-directory nav button {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 14px;
+  margin-bottom: 5px;
+  padding: 12px;
+  border-color: transparent;
+  background: transparent;
+  text-align: left;
+}
+.rmp-directory nav button[aria-current="step"] {
+  border-color: #5576a3;
+  background: #20304a;
+}
+.rmp-directory-number {
+  flex: none;
+  color: #8ab4f8;
+  font:
+    15px ui-monospace,
+    monospace;
+}
+.rmp-directory nav button > span:nth-child(2) {
+  min-width: 0;
+}
+.rmp-directory small {
+  display: block;
+  color: #9aa5b5;
+  font-size: 10px;
+}
+.rmp-directory strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+.rmp-directory time {
+  flex: none;
+  margin-left: auto;
+  color: #9aa5b5;
+  font:
+    11px ui-monospace,
+    monospace;
+}
+.rmp-notes {
+  flex: none;
+  max-height: 25%;
+  overflow-y: auto;
+  margin: 0;
+  padding: 16px 20px;
+  border-top: 1px solid #303741;
+  color: #b1bbca;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.rmp-notes b {
+  display: block;
+  margin-bottom: 6px;
+  color: #e8eaed;
+  font-weight: 500;
+}
+.rmp-message {
+  position: absolute;
+  z-index: 60;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border: 1px solid #8b5656;
+  border-radius: 8px;
+  background: #361e22;
+  color: #ffd9da;
+}
+.rmp-message button {
+  margin-left: auto;
+}
+.rmp-player-error {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  padding: 30px;
+  color: #ffb4ab;
+  background: #201618;
+  font:
+    16px/1.5 system-ui,
+    sans-serif;
+}
+@media (max-width: 720px) {
+  .rmp-header {
+    padding: 12px 14px;
+  }
+  .rmp-stage {
+    padding: 10px;
+  }
+  .rmp-footer {
+    padding: 12px 14px;
+    gap: 11px;
+  }
+  .rmp-controls {
+    gap: 6px;
+  }
+  .rmp-controls button {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .rmp-controls kbd,
+  .rmp-control-separator,
+  .rmp-help > span:last-child {
+    display: none;
+  }
+  .rmp-help {
+    font-size: 10px;
+  }
+}

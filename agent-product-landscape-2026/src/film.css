@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+svg {
+  overflow: visible;
+}
+::selection {
+  background: #4285f433;
+}
+
+/* Fixed editorial frame, shared with the Workflow vs Agent video. */
+.film-branding-matte {
+  position: absolute;
+  z-index: 140;
+  inset: 0;
+  background: linear-gradient(to bottom, #fcfcfd 0, #fcfcfdf5 78px, #fcfcfd00 104px, #fcfcfd00 calc(100% - 88px), #fcfcfdf5 calc(100% - 70px), #fcfcfd 100%);
+  pointer-events: none;
+}
+.film-masthead {
+  position: absolute;
+  z-index: 150;
+  top: 50px;
+  left: 80px;
+  right: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #7c828b;
+  font-size: 20px;
+  letter-spacing: 3px;
+  pointer-events: none;
+}
+.film-masthead b {
+  color: #363b43;
+  font-weight: 600;
+}
+.film-brand {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.film-website {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 22px;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+.film-website::before {
+  content: '';
+  width: 1px;
+  height: 16px;
+  margin-right: 22px;
+  background: #cfd5dd;
+}
+.film-website:hover {
+  color: #363b43;
+}
+.brand-rule {
+  display: inline-flex;
+  gap: 7px;
+  margin-right: 18px;
+}
+.brand-rule i {
+  width: 6px;
+  height: 19px;
+  border-radius: 3px;
+}
+.film-chapter {
+  white-space: nowrap;
+}
+.film-folio {
+  position: absolute;
+  z-index: 150;
+  left: 80px;
+  bottom: 35px;
+  font-size: 18px;
+  color: #9aa0a6;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.film-source {
+  position: absolute;
+  z-index: 150;
+  right: 70px;
+  bottom: 37px;
+  max-width: 1220px;
+  color: #858c94;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.15px;
+  text-align: right;
+  pointer-events: none;
+}

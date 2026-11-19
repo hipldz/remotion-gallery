@@ -1,0 +1,87 @@
+{
+  "checkedAt": "2026-11-12T05:57:14+00:00",
+  "date": "2026-11-12",
+  "metric": "Official GitHub repository stargazers; current snapshot, not historical launch-day popularity.",
+  "repositories": [
+    {
+      "id": "aider",
+      "repository": "Aider-AI/aider",
+      "url": "https://github.com/Aider-AI/aider",
+      "stars": 50077,
+      "checkedAt": "2026-11-12T05:57:14+00:00",
+      "createdAt": "2023-05-09T18:57:49Z"
+    },
+    {
+      "id": "cline",
+      "repository": "cline/cline",
+      "url": "https://github.com/cline/cline",
+      "stars": 71543,
+      "checkedAt": "2026-11-12T05:57:14+00:00",
+      "createdAt": "2024-07-06T07:28:10Z"
+    },
+    {
+      "id": "n8n",
+      "repository": "n8n-io/n8n",
+      "url": "https://github.com/n8n-io/n8n",
+      "stars": 210235,
+      "checkedAt": "2026-11-12T05:57:15+00:00",
+      "createdAt": "2019-06-22T09:24:21Z"
+    },
+    {
+      "id": "dify",
+      "repository": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify",
+      "stars": 161002,
+      "checkedAt": "2026-11-12T05:57:14+00:00",
+      "createdAt": "2023-04-12T07:40:24Z"
+    },
+    {
+      "id": "gemini-cli",
+      "repository": "google-gemini/gemini-cli",
+      "url": "https://github.com/google-gemini/gemini-cli",
+      "stars": 108785,
+      "checkedAt": "2026-11-12T05:57:14+00:00",
+      "createdAt": "2025-04-17T17:04:31Z"
+    },
+    {
+      "id": "pi-agent",
+      "repository": "earendil-works/pi",
+      "url": "https://github.com/earendil-works/pi",
+      "stars": 121523,
+      "checkedAt": "2026-11-12T05:57:17+00:00",
+      "createdAt": "2025-08-09T14:03:50Z"
+    },
+    {
+      "id": "harness",
+      "repository": "deepseek-ai/deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "stars": 279210,
+      "checkedAt": "2026-11-12T05:57:19+00:00",
+      "createdAt": "2026-08-13T11:56:32Z"
+    },
+    {
+      "id": "openclaw",
+      "repository": "openclaw/openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "stars": 394374,
+      "checkedAt": "2026-11-12T05:57:16+00:00",
+      "createdAt": "2025-11-24T10:16:47Z"
+    },
+    {
+      "id": "claude-code",
+      "repository": "anthropics/claude-code",
+      "url": "https://github.com/anthropics/claude-code",
+      "stars": 155377,
+      "checkedAt": "2026-11-12T05:57:16+00:00",
+      "createdAt": "2025-02-22T17:41:21Z"
+    },
+    {
+      "id": "codex",
+      "repository": "openai/codex",
+      "url": "https://github.com/openai/codex",
+      "stars": 134956,
+      "checkedAt": "2026-11-12T05:57:16+00:00",
+      "createdAt": "2025-04-13T05:37:54Z"
+    }
+  ]
+}

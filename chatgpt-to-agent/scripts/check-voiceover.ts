@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {DURATION} from '../src/data/story';
+import {parseVoiceManifest, resolveVoiceSegments, type VoiceTrack} from 'remotion-voiceover/core';
+import {inspectVoiceWave} from 'remotion-voiceover/server';
+import {voiceoverProject} from '../src/voiceover.config';
+
+const full: VoiceTrack = {id: 'full-test', scope: 'full', src: 'narration/full.wav', startFrame: 0, durationInFrames: DURATION, recordedAt: '2026-11-09'};
+const retake: VoiceTrack = {id: 'retake', scope: 'S10', src: 'narration/S10.wav', startFrame: 2100, durationInFrames: 90, recordedAt: '2026-11-09'};
+const combined = resolveVoiceSegments([full, retake], voiceoverProject);
+assert.equal(resolveVoiceSegments([full], voiceoverProject).length, 1, 'A full-film voice must play continuously across scene cuts');
+const replaced = combined.filter(segment => segment.from >= 2100 && segment.from < 2400);
+assert.equal(replaced.length, 1, 'A retake must completely replace the full-film voice within that scene');
+assert.equal(replaced[0].id, 'retake');
+assert.equal(replaced[0].duration, 90);
+assert.equal(combined.find(segment => segment.from === 2400)!.trimBefore, 2400, 'Full-film playback must resume at the correct source offset');
+for (let i = 1; i < combined.length; i++) assert.ok(combined[i].from >= combined[i - 1].from + combined[i - 1].duration, 'Voice tracks must never overlap');
+assert.equal(resolveVoiceSegments([], voiceoverProject).length, 0);
+assert.throws(() => parseVoiceManifest({tracks: [{...retake, startFrame: -1}]}, voiceoverProject));
+assert.throws(() => parseVoiceManifest({tracks: [{...retake, durationInFrames: DURATION}]}, voiceoverProject));
+assert.throws(() => inspectVoiceWave(Buffer.from('not audio')));
+parseVoiceManifest(JSON.parse(readFileSync('public/narration/manifest.json', 'utf8')), voiceoverProject);
+console.log('OK: scene retakes replace a full-film voice without overlap; source offsets, manifests, and WAV validation checked.');

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "P01",
+    "title": "大家好，今天回顾这些 AI Agent",
+    "chapterKey": "P",
+    "kind": "WORLD",
+    "animationFrames": 720
+  },
+  {
+    "id": "P03",
+    "title": "开讲前，求个关注，帮我升到 LV2",
+    "chapterKey": "P",
+    "kind": "INSERT",
+    "animationFrames": 180
+  },
+  {
+    "id": "P02",
+    "title": "这次怎么回顾",
+    "chapterKey": "P",
+    "kind": "WORLD",
+    "animationFrames": 270
+  },
+  {
+    "id": "P06",
+    "title": "先回到 2022 年",
+    "chapterKey": "P",
+    "kind": "WORLD",
+    "animationFrames": 285
+  },
+  {
+    "id": "P07",
+    "title": "片名",
+    "chapterKey": "P",
+    "kind": "INSERT",
+    "animationFrames": 135
+  },
+  {
+    "id": "Z04",
+    "title": "先认一下图上的颜色",
+    "chapterKey": "Z",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "A00",
+    "title": "聊天和补代码",
+    "chapterKey": "A",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "A03",
+    "title": "Copilot：接着写代码",
+    "chapterKey": "A",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "A01",
+    "title": "ChatGPT：打开网页就能聊",
+    "chapterKey": "A",
+    "kind": "WORLD",
+    "animationFrames": 300
+  },
+  {
+    "id": "A02",
+    "title": "有了建议，活儿还得自己干",
+    "chapterKey": "A",
+    "kind": "INSERT",
+    "animationFrames": 180
+  },
+  {
+    "id": "B00",
+    "title": "AI 开始动手了",
+    "chapterKey": "B",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "B01",
+    "title": "想让 AI 动手，先给它工具",
+    "chapterKey": "B",
+    "kind": "WORLD",
+    "animationFrames": 135
+  },
+  {
+    "id": "B02",
+    "title": "选个工具，跑一下，再看结果",
+    "chapterKey": "B",
+    "kind": "INSERT",
+    "animationFrames": 330
+  },
+  {
+    "id": "B04",
+    "title": "Cursor 和 Aider：开始改项目",
+    "chapterKey": "B",
+    "kind": "WORLD",
+    "animationFrames": 360
+  },
+  {
+    "id": "C00",
+    "title": "进到项目里干活",
+    "chapterKey": "C",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "C01",
+    "title": "写代码，适合先试一试",
+    "chapterKey": "C",
+    "kind": "WORLD",
+    "animationFrames": 210
+  },
+  {
+    "id": "C02",
+    "title": "Devin：试着自己做完一件事",
+    "chapterKey": "C",
+    "kind": "WORLD",
+    "animationFrames": 390
+  },
+  {
+    "id": "C03",
+    "title": "Replit Agent 和 Bolt.new：说说需求，搭个应用",
+    "chapterKey": "C",
+    "kind": "INSERT",
+    "animationFrames": 180
+  },
+  {
+    "id": "C04",
+    "title": "Windsurf 和 Cline：在编辑器里做事",
+    "chapterKey": "C",
+    "kind": "WORLD",
+    "animationFrames": 330
+  },
+  {
+    "id": "C05",
+    "title": "重复的事，先排好步骤",
+    "chapterKey": "C",
+    "kind": "WORLD",
+    "animationFrames": 210
+  },
+  {
+    "id": "D00",
+    "title": "交给它做，做完你再看",
+    "chapterKey": "D",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "D01",
+    "title": "交代好任务，做完再来看",
+    "chapterKey": "D",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "D02",
+    "title": "修个 bug，改完给你检查",
+    "chapterKey": "D",
+    "kind": "INSERT",
+    "animationFrames": 300
+  },
+  {
+    "id": "D03",
+    "title": "Claude Code：在终端里做事",
+    "chapterKey": "D",
+    "kind": "WORLD",
+    "animationFrames": 285
+  },
+  {
+    "id": "D10",
+    "title": "Pi：先用基本工具，需要什么再加",
+    "chapterKey": "D",
+    "kind": "WORLD",
+    "animationFrames": 270
+  },
+  {
+    "id": "D06",
+    "title": "终端和云端，各怎么用",
+    "chapterKey": "D",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "E01",
+    "title": "不光写代码，还能查资料、做报告",
+    "chapterKey": "E",
+    "kind": "INSERT",
+    "animationFrames": 240
+  },
+  {
+    "id": "D08",
+    "title": "Deep Research：查资料，带出处",
+    "chapterKey": "E",
+    "kind": "WORLD",
+    "animationFrames": 210
+  },
+  {
+    "id": "D07",
+    "title": "Manus：找资料，做成文件",
+    "chapterKey": "E",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "D09",
+    "title": "ChatGPT Agent：查完资料，接着做",
+    "chapterKey": "E",
+    "kind": "WORLD",
+    "animationFrames": 180
+  },
+  {
+    "id": "F00",
+    "title": "把事情放到工作台",
+    "chapterKey": "F",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "F01",
+    "title": "事情多了，放一起更好管",
+    "chapterKey": "F",
+    "kind": "INSERT",
+    "animationFrames": 240
+  },
+  {
+    "id": "F02",
+    "title": "Cowork 和 OpenClaw：处理文件，发消息接活",
+    "chapterKey": "F",
+    "kind": "WORLD",
+    "animationFrames": 330
+  },
+  {
+    "id": "F03",
+    "title": "Codex App：把编程任务放一起",
+    "chapterKey": "F",
+    "kind": "WORLD",
+    "animationFrames": 225
+  },
+  {
+    "id": "F05",
+    "title": "WorkBuddy 和豆包工作：帮你办公",
+    "chapterKey": "F",
+    "kind": "WORLD",
+    "animationFrames": 255
+  },
+  {
+    "id": "F07",
+    "title": "DeepSeek Harness：桌面、网页都能用",
+    "chapterKey": "F",
+    "kind": "WORLD",
+    "animationFrames": 240
+  },
+  {
+    "id": "F04",
+    "title": "事情一多，得看清做到哪了",
+    "chapterKey": "F",
+    "kind": "INSERT",
+    "animationFrames": 420
+  },
+  {
+    "id": "F06",
+    "title": "做了一半，还得能接着做",
+    "chapterKey": "F",
+    "kind": "INSERT",
+    "animationFrames": 210
+  },
+  {
+    "id": "G00",
+    "title": "这几年，变了些什么",
+    "chapterKey": "G",
+    "kind": "CARD",
+    "animationFrames": 60
+  },
+  {
+    "id": "G01",
+    "title": "从给建议，到帮你做事",
+    "chapterKey": "G",
+    "kind": "WORLD",
+    "animationFrames": 330
+  },
+  {
+    "id": "G02",
+    "title": "选工具，先想想这三件事",
+    "chapterKey": "G",
+    "kind": "INSERT",
+    "animationFrames": 270
+  },
+  {
+    "id": "G06",
+    "title": "这期就聊到这儿",
+    "chapterKey": "G",
+    "kind": "WORLD",
+    "animationFrames": 90
+  }
+]

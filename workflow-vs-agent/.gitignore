@@ -1,0 +1,9 @@
+node_modules/
+dist/
+out/
+.remotion/
+*.tsbuildinfo
+build/
+.cache/
+public/narration/*
+!public/narration/README.md

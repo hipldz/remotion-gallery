@@ -1,0 +1,14 @@
+node_modules/
+build/
+out/
+.cache/
+*.log
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+*.tgz
+!vendor/remotion-voiceover-0.1.0.tgz
+*.wav
+*.mp3
+*.mp4

@@ -1,0 +1,6 @@
+import {Config} from '@remotion/cli/config';
+
+Config.setVideoImageFormat('png');
+Config.setPixelFormat('yuv420p');
+Config.setOverwriteOutput(false);
+Config.setChromiumOpenGlRenderer('angle');

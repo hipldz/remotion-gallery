@@ -1,0 +1,48 @@
+{
+  "source": "../public/Chibi-Bilibili-Follow-Level-Up-Animation.gif",
+  "sourceSha256": "b34a3d5ed48a40b271a7ca05f3a411fe69495bfaf9f25485da7cfc1802b84c86",
+  "atlas": "img/follow-lv2/frames.webp",
+  "width": 557,
+  "height": 313,
+  "columns": 3,
+  "rows": 3,
+  "durationMs": 1620,
+  "frames": [
+    {
+      "fromMs": 0,
+      "toMs": 180
+    },
+    {
+      "fromMs": 180,
+      "toMs": 360
+    },
+    {
+      "fromMs": 360,
+      "toMs": 540
+    },
+    {
+      "fromMs": 540,
+      "toMs": 720
+    },
+    {
+      "fromMs": 720,
+      "toMs": 900
+    },
+    {
+      "fromMs": 900,
+      "toMs": 1080
+    },
+    {
+      "fromMs": 1080,
+      "toMs": 1260
+    },
+    {
+      "fromMs": 1260,
+      "toMs": 1440
+    },
+    {
+      "fromMs": 1440,
+      "toMs": 1620
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "toolcall-req-film",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "3 分钟无配音科普短片：《Tool Calling 和 Request 是一对一的吗？》— Remotion 源工程",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "validate": "node scripts/validate.mjs",
+    "srt": "node scripts/make-srt.mjs",
+    "stills": "node scripts/stills.mjs",
+    "render": "node scripts/render.mjs output/toolcall-film.mp4 --codec=h264 --crf=18",
+    "render:draft": "node scripts/render.mjs output/toolcall-film-draft.mp4 --codec=h264 --crf=28 --scale=0.5"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.540",
+    "@remotion/bundler": "4.0.540",
+    "@remotion/renderer": "4.0.540",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.540"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.0",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "typescript": "5.7.3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "what-is-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "《Agent 是什么？从两份官方定义说起》· 8 镜概念短片 · Remotion",
+  "scripts": {
+    "dev": "remotion studio src/index.ts --port=3003",
+    "render": "remotion render src/index.ts WhatIsAgent out/what-is-agent.mp4",
+    "still": "remotion still src/index.ts WhatIsAgent out/preview.png",
+    "typecheck": "tsc --noEmit",
+    "captions": "tsx scripts/export-captions.ts",
+    "format": "prettier . --write"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.542",
+    "@remotion/fonts": "4.0.542",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.542"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "prettier": "3.6.2",
+    "tsx": "4.20.6",
+    "typescript": "5.7.3"
+  }
+}
