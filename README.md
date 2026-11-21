@@ -6,6 +6,7 @@
 | --- | --- |
 | [chatgpt-to-agent](./chatgpt-to-agent/) | 从 ChatGPT 到 Agent |
 | [what-is-agent](./what-is-agent/) | Agent 是什么？从两份官方定义说起 |
+| [what-is-harness](./what-is-harness/) | 什么是 Agent Harness？ |
 | [workflow-vs-agent](./workflow-vs-agent/) | Workflow 与 Agent 的概念和区别 |
 | [agent-product-landscape-2026](./agent-product-landscape-2026/) | AI Agent 产品发展回顾 |
 | [tool-calling-and-llm-requests](./tool-calling-and-llm-requests/) | Tool Calling 与模型请求的关系，包含两个实现版本 |
